@@ -43,6 +43,7 @@ public class MainActivity extends SherlockFragmentActivity {
     int[] icon;
     Fragment fmInicioAdmin = new FmInicioAdmin();
     Fragment fmLibrosAdmin = new FmLibrosAdmin();
+    Fragment fmEditorialAdmin = new FmEditorialAdmin();
     private CharSequence mDrawerTitle;
     private CharSequence mTitle;
 
@@ -56,13 +57,13 @@ public class MainActivity extends SherlockFragmentActivity {
         mTitle = mDrawerTitle = getTitle();
 
         // Generate title
-        title = new String[] { "Inicio", "Libros"};
+        title = new String[] { "Inicio", "Libros", "Editorial"};
 
         // Generate subtitle
-        subtitle = new String[] { "Inicio Admin", "Gestion Libros"};
+        subtitle = new String[] { "Inicio Admin", "Gestion Libros", "Gestion Editorial"};
 
         // Generate icon
-        icon = new int[] { R.drawable.action_about, R.drawable.action_settings };
+        icon = new int[] { R.drawable.action_about, R.drawable.action_settings, R.drawable.action_search };
 
         // Locate DrawerLayout in drawer_main.xml
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -146,10 +147,16 @@ public class MainActivity extends SherlockFragmentActivity {
         // Locate Position
         switch (position) {
             case 0:
+                //Inicio Admin
                 ft.replace(R.id.content_frame, fmInicioAdmin);
                 break;
             case 1:
+                //Libro Admin
                 ft.replace(R.id.content_frame, fmLibrosAdmin);
+                break;
+            case 2:
+                //Editorial Admin
+                ft.replace(R.id.content_frame, fmEditorialAdmin);
                 break;
         }
         ft.commit();
