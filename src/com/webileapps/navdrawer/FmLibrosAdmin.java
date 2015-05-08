@@ -20,7 +20,7 @@ public class FmLibrosAdmin extends SherlockFragment {
 		// Locate the ViewPager in viewpager_main.xml
 		ViewPager mViewPager = (ViewPager) view.findViewById(R.id.viewPager);
 		// Set the ViewPagerAdapter into ViewPager
-		mViewPager.setAdapter(new ViewPagerAdapter(getChildFragmentManager()));
+		mViewPager.setAdapter(new ViewPagerAdapterLibroAdmin(getChildFragmentManager()));
 		return view;
 	}
 

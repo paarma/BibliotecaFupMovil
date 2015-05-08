@@ -43,6 +43,7 @@ public class MainActivity extends SherlockFragmentActivity {
     int[] icon;
     Fragment fmInicioAdmin = new FmInicioAdmin();
     Fragment fmLibrosAdmin = new FmLibrosAdmin();
+    Fragment fmBuscarLibrosAdmin = new FmBuscarLibrosAdmin();
     private CharSequence mDrawerTitle;
     private CharSequence mTitle;
 
@@ -150,6 +151,9 @@ public class MainActivity extends SherlockFragmentActivity {
                 break;
             case 1:
                 ft.replace(R.id.content_frame, fmLibrosAdmin);
+                break;
+            case 2:
+                ft.replace(R.id.content_frame, fmBuscarLibrosAdmin);
                 break;
         }
         ft.commit();
