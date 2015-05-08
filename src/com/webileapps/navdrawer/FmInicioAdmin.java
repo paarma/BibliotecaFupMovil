@@ -14,5 +14,7 @@ public class FmInicioAdmin extends SherlockFragment {
 		View rootView = inflater.inflate(R.layout.fm_inicio_admin, container, false);
 		return rootView;
 	}
-	
+
+
 }
+
