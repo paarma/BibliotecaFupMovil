@@ -41,8 +41,8 @@ public class MainActivity extends SherlockFragmentActivity {
     String[] title;
     String[] subtitle;
     int[] icon;
-    Fragment fragment1 = new Fragment1();
-    Fragment fragment2 = new Fragment2();
+    Fragment fmInicioAdmin = new FmInicioAdmin();
+    Fragment fmLibrosAdmin = new FmLibrosAdmin();
     private CharSequence mDrawerTitle;
     private CharSequence mTitle;
 
@@ -56,10 +56,10 @@ public class MainActivity extends SherlockFragmentActivity {
         mTitle = mDrawerTitle = getTitle();
 
         // Generate title
-        title = new String[] { "Title Fragment 1", "Title Fragment 2" };
+        title = new String[] { "Inicio", "Libros" };
 
         // Generate subtitle
-        subtitle = new String[] { "Subtitle Fragment 1", "Subtitle Fragment 2" };
+        subtitle = new String[] { "Inicio Admin", "Gestion Libros" };
 
         // Generate icon
         icon = new int[] { R.drawable.action_about, R.drawable.action_settings };
@@ -146,10 +146,10 @@ public class MainActivity extends SherlockFragmentActivity {
         // Locate Position
         switch (position) {
             case 0:
-                ft.replace(R.id.content_frame, fragment1);
+                ft.replace(R.id.content_frame, fmInicioAdmin);
                 break;
             case 1:
-                ft.replace(R.id.content_frame, fragment2);
+                ft.replace(R.id.content_frame, fmLibrosAdmin);
                 break;
         }
         ft.commit();

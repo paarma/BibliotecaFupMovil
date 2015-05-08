@@ -8,7 +8,7 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
 
 	// Declare the number of ViewPager pages
 	final int PAGE_COUNT = 2;
-	private String titles[] = new String[] { "Tab1", "Tab2" };
+	private String titles[] = new String[] { "Crear/Editar", "Listado Libros" };
 
 	public ViewPagerAdapter(FragmentManager fm) {
 		super(fm);
@@ -18,14 +18,14 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
 	public Fragment getItem(int position) {
 		switch (position) {
 
-			// Open FragmentTab1.java
+			// Open FmCrearLibroAdmin.java
 		case 0:
-			FragmentTab1 fragmenttab1 = new FragmentTab1();
+			FmCrearLibroAdmin fragmenttab1 = new FmCrearLibroAdmin();
 			return fragmenttab1;
 
-			// Open FragmentTab2.java
+			// Open FmListaLibrosAdmin.java
 		case 1:
-			FragmentTab2 fragmenttab2 = new FragmentTab2();
+			FmListaLibrosAdmin fragmenttab2 = new FmListaLibrosAdmin();
 			return fragmenttab2;
 		}
 		return null;

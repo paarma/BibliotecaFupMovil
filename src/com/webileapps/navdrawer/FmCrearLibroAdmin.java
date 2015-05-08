@@ -7,13 +7,13 @@ import android.view.ViewGroup;
 
 import com.actionbarsherlock.app.SherlockFragment;
 
-public class FragmentTab1 extends SherlockFragment {
+public class FmCrearLibroAdmin extends SherlockFragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		// Get the view from fragmenttab1.xml
-		View view = inflater.inflate(R.layout.fragmenttab1, container, false);
+		// Get the view from fm_crear_libro_adminro_admin.xml
+		View view = inflater.inflate(R.layout.fm_crear_libro_admin, container, false);
 		return view;
 	}
 }
