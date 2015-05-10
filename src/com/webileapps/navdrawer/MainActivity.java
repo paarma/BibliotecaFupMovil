@@ -44,6 +44,7 @@ public class MainActivity extends SherlockFragmentActivity {
     Fragment fmInicioAdmin = new FmInicioAdmin();
     Fragment fmLibrosAdmin = new FmLibrosAdmin();
     Fragment fmEditorialAdmin = new FmEditorialAdmin();
+    Fragment fmAutorAdmin = new FmAutorAdmin();
     private CharSequence mDrawerTitle;
     private CharSequence mTitle;
 
@@ -57,13 +58,13 @@ public class MainActivity extends SherlockFragmentActivity {
         mTitle = mDrawerTitle = getTitle();
 
         // Generate title
-        title = new String[] { "Inicio", "Libros", "Editorial"};
+        title = new String[] { "Inicio", "Libros", "Editorial","Autor","Solicitudes","Reportes"};
 
         // Generate subtitle
-        subtitle = new String[] { "Inicio Admin", "Gestion Libros", "Gestion Editorial"};
+        subtitle = new String[] { "Inicio Admin", "Gestion Libros", "Gestion Editorial", "Gestión Autores", "Gestión Solicitudes", "Ver reportes"};
 
         // Generate icon
-        icon = new int[] { R.drawable.action_about, R.drawable.action_settings, R.drawable.action_search };
+        icon = new int[] { R.drawable.inicio, R.drawable.libro, R.drawable.editorial,R.drawable.autor, R.drawable.solicitudes, R.drawable.reportes };
 
         // Locate DrawerLayout in drawer_main.xml
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -157,6 +158,10 @@ public class MainActivity extends SherlockFragmentActivity {
             case 2:
                 //Editorial Admin
                 ft.replace(R.id.content_frame, fmEditorialAdmin);
+                break;
+            case 3:
+                //Autor Admin
+                ft.replace(R.id.content_frame, fmAutorAdmin);
                 break;
         }
         ft.commit();
