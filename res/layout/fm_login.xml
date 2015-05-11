@@ -29,11 +29,14 @@
             android:text="Biblioteca Fup" />
 
         <EditText android:id="@+id/tbxUsuario" android:layout_height="wrap_content"
-            android:layout_width="fill_parent" android:hint="Codigo" android:inputType="textEmailAddress" />
+            android:layout_width="fill_parent" android:hint="Codigo"
+            android:inputType="textEmailAddress"
+            android:drawableLeft="@drawable/ic_person_white_24dp"/>
 
         <EditText android:id="@+id/tbxClave" android:layout_height="wrap_content"
             android:layout_width="fill_parent" android:hint="Password" android:inputType="textPassword"
-            android:layout_marginTop="15dip" android:layout_marginBottom="20dip" />
+            android:layout_marginTop="15dip" android:layout_marginBottom="20dip"
+            android:drawableLeft="@drawable/ic_https_white_24dp"/>
 
 
         <Button android:id="@+id/btnLogin" android:layout_height="wrap_content"
