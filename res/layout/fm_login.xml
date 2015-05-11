@@ -53,7 +53,7 @@
             android:layout_marginBottom="40dip"
             android:gravity="center"
             android:textSize="20dip"
-            android:textColor="#ffaa1009" />
+             />
 
     </LinearLayout>
 

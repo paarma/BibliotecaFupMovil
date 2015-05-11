@@ -35,7 +35,9 @@
         <TableRow
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_marginLeft="0dp">
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp">
 
             <Button
                 android:layout_width="165dp"
@@ -44,7 +46,9 @@
                 android:id="@+id/buttonLibro"
                 android:onClick="onClickLibro"
                 android:drawableLeft="@drawable/libro"
-                />
+                android:background="#fffcfaff"
+                android:textColor="@color/list_divider"
+               />
 
             <Button
                 android:layout_width="165dp"
@@ -53,7 +57,9 @@
                 android:id="@+id/buttonAutor"
                 android:layout_marginLeft="10dp"
                 android:onClick="onClickAutor"
-                android:drawableLeft="@drawable/autor"/>
+                android:drawableLeft="@drawable/autor"
+                android:background="#fffcfaff"
+                android:textColor="@color/list_divider" />
 
             <TableRow
                 android:layout_width="fill_parent"
@@ -64,14 +70,17 @@
         </TableRow>
         <TableRow
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
+            android:layout_height="fill_parent"
+            android:layout_marginBottom="5dp">
 
             <Button
                 android:layout_width="165dp"
                 android:layout_height="wrap_content"
                 android:text="Editorial"
                 android:id="@+id/buttonEditorial"
-                android:drawableLeft="@drawable/editorial"/>
+                android:drawableLeft="@drawable/editorial"
+                android:background="#fffcfaff"
+                android:textColor="@color/list_divider" />
 
             <Button
                 android:layout_width="165dp"
@@ -80,7 +89,9 @@
                 android:id="@+id/buttonSolicitudes"
                 android:layout_marginLeft="10dp"
                 android:onClick="buttonSolicitudes"
-                android:drawableLeft="@drawable/solicitudes"/>
+                android:drawableLeft="@drawable/solicitudes"
+                android:background="#fffcfaff"
+                android:textColor="@color/list_divider" />
 
 
             <TableRow
@@ -99,7 +110,9 @@
                 android:layout_height="wrap_content"
                 android:text="Reportes"
                 android:id="@+id/buttonReportes"
-                android:drawableLeft="@drawable/reportes"/>
+                android:drawableLeft="@drawable/reportes"
+                android:background="#fffcfaff"
+                android:textColor="@color/list_divider" />
 
             <Button
                 android:layout_width="165dp"
@@ -107,7 +120,9 @@
                 android:text="Salir"
                 android:id="@+id/buttonSalir"
                 android:layout_marginLeft="10dp"
-                android:drawableLeft="@drawable/salir"/>
+                android:drawableLeft="@drawable/salir"
+                android:background="#fffcfaff"
+                android:textColor="@color/list_divider" />
 
             <TableRow
                 android:layout_width="fill_parent"
@@ -122,5 +137,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="right"></TableRow>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView2"
+        android:src="@drawable/linea"
+        android:layout_marginTop="20dp" />
 
 </LinearLayout>
