@@ -44,7 +44,7 @@
             android:paddingRight="15dip"
             android:onClick="login"
             android:enabled="true"
-            android:background="@drawable/btn_default" />
+            android:background="@color/list_divider" />
 
         <TextView android:id="@+id/login_error"
             android:layout_width="fill_parent"

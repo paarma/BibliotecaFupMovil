@@ -44,7 +44,7 @@
                 android:layout_height="wrap_content"
                 android:text="Libro"
                 android:id="@+id/buttonLibro"
-                android:onClick="onClickLibro"
+
                 android:drawableLeft="@drawable/libro"
                 android:background="#fffcfaff"
                 android:textColor="@color/list_divider"
@@ -56,7 +56,7 @@
                 android:text="Autor"
                 android:id="@+id/buttonAutor"
                 android:layout_marginLeft="10dp"
-                android:onClick="onClickAutor"
+
                 android:drawableLeft="@drawable/autor"
                 android:background="#fffcfaff"
                 android:textColor="@color/list_divider" />
@@ -88,7 +88,7 @@
                 android:text="Solicitudes"
                 android:id="@+id/buttonSolicitudes"
                 android:layout_marginLeft="10dp"
-                android:onClick="buttonSolicitudes"
+
                 android:drawableLeft="@drawable/solicitudes"
                 android:background="#fffcfaff"
                 android:textColor="@color/list_divider" />
