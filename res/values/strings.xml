@@ -10,10 +10,13 @@
     <string name="FragmentTab1">This is ViewPager Fragment Tab 1</string>
     <string name="FragmentTab2">This is ViewPager Fragment Tab 2</string>
     <string name="FragmentBuscarLibros">Buscar libros Tab 3</string>
+    <string name="FragmentBuscarSolicitudes">Buscar Solicitudes</string>
     <string name="FragmentCrearEditorial">Crear Editorial</string>
     <string name="FragmentCrearAutor">Crear Autor</string>
     <string name="FragmentListaEditorial">Listado Editorial</string>
     <string name="FragmentListaAutor">Listado Autor</string>
+    <string name="FragmentListaReportes">Listado Reportes</string>
+    <string name="FragmentListaSolicitudes">Listado Solicitudes</string>
     <string name="FragmentBuscarEditorial">Buscar Editorial</string>
     <string name="FragmentBuscarAutor">Buscar Autor</string>
     <string name="drawer_open">Open navigation drawer</string>

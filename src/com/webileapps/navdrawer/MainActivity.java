@@ -45,6 +45,8 @@ public class MainActivity extends SherlockFragmentActivity {
     Fragment fmLibrosAdmin = new FmLibrosAdmin();
     Fragment fmEditorialAdmin = new FmEditorialAdmin();
     Fragment fmAutorAdmin = new FmAutorAdmin();
+    Fragment fmReportesAdmin = new FmReportesAdmin();
+    Fragment fmSolicitudesAdmin = new FmSolicitudesAdmin();
     private CharSequence mDrawerTitle;
     private CharSequence mTitle;
 
@@ -162,6 +164,14 @@ public class MainActivity extends SherlockFragmentActivity {
             case 3:
                 //Autor Admin
                 ft.replace(R.id.content_frame, fmAutorAdmin);
+                break;
+            case 4:
+                //Autor Admin
+                ft.replace(R.id.content_frame, fmSolicitudesAdmin);
+                break;
+            case 5:
+                //Autor Admin
+                ft.replace(R.id.content_frame, fmReportesAdmin);
                 break;
         }
         ft.commit();

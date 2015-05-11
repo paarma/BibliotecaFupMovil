@@ -97,6 +97,70 @@ public class FmInicioAdmin extends SherlockFragment {
 
         );
 
+        btnSolicitudes.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+
+                                            // update the main content by replacing fragments
+                                            SherlockFragment fragment = null;
+                                            Log.e("Alex", "inicio - onclick boton");
+                                            fragment = new FmSolicitudesAdmin();
+
+                                            if (fragment != null) {
+                                                android.support.v4.app.FragmentManager fragmentManager = getFragmentManager();
+                                                fragmentManager.beginTransaction()
+                                                        .replace(R.id.content_frame, fragment).commit();
+                                            } else {
+                                                // error in creating fragment
+                                                Log.e("Alex", "MainActivity - Error cuando se creo el fragment");
+                                            }
+
+                                        }
+                                    }
+
+        );
+
+        btnReportes.setOnClickListener(new View.OnClickListener() {
+                                           @Override
+                                           public void onClick(View v) {
+
+                                               // update the main content by replacing fragments
+                                               SherlockFragment fragment = null;
+                                               Log.e("Alex", "inicio - onclick boton");
+                                               fragment = new FmReportesAdmin();
+
+                                               if (fragment != null) {
+                                                   android.support.v4.app.FragmentManager fragmentManager = getFragmentManager();
+                                                   fragmentManager.beginTransaction()
+                                                           .replace(R.id.content_frame, fragment).commit();
+                                               } else {
+                                                   // error in creating fragment
+                                                   Log.e("Alex", "MainActivity - Error cuando se creo el fragment");
+                                               }
+
+                                           }
+                                       }
+
+        );
+
+
+        btnSalir.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+
+                                            try {
+                                                finalize();
+                                            } catch (Throwable throwable) {
+                                                throwable.printStackTrace();
+                                            }
+                                        }
+                                    }
+
+        );
+
+
+
+
 
         return rootView;
 
