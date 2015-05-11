@@ -2,10 +2,21 @@ package com.webileapps.navdrawer;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import org.ksoap2.SoapEnvelope;
+import org.ksoap2.serialization.SoapObject;
+import org.ksoap2.serialization.SoapSerializationEnvelope;
+import org.ksoap2.transport.HttpTransportSE;
+
+import modelo.Usuario;
+import util.Configuracion;
 
 /**
  * Created by pablo on 29/04/15.
@@ -14,6 +25,8 @@ public class FmLogin extends Activity {
 
     private EditText tbxUsuario, tbxClave;
     private Button btnLogin;
+
+    private Usuario usuario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,9 +42,103 @@ public class FmLogin extends Activity {
     }
 
     public void login(View view){
-        Intent goInicial = null;
-        goInicial = new Intent(FmLogin.this, MainActivity.class);
-        startActivity(goInicial);
+        usuario = null;
+        TareaWSLogin tareaLogin = new TareaWSLogin();
+        tareaLogin.execute();
+    }
+
+    private void limpiar() {
+        tbxUsuario.getText().clear();
+        tbxClave.getText().clear();
+
+        //Regresa el foco al campo Usuario
+        tbxUsuario.requestFocus();
+    }
+
+
+    ////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////
+    //////////////////////////////////////////////////// tareas
+    //Tarea Asíncrona para llamar al WS de consulta en segundo plano Login
+
+    /**
+     * Tarea login
+     */
+    private class TareaWSLogin extends AsyncTask<String,Integer,Boolean> {
+
+        //Objeto de la clase configuracion la cual contiene atributos generales y conf. para conexion al server
+        Configuracion conf = new Configuracion();
+
+        private final String SOAP_ACTION = conf.getUrl()+"/login";
+        private final String METHOD_NAME = "login";
+        private final String NAMESPACE = conf.getNamespace();
+        private final String URL = conf.getUrl();
+
+        boolean resultadoTarea = true;
+
+        protected Boolean doInBackground(String... params) {
+
+            SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
+            request.addProperty("codigo", tbxUsuario.getText().toString());
+            request.addProperty("clave",tbxClave.getText().toString());
+
+            Log.i("FmLogin.java", ">>>>>>>>>>>> login " + tbxUsuario.getText().toString());
+            Log.i("FmLogin.java",">>>>>>>>>>>> password "+tbxClave.getText().toString());
+
+            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+            envelope.bodyOut = request;
+
+            HttpTransportSE transporte = new HttpTransportSE(URL);
+            try {
+                transporte.call(SOAP_ACTION, envelope);
+                java.util.Vector<SoapObject> rs = (java.util.Vector<SoapObject>) envelope.getResponse();
+
+                if (rs != null)
+                {
+                    for (SoapObject user : rs)
+                    {
+                        usuario = new Usuario();
+                        usuario.setIdUsuario(Integer.parseInt(user.getProperty("ID_USUARIO").toString()));
+                        usuario.setCedula(Long.parseLong(user.getProperty("CEDULA").toString()));
+                        usuario.setNombre(user.getProperty("NOMBRE").toString());
+                        usuario.setApellido(user.getProperty("APELLIDO").toString());
+                        usuario.setTelefono(Long.parseLong(user.getProperty("TELEFONO").toString()));
+                        usuario.setDireccion(user.getProperty("DIRECCION").toString());
+                        usuario.setEmail(user.getProperty("EMAIL").toString());
+                        usuario.setCodigo(user.getProperty("CODIGO").toString());
+                        usuario.setClave(user.getProperty("CLAVE").toString());
+                        usuario.setRol(user.getProperty("ROL").toString());
+
+                        Log.i("FmLogin.java",">>>>>>>>>>>> idUsuario: "+usuario.getIdUsuario());
+                        break;
+                    }
+                }
+            }catch (Exception e){
+                resultadoTarea = false;
+                Log.d("FmLogin ", "xxx Error TareaWSLogin: "+e.getMessage());
+            }
+            return resultadoTarea;
+        }
+
+        protected void onPostExecute(Boolean result) {
+            if (resultadoTarea && usuario != null) {
+                limpiar();
+
+                //Redireccion segun rol
+                Intent goInicial = null;
+
+                //Administrador
+                if(usuario.getRol().equalsIgnoreCase("ADMIN")){
+                    goInicial = new Intent(FmLogin.this, MainActivity.class);
+                }
+
+                startActivity(goInicial);
+
+            }else{
+                Toast.makeText(FmLogin.this, "Usuario o Clave incorrectos", Toast.LENGTH_LONG).show();
+            }
+        }
 
     }
+
 }
