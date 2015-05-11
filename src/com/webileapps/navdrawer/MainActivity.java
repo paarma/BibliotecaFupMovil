@@ -31,6 +31,8 @@ import android.widget.ListView;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.MenuItem;
 
+import modelo.Usuario;
+
 public class MainActivity extends SherlockFragmentActivity {
 
     // Declare Variables
@@ -47,26 +49,62 @@ public class MainActivity extends SherlockFragmentActivity {
     Fragment fmAutorAdmin = new FmAutorAdmin();
     Fragment fmReportesAdmin = new FmReportesAdmin();
     Fragment fmSolicitudesAdmin = new FmSolicitudesAdmin();
+
+    //Estudiante
+    Fragment fmInicioEst = new FmInicioEst();
+
     private CharSequence mDrawerTitle;
     private CharSequence mTitle;
+
+    private Usuario usuarioLogueado;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+        //Se obtiene el usuario logueado
+        usuarioLogueado = (Usuario) getIntent().getExtras().getSerializable("usuarioLogueado");
+
+
         // Get the view from drawer_main.xml
         setContentView(R.layout.drawer_main);
 
         // Get the Title
         mTitle = mDrawerTitle = getTitle();
 
-        // Generate title
-        title = new String[] { "Inicio", "Libros", "Editorial","Autor","Solicitudes","Reportes"};
+        /**
+         * Se genera el menu segun el rol del usuario logueado
+         */
+        if(usuarioLogueado != null){
+            //Administrador
+            if(usuarioLogueado.getRol().equalsIgnoreCase("ADMIN")){
 
-        // Generate subtitle
-        subtitle = new String[] { "Inicio Admin", "Gestion Libros", "Gestion Editorial", "Gestión Autores", "Gestión Solicitudes", "Ver reportes"};
+                // Generate title
+                title = new String[] { "Inicio", "Libros", "Editorial","Autor","Solicitudes","Reportes"};
 
-        // Generate icon
-        icon = new int[] { R.drawable.ic_home_white_48dp, R.drawable.ic_style_white_48dp, R.drawable.ic_attach_file_white_48dp,R.drawable.ic_group_white_48dp, R.drawable.ic_book_white_48dp, R.drawable.ic_assessment_white_48dp };
+                // Generate subtitle
+                subtitle = new String[] { "Inicio Admin", "Gestion Libros", "Gestion Editorial", "Gestión Autores", "Gestión Solicitudes", "Ver reportes"};
+
+                // Generate icon
+                icon = new int[] { R.drawable.ic_home_white_48dp, R.drawable.ic_style_white_48dp, R.drawable.ic_attach_file_white_48dp,R.drawable.ic_group_white_48dp, R.drawable.ic_book_white_48dp, R.drawable.ic_assessment_white_48dp };
+            }
+
+            //Estudiante
+            if(usuarioLogueado.getRol().equalsIgnoreCase("EST")){
+
+                // Generate title
+                title = new String[] { "Inicio", "Libros"};
+
+                // Generate subtitle
+                subtitle = new String[] { "Inicio Estudiante", "Gestion Libros"};
+
+                // Generate icon
+                icon = new int[] { R.drawable.ic_home_white_48dp, R.drawable.ic_style_white_48dp};
+            }
+
+        }
+
 
         // Locate DrawerLayout in drawer_main.xml
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -147,33 +185,57 @@ public class MainActivity extends SherlockFragmentActivity {
     private void selectItem(int position) {
 
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        // Locate Position
-        switch (position) {
-            case 0:
-                //Inicio Admin
-                ft.replace(R.id.content_frame, fmInicioAdmin);
-                break;
-            case 1:
-                //Libro Admin
-                ft.replace(R.id.content_frame, fmLibrosAdmin);
-                break;
-            case 2:
-                //Editorial Admin
-                ft.replace(R.id.content_frame, fmEditorialAdmin);
-                break;
-            case 3:
-                //Autor Admin
-                ft.replace(R.id.content_frame, fmAutorAdmin);
-                break;
-            case 4:
-                //Autor Admin
-                ft.replace(R.id.content_frame, fmSolicitudesAdmin);
-                break;
-            case 5:
-                //Autor Admin
-                ft.replace(R.id.content_frame, fmReportesAdmin);
-                break;
+
+        /**
+         * Se genera el menu segun el rol del usuario logueado
+         */
+        if(usuarioLogueado != null) {
+            //Administrador
+            if (usuarioLogueado.getRol().equalsIgnoreCase("ADMIN")) {
+                // Locate Position
+                switch (position) {
+                    case 0:
+                        //Inicio Admin
+                        ft.replace(R.id.content_frame, fmInicioAdmin);
+                        break;
+                    case 1:
+                        //Libro Admin
+                        ft.replace(R.id.content_frame, fmLibrosAdmin);
+                        break;
+                    case 2:
+                        //Editorial Admin
+                        ft.replace(R.id.content_frame, fmEditorialAdmin);
+                        break;
+                    case 3:
+                        //Autor Admin
+                        ft.replace(R.id.content_frame, fmAutorAdmin);
+                        break;
+                    case 4:
+                        //Autor Admin
+                        ft.replace(R.id.content_frame, fmSolicitudesAdmin);
+                        break;
+                    case 5:
+                        //Autor Admin
+                        ft.replace(R.id.content_frame, fmReportesAdmin);
+                        break;
+                }
+
+            }
+
+            //ESTUDIANTE
+            if (usuarioLogueado.getRol().equalsIgnoreCase("EST")) {
+                // Locate Position
+                switch (position) {
+                    case 0:
+                        //Inicio Admin
+                        ft.replace(R.id.content_frame, fmInicioEst);
+                        break;
+                }
+
+            }
+
         }
+
         ft.commit();
         mDrawerList.setItemChecked(position, true);
         // Get the title followed by the position

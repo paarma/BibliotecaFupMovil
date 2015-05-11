@@ -128,10 +128,14 @@ public class FmLogin extends Activity {
                 Intent goInicial = null;
 
                 //Administrador
-                if(usuario.getRol().equalsIgnoreCase("ADMIN")){
+                /*if(usuario.getRol().equalsIgnoreCase("ADMIN")){
                     goInicial = new Intent(FmLogin.this, MainActivity.class);
-                }
+                }*/
 
+                goInicial = new Intent(FmLogin.this, MainActivity.class);
+
+                //Se envia el usuario logueado como parametro
+                goInicial.putExtra("usuarioLogueado", usuario);
                 startActivity(goInicial);
 
             }else{
