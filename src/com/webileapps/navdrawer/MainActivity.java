@@ -64,7 +64,7 @@ public class MainActivity extends SherlockFragmentActivity {
         subtitle = new String[] { "Inicio Admin", "Gestion Libros", "Gestion Editorial", "Gestión Autores", "Gestión Solicitudes", "Ver reportes"};
 
         // Generate icon
-        icon = new int[] { R.drawable.ic_home_white_48dp, R.drawable.libro, R.drawable.editorial,R.drawable.ic_group_white_48dp, R.drawable.solicitudes, R.drawable.reportes };
+        icon = new int[] { R.drawable.ic_home_white_48dp, R.drawable.ic_style_white_48dp, R.drawable.ic_attach_file_white_48dp,R.drawable.ic_group_white_48dp, R.drawable.ic_book_white_48dp, R.drawable.ic_assessment_white_48dp };
 
         // Locate DrawerLayout in drawer_main.xml
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
