@@ -42,13 +42,21 @@
             <Button
                 android:layout_width="165dp"
                 android:layout_height="wrap_content"
-                android:text="Libro"
-                android:id="@+id/buttonLibroEst"
-
+                android:text="Reservar Libro"
+                android:id="@+id/buttonReservarLibroUser"
+                android:drawableLeft="@drawable/editorial"
+                android:background="#fffcfaff"
+                android:textColor="@color/list_divider"/>
+                />
+            <Button
+                android:layout_width="165dp"
+                android:layout_height="wrap_content"
+                android:text="Mis Libros"
+                android:id="@+id/buttonMisLibrosUser"
+                android:layout_marginLeft="10dp"
                 android:drawableLeft="@drawable/libro"
                 android:background="#fffcfaff"
-                android:textColor="@color/list_divider"
-               />
+                android:textColor="@color/list_divider"/>
 
         </TableRow>
 
