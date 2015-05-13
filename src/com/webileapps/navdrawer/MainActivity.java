@@ -50,13 +50,11 @@ public class MainActivity extends SherlockFragmentActivity {
     Fragment fmReportesAdmin = new FmReportesAdmin();
     Fragment fmSolicitudesAdmin = new FmSolicitudesAdmin();
 
+    //Estudiante
     Fragment fmInicioUsuario = new FmInicioUsuario();
-    Fragment fmlibrosusuario= new FmListaLibrosUsuario();
+    Fragment fmlibrosUsuario= new FmListaLibrosUsuario();
     Fragment fmMisLibrosUsuario= new FmMisLibrosUsuario();
     Fragment fmBuscarLibroUsuario = new FmBuscarLibroUsuario();
-
-    //Estudiante
-    Fragment fmInicioEst = new FmInicioUsuario();
 
     private CharSequence mDrawerTitle;
     private CharSequence mTitle;
@@ -106,7 +104,7 @@ public class MainActivity extends SherlockFragmentActivity {
 
 
                 // Generate icon
-                icon = new int[]{R.drawable.inicio, R.drawable.reservar, R.drawable.libro, R.drawable.buscar, R.drawable.salir};
+                icon = new int[]{R.drawable.inicio, R.drawable.ic_home_white_48dp, R.drawable.libro, R.drawable.ic_attach_file_white_48dp, R.drawable.salir};
             }
 
         }
@@ -236,7 +234,7 @@ public class MainActivity extends SherlockFragmentActivity {
                         ft.replace(R.id.content_frame, fmInicioUsuario);
                         break;
                     case 1:
-                        ft.replace(R.id.content_frame, fmlibrosusuario);
+                        ft.replace(R.id.content_frame, fmlibrosUsuario);
                         break;
                     case 2:
                         ft.replace(R.id.content_frame, fmMisLibrosUsuario);
