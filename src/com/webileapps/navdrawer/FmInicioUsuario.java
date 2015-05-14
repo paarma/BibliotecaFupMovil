@@ -27,7 +27,7 @@ public class FmInicioUsuario extends SherlockFragment {
                                             // update the main content by replacing fragments
                                             SherlockFragment fragment = null;
                                             Log.e("FmInicioUsuario", "inicio - onclick boton");
-                                            fragment = new FmListaLibrosUsuario();
+                                            fragment = new FmLibrosUsuario();
 
                                             if (fragment != null) {
                                                 android.support.v4.app.FragmentManager fragmentManager = getFragmentManager();

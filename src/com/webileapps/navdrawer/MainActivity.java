@@ -52,7 +52,7 @@ public class MainActivity extends SherlockFragmentActivity {
 
     //Estudiante
     Fragment fmInicioUsuario = new FmInicioUsuario();
-    Fragment fmlibrosUsuario= new FmListaLibrosUsuario();
+    Fragment fmlibrosUsuario= new FmLibrosUsuario();
     Fragment fmMisLibrosUsuario= new FmMisLibrosUsuario();
     Fragment fmBuscarLibroUsuario = new FmBuscarLibroUsuario();
 

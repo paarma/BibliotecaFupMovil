@@ -7,13 +7,13 @@ import android.support.v4.app.FragmentPagerAdapter;
 /**
  * Created by Damian on 11/05/2015.
  */
-public class ViewAdapterUsuario extends FragmentPagerAdapter {
+public class ViewPagerAdapterUsuario extends FragmentPagerAdapter {
 
     // Declare the number of ViewPager pages
     final int PAGE_COUNT = 3;
     private String titles[] = new String[] { "RESERVAR", "MIS LIBROS", "BUSCAR" };
 
-    public ViewAdapterUsuario(FragmentManager fm) {
+    public ViewPagerAdapterUsuario(FragmentManager fm) {
         super(fm);
     }
 
