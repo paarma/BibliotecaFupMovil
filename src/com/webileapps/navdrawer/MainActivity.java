@@ -32,6 +32,7 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.MenuItem;
 
 import modelo.Usuario;
+import util.VariablesGlobales;
 
 public class MainActivity extends SherlockFragmentActivity {
 
@@ -53,13 +54,12 @@ public class MainActivity extends SherlockFragmentActivity {
     //Estudiante
     Fragment fmInicioUsuario = new FmInicioUsuario();
     Fragment fmlibrosUsuario= new FmLibrosUsuario();
-    Fragment fmMisLibrosUsuario= new FmMisLibrosUsuario();
-    Fragment fmBuscarLibroUsuario = new FmBuscarLibroUsuario();
 
     private CharSequence mDrawerTitle;
     private CharSequence mTitle;
 
     private Usuario usuarioLogueado;
+    VariablesGlobales variablesGlobales = VariablesGlobales.getInstance();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -228,19 +228,23 @@ public class MainActivity extends SherlockFragmentActivity {
 
             //ESTUDIANTE
             if (usuarioLogueado.getRol().equalsIgnoreCase("EST")) {
+                fmlibrosUsuario= new FmLibrosUsuario();
                 // Locate Position
                 switch (position) {
                     case 0:
                         ft.replace(R.id.content_frame, fmInicioUsuario);
                         break;
                     case 1:
+                        variablesGlobales.setOpcionMenu(0);
                         ft.replace(R.id.content_frame, fmlibrosUsuario);
                         break;
                     case 2:
-                        ft.replace(R.id.content_frame, fmMisLibrosUsuario);
+                        variablesGlobales.setOpcionMenu(1);
+                        ft.replace(R.id.content_frame, fmlibrosUsuario);
                         break;
                     case 3:
-                        ft.replace(R.id.content_frame, fmBuscarLibroUsuario);
+                        variablesGlobales.setOpcionMenu(2);
+                        ft.replace(R.id.content_frame, fmlibrosUsuario);
                         break;
                     case 4:
                         finish();

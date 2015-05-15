@@ -10,7 +10,12 @@ import android.widget.Button;
 
 import com.actionbarsherlock.app.SherlockFragment;
 
+import util.VariablesGlobales;
+
 public class FmInicioUsuario extends SherlockFragment {
+
+    VariablesGlobales variablesGlobales = VariablesGlobales.getInstance();
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -28,6 +33,9 @@ public class FmInicioUsuario extends SherlockFragment {
                                             SherlockFragment fragment = null;
                                             Log.e("FmInicioUsuario", "inicio - onclick boton");
                                             fragment = new FmLibrosUsuario();
+
+                                            //Se setea la variable global para cargar la vista de Libros (Reservas)
+                                            variablesGlobales.setOpcionMenu(0);
 
                                             if (fragment != null) {
                                                 android.support.v4.app.FragmentManager fragmentManager = getFragmentManager();
@@ -50,7 +58,10 @@ public class FmInicioUsuario extends SherlockFragment {
                                                 // update the main content by replacing fragments
                                                 SherlockFragment fragment = null;
                                                 Log.e("FmInicioUsuario", "inicio - onclick boton");
-                                                fragment = new FmMisLibrosUsuario();
+                                                fragment = new FmLibrosUsuario();
+
+                                                //Se setea la variable global para cargar la vista de Mis Libros
+                                                variablesGlobales.setOpcionMenu(1);
 
                                                 if (fragment != null) {
                                                     android.support.v4.app.FragmentManager fragmentManager = getFragmentManager();
