@@ -2,6 +2,7 @@ package com.webileapps.navdrawer;
 
 
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -149,7 +150,7 @@ public class FmInicioAdmin extends SherlockFragment {
                                         public void onClick(View v) {
 
                                             try {
-                                                finalize();
+                                                ActivityCompat.finishAffinity(new FmLogin());
                                             } catch (Throwable throwable) {
                                                 throwable.printStackTrace();
                                             }

@@ -46,7 +46,7 @@
                 android:id="@+id/buttonLibro"
 
                 android:drawableLeft="@drawable/libro"
-                android:background="#fffcfaff"
+                android:background="@drawable/btn_default_inicio"
                 android:textColor="@color/list_divider"
                />
 
