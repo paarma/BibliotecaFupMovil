@@ -100,11 +100,11 @@ public class MainActivity extends SherlockFragmentActivity {
                 title = new String[]{"Inicio", "Reservar", "Mis Libros", "Buscar", "Salir"};
 
                 // Generate subtitle
-                subtitle = new String[]{"Inicio Usuario", "Reservar Libros", "Mis libros Gestionados", "Busacar Libros", "cerrar sesión"};
+                subtitle = new String[]{"Inicio Usuario", "Reservar Libros", "Mis libros", "Busacar Libros", "Cerrar sesión"};
 
 
                 // Generate icon
-                icon = new int[]{R.drawable.inicio, R.drawable.ic_home_white_48dp, R.drawable.libro, R.drawable.ic_attach_file_white_48dp, R.drawable.salir};
+                icon = new int[]{R.drawable.ic_home_white_48dp, R.drawable.ic_book_white_48dp, R.drawable.ic_style_white_48dp, R.drawable.action_search, R.drawable.ic_exit_to_app_white_48dp};
             }
 
         }

@@ -11,7 +11,7 @@ public class ViewPagerAdapterUsuario extends FragmentPagerAdapter {
 
     // Declare the number of ViewPager pages
     final int PAGE_COUNT = 3;
-    private String titles[] = new String[] { "RESERVAR", "MIS LIBROS", "BUSCAR" };
+    private String titles[] = new String[] { "Reservar", "Mis Libros", "Buscar" };
 
     public ViewPagerAdapterUsuario(FragmentManager fm) {
         super(fm);
