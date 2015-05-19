@@ -24,4 +24,7 @@
 
     <string name="title_activity_myActivity">Biblioteca FUP</string>
 
+    <string name="nuevo">Nuevo</string>
+    <string name="adjuntar">Adjuntar</string>
+
 </resources>
