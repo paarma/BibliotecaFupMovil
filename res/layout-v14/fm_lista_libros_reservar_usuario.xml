@@ -29,7 +29,9 @@
             android:layout_height="match_parent"
             android:columnCount="2"
             android:rowCount="1"
-            android:clickable="true">
+            android:clickable="true"
+            android:layout_row="0"
+            android:layout_column="0">
 
             <ImageButton
                 android:id="@+id/btnBuscarLibroReservaUser"
@@ -38,7 +40,7 @@
                 android:src="@drawable/abs__ic_search"
                 android:scaleType="fitCenter"
                 android:background="@android:color/transparent"
-                android:onClick="btnBuscarLibroUser"
+                android:onClick="verBuscarLibroUser"
                 android:tag="reservar"/>
 
             <!-- <TextView
@@ -48,6 +50,14 @@
                 android:textColor="@color/blanco"
                 android:gravity="center_vertical"
                 android:textSize="18sp" /> -->
+
+            <TextView
+                android:layout_height="match_parent"
+                android:textAlignment="gravity"
+                android:textColor="@color/blanco"
+                android:gravity="center_vertical"
+                android:textSize="18sp"
+                android:background="@drawable/drawer_shadow"/>
 
         </GridLayout>
 

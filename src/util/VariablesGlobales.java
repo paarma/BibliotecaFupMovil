@@ -14,6 +14,12 @@ public class VariablesGlobales {
      */
     private int opcionMenu;
 
+    /**
+     * Variable que indica desde que vista se llama a la interfaz Buscar Libros
+     * posibles valores: reservar, misLibros...
+     */
+    private String buscarLibroDesdeVista;
+
     // Restrict the constructor from being instantiated
     private VariablesGlobales(){}
 
@@ -23,6 +29,12 @@ public class VariablesGlobales {
     }
     public int getOpcionMenu(){
         return this.opcionMenu;
+    }
+    public String getBuscarLibroDesdeVista() {
+        return buscarLibroDesdeVista;
+    }
+    public void setBuscarLibroDesdeVista(String buscarLibroDesdeVista) {
+        this.buscarLibroDesdeVista = buscarLibroDesdeVista;
     }
 
     public static synchronized VariablesGlobales getInstance(){

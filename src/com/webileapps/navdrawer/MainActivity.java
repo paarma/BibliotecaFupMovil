@@ -301,10 +301,11 @@ public class MainActivity extends SherlockFragmentActivity {
 
     //Botones al pie de la pantalla (Usuario)
     /**
-     * Boton buscar ubicado al pie de la pantalla reservar del rol Estudiante
+     * Boton Buscar Libro ubicado al pie de las pantallas reessrvar y misLibros del rol Estudiante
+     * y permite dirigir a la pantalla de buscar
      * @param view
      */
-    public void btnBuscarLibroUser(View view){
+    public void verBuscarLibroUser(View view){
 
         String vista = view.getTag().toString();
         Log.i("MainActivity.java", "************** Pulsando boton Buscar Libro desde: "+vista);
@@ -313,6 +314,32 @@ public class MainActivity extends SherlockFragmentActivity {
         fmlibrosUsuario= new FmLibrosUsuario();
 
         variablesGlobales.setOpcionMenu(2); //Buscar Libros
+        variablesGlobales.setBuscarLibroDesdeVista(vista);
+        ft.replace(R.id.content_frame, fmlibrosUsuario);
+        ft.commit();
+    }
+
+    /**
+     * Funcion encargada de buscar libros y direccionar a la pagina que invoco la busqueda
+     * ya sea por Reservar o MisLibros del rol Usuario
+     * @param view
+     */
+    public void buscarLibroUser(View view){
+        Log.i("MainActivity.java", "************** buscarLibroUser: "+variablesGlobales.getBuscarLibroDesdeVista());
+
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        fmlibrosUsuario= new FmLibrosUsuario();
+
+        //Para el caso del llamado desde la vista Mis Libros
+        if(variablesGlobales != null &&
+                variablesGlobales.getBuscarLibroDesdeVista().equalsIgnoreCase("misLibros")){
+            variablesGlobales.setOpcionMenu(1); //Mis Libros
+
+        }else{
+            //En caso contrario se envia a la vista de Reservar
+            variablesGlobales.setOpcionMenu(0); //Reservar
+        }
+
         ft.replace(R.id.content_frame, fmlibrosUsuario);
         ft.commit();
     }
