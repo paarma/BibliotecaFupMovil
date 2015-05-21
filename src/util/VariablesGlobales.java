@@ -10,7 +10,7 @@ public class VariablesGlobales {
 
     // Global variable
     /**
-     * Variable que indica el item especofico seleccionado desde el menu
+     * Variable que indica el item especifico seleccionado desde el menu
      */
     private int opcionMenu;
 

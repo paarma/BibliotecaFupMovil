@@ -21,17 +21,16 @@ public class FmInicioUsuario extends SherlockFragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fm_inicio_usuario, container, false);
 
-        Button btnReservarLibroUer = (Button) rootView.findViewById(R.id.buttonReservarLibroUser);
-        Button btnMisLibrosUser = (Button) rootView.findViewById(R.id.buttonMisLibrosUser);
+        Button btnReservarLibroUser = (Button) rootView.findViewById(R.id.btnReservarLibroUser);
+        Button btnMisLibrosUser = (Button) rootView.findViewById(R.id.btnMisLibrosUser);
 
 
-        btnReservarLibroUer.setOnClickListener(new View.OnClickListener() {
+        btnReservarLibroUser.setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View v) {
 
                                             // update the main content by replacing fragments
                                             SherlockFragment fragment = null;
-                                            Log.e("FmInicioUsuario", "inicio - onclick boton");
                                             fragment = new FmLibrosUsuario();
 
                                             //Se setea la variable global para cargar la vista de Libros (Reservas)
@@ -57,7 +56,6 @@ public class FmInicioUsuario extends SherlockFragment {
 
                                                 // update the main content by replacing fragments
                                                 SherlockFragment fragment = null;
-                                                Log.e("FmInicioUsuario", "inicio - onclick boton");
                                                 fragment = new FmLibrosUsuario();
 
                                                 //Se setea la variable global para cargar la vista de Mis Libros

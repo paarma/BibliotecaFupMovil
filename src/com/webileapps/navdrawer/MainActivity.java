@@ -24,6 +24,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -53,7 +54,7 @@ public class MainActivity extends SherlockFragmentActivity {
 
     //Estudiante
     Fragment fmInicioUsuario = new FmInicioUsuario();
-    Fragment fmlibrosUsuario= new FmLibrosUsuario();
+    Fragment fmlibrosUsuario;
 
     private CharSequence mDrawerTitle;
     private CharSequence mTitle;
@@ -235,15 +236,15 @@ public class MainActivity extends SherlockFragmentActivity {
                         ft.replace(R.id.content_frame, fmInicioUsuario);
                         break;
                     case 1:
-                        variablesGlobales.setOpcionMenu(0);
+                        variablesGlobales.setOpcionMenu(0); //Reservar
                         ft.replace(R.id.content_frame, fmlibrosUsuario);
                         break;
                     case 2:
-                        variablesGlobales.setOpcionMenu(1);
+                        variablesGlobales.setOpcionMenu(1); //Mis Libros
                         ft.replace(R.id.content_frame, fmlibrosUsuario);
                         break;
                     case 3:
-                        variablesGlobales.setOpcionMenu(2);
+                        variablesGlobales.setOpcionMenu(2); //Buscar Libros
                         ft.replace(R.id.content_frame, fmlibrosUsuario);
                         break;
                     case 4:
@@ -296,6 +297,24 @@ public class MainActivity extends SherlockFragmentActivity {
             // Otherwise, ask user if he wants to leave :)
             super.onBackPressed();
         }
+    }
+
+    //Botones al pie de la pantalla (Usuario)
+    /**
+     * Boton buscar ubicado al pie de la pantalla reservar del rol Estudiante
+     * @param view
+     */
+    public void btnBuscarLibroUser(View view){
+
+        String vista = view.getTag().toString();
+        Log.i("MainActivity.java", "************** Pulsando boton Buscar Libro desde: "+vista);
+
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        fmlibrosUsuario= new FmLibrosUsuario();
+
+        variablesGlobales.setOpcionMenu(2); //Buscar Libros
+        ft.replace(R.id.content_frame, fmlibrosUsuario);
+        ft.commit();
     }
 
 }
