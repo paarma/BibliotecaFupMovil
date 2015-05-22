@@ -139,7 +139,7 @@ public class FmLogin extends Activity {
                 startActivity(goInicial);
 
             }else{
-                Toast.makeText(FmLogin.this, "Usuario o Clave incorrectos", Toast.LENGTH_LONG).show();
+                Toast.makeText(FmLogin.this, "Credenciales incorrectas", Toast.LENGTH_LONG).show();
             }
         }
 
