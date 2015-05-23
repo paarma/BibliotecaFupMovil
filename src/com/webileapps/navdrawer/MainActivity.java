@@ -306,7 +306,6 @@ public class MainActivity extends SherlockFragmentActivity {
      * @param view
      */
     public void verBuscarLibroUser(View view){
-
         String vista = view.getTag().toString();
         Log.i("MainActivity.java", "************** Pulsando boton Buscar Libro desde: "+vista);
 
@@ -321,12 +320,10 @@ public class MainActivity extends SherlockFragmentActivity {
 
     /**
      * Funcion encargada de buscar libros y direccionar a la pagina que invoco la busqueda
-     * ya sea por Reservar o MisLibros del rol Usuario
+     * ya sea por Reservar o MisLibros del rol Estudiante
      * @param view
      */
     public void buscarLibroUser(View view){
-        Log.i("MainActivity.java", "************** buscarLibroUser: "+variablesGlobales.getBuscarLibroDesdeVista());
-
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         fmlibrosUsuario= new FmLibrosUsuario();
 

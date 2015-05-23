@@ -1,50 +1,124 @@
 package com.webileapps.navdrawer;
 
+import android.annotation.SuppressLint;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragment;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import modelo.Libro;
+import util.TareasGenerales;
 import util.VariablesGlobales;
 
 public class FmListaLibrosReservarUsuario extends SherlockFragment {
 
     VariablesGlobales variablesGlobales = VariablesGlobales.getInstance();
 
+    private ArrayAdapter<Libro> adapterLibro;
+    private ListView libroListView;
+
+    private List<Libro> listaLibros = new ArrayList<Libro>();
+    private Libro libroSeleccionado, libroBuscar;
+
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+
 		// Get the view from fm_crear_libro_adminro_admin.xml
 		View view = inflater.inflate(R.layout.fm_lista_libros_reservar_usuario, container, false);
 
-/*       ImageButton btnBuscarLibroReserva = (ImageButton) view.findViewById(R.id.btnBuscarLibroReservaUser);
+        inicializarComponentes(view);
+        inicializarListaLibros();
 
-        //Boton buscar desde la pantalla de reservar
-        btnBuscarLibroReserva.setOnClickListener(new View.OnClickListener() {
+        return view;
+	}
+
+    /**
+     * Se inicializan los componentes visuales
+     */
+    private void inicializarComponentes(View view) {
+
+        libroListView = (ListView) view.findViewById(R.id.listViewReservarUsuario);
+
+        /**
+         * Se inicializa el objeto libroBuscar si este no llega por el
+         * buscadorAvanzado de libros. Funcionalidad necesaria para
+         * fijar los parametros por defecto para la busqueda de libro
+         */
+        if(libroBuscar == null){
+            libroBuscar = new Libro();
+        }
+    }
+
+    /**
+     * Se carga el listado de libros provenientes de la BD,
+     * ademas contiene el evento onclick del item para capturar el mismo
+     * y el metodo onclickLong para desplegar los detalles del libro
+     */
+    private void inicializarListaLibros(){
+
+        TareaWsBuscarLibros tareaListarLibro = new TareaWsBuscarLibros();
+        tareaListarLibro.execute();
+
+        //Evento al seleccionar un elemento de la lista
+/*        libroListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onClick(View view) {
-                Log.i("Reservar", "************** Pulsando boton Buscar desde reservar");
-
-                SherlockFragment fragment = null;
-                fragment = new FmLibrosUsuario();
-
-                //Se setea la variable global para cargar la vista de Libros (Buscar)
-                variablesGlobales.setOpcionMenu(2);
-
-                if (fragment != null) {
-                    android.support.v4.app.FragmentManager fragmentManager = getFragmentManager();
-                    fragmentManager.beginTransaction()
-                            .replace(R.id.content_frame, fragment).commit();
-                } else {
-                    // error in creating fragment
-                    Log.e("Reservar", "XXX - Error cuando se creo el fragment buscarLibros");
-                }
-
+            public void onItemClick(AdapterView<?> padre, View vista, int posicion, long id) {
+                libroSeleccionado = listaLibros.get(posicion);
+                String msn = "Seleccionado :"+libroSeleccionado.getTitulo();
+                Toast.makeText(Activity_listado_libros.this, msn, Toast.LENGTH_SHORT).show();
+                redireccionaDetalleLibro();
             }
         });*/
+    }
 
-		return view;
-	}
+    ////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////
+    //////////////////////////////////////////////////// tareas
+    //Tarea Asíncrona para llamar al WS de consulta en segundo plano
+
+    /**
+     * Tarea encargada de listar los libros de la biblioteca ya sea el listado general
+     * o un listado segun parametros de un libro a buscar
+     */
+    private class TareaWsBuscarLibros extends AsyncTask<String,Integer,Boolean> {
+
+        boolean resultadoTarea = true;
+
+        @SuppressLint("LongLogTag")
+        @Override
+        protected Boolean doInBackground(String... params) {
+
+            try {
+                TareasGenerales tareasGenerales = new TareasGenerales();
+                listaLibros = tareasGenerales.buscarLibros(libroBuscar);
+            }catch (Exception e){
+                resultadoTarea = false;
+                Log.d("ReservarUsuario ", "xxx Error TareaWsListadoLibros: " + e.getMessage());
+            }
+            return resultadoTarea;
+        }
+
+        public void onPostExecute(Boolean result){
+
+            if(result){
+                adapterLibro = new LibroListAdapterUsuario(getActivity(), listaLibros);
+                libroListView.setAdapter(adapterLibro);
+            }else{
+                String msn = "Error listando libros";
+                Toast.makeText(null, msn, Toast.LENGTH_LONG).show();
+            }
+        }
+    }
 }

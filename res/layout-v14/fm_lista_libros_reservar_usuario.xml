@@ -4,14 +4,6 @@
     android:layout_height="match_parent"
     android:id="@+id/content_frame_reservar_user">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:text="@string/FragmentTab1"
-        android:id="@+id/textView3" />
-
     <GridLayout
         android:id="@+id/barraMenuResesrvaUser"
         android:layout_width="fill_parent"
@@ -89,5 +81,15 @@
 
 
     </GridLayout>
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/listViewReservarUsuario"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_above="@+id/barraMenuResesrvaUser"
+        android:choiceMode="singleChoice" />
 
 </RelativeLayout>
