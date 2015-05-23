@@ -85,13 +85,13 @@ public class MainActivity extends SherlockFragmentActivity {
             if(usuarioLogueado.getRol().equalsIgnoreCase("ADMIN")){
 
                 // Generate title
-                title = new String[] { "Inicio", "Libros", "Editorial","Autor","Solicitudes","Reportes"};
+                title = new String[] { "Inicio", "Libros", "Editorial","Autor","Solicitudes","Reportes", "Salir"};
 
                 // Generate subtitle
-                subtitle = new String[] { "Inicio Admin", "Gestion Libros", "Gestion Editorial", "Gestión Autores", "Gestión Solicitudes", "Ver reportes"};
+                subtitle = new String[] { "Inicio Admin", "Gestion Libros", "Gestion Editorial", "Gestión Autores", "Gestión Solicitudes", "Ver reportes", "Cerrar sesión"};
 
                 // Generate icon
-                icon = new int[] { R.drawable.ic_home_white_48dp, R.drawable.ic_style_white_48dp, R.drawable.ic_attach_file_white_48dp,R.drawable.ic_group_white_48dp, R.drawable.ic_book_white_48dp, R.drawable.ic_assessment_white_48dp };
+                icon = new int[] { R.drawable.ic_home_white_48dp, R.drawable.ic_style_white_48dp, R.drawable.ic_attach_file_white_48dp,R.drawable.ic_group_white_48dp, R.drawable.ic_book_white_48dp, R.drawable.ic_assessment_white_48dp, R.drawable.ic_exit_to_app_white_48dp };
             }
 
             //Estudiante
@@ -222,6 +222,10 @@ public class MainActivity extends SherlockFragmentActivity {
                     case 5:
                         //Autor Admin
                         ft.replace(R.id.content_frame, fmReportesAdmin);
+                        break;
+                    case 6:
+                        //Autor Admin
+                        finish();
                         break;
                 }
 

@@ -1,8 +1,8 @@
 package com.webileapps.navdrawer;
 
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -149,11 +149,8 @@ public class FmInicioAdmin extends SherlockFragment {
                                         @Override
                                         public void onClick(View v) {
 
-                                            try {
-                                                ActivityCompat.finishAffinity(new FmLogin());
-                                            } catch (Throwable throwable) {
-                                                throwable.printStackTrace();
-                                            }
+                                            Intent intent = new Intent(Intent.ACTION_MAIN);
+
                                         }
                                     }
 
