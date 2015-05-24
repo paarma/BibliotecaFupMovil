@@ -249,6 +249,10 @@ public class MainActivity extends SherlockFragmentActivity {
                         break;
                     case 3:
                         variablesGlobales.setOpcionMenu(2); //Buscar Libros
+                        //Se setea la variable "setBuscarLibroDesdeVista" para el caso de Buscar Liro
+                        //libros desde la opcion del Menu. Esto con el fin de que el
+                        //resultado de la busqueda lo dirija a la pantalla "Reservar"
+                        variablesGlobales.setBuscarLibroDesdeVista("reservar");
                         ft.replace(R.id.content_frame, fmlibrosUsuario);
                         break;
                     case 4:

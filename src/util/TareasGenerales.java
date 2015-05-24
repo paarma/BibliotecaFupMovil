@@ -59,13 +59,25 @@ public class TareasGenerales {
                 {
                     Libro lib = new Libro();
                     lib.setIdLibro(Integer.parseInt(libroSoap.getProperty("ID_LIBRO").toString()));
-                    lib.setIsbn(libroSoap.getProperty("ISBN").toString());
                     lib.setTitulo(libroSoap.getProperty("TITULO").toString());
+                    lib.setIsbn(libroSoap.getProperty("ISBN").toString());
+
+                    if(libroSoap.getProperty("COD_TOPOGRAFICO") != null){
+                        lib.setCodigoTopografico(libroSoap.getProperty("COD_TOPOGRAFICO").toString());
+                    }
+
+                    if(libroSoap.getProperty("TEMAS") != null){
+                        lib.setTemas(libroSoap.getProperty("TEMAS").toString());
+                    }
+                    if(libroSoap.getProperty("PAGINAS") != null) {
+                        lib.setPaginas(Integer.parseInt(libroSoap.getProperty("PAGINAS").toString()));
+                    }
+
                     listaLibro.add(lib);
                 }
             }
         }catch (Exception e){
-            Log.d("TareasGenerales.java ", "xxx Error buscarLibros(): " + e.getMessage());
+            Log.e("TareasGenerales.java ", "xxx Error buscarLibros(): " + e.getMessage());
         }
         return listaLibro;
     }

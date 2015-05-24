@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -72,15 +73,28 @@ public class FmListaLibrosReservarUsuario extends SherlockFragment {
         tareaListarLibro.execute();
 
         //Evento al seleccionar un elemento de la lista
-/*        libroListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        libroListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> padre, View vista, int posicion, long id) {
+
                 libroSeleccionado = listaLibros.get(posicion);
-                String msn = "Seleccionado :"+libroSeleccionado.getTitulo();
-                Toast.makeText(Activity_listado_libros.this, msn, Toast.LENGTH_SHORT).show();
-                redireccionaDetalleLibro();
+
+                //Se ocultan todos los detalles que esten deplegados
+                try {
+                    for(int j = 0; j<libroListView.getCount(); j++){
+                        View containerAux = libroListView.getChildAt(j);
+                        if(containerAux != null) {
+                            libroListView.getChildAt(j).findViewById(R.id.contenedorDetalleLibroReservar).setVisibility(View.GONE);
+                        }
+                    }
+                }catch (Exception e){
+                    Log.e("Error", "Error ocultando detalles del libro: " + e.getMessage());
+                }
+
+                //Se despliega el detalle del item seleccionado
+                vista.findViewById(R.id.contenedorDetalleLibroReservar).setVisibility(View.VISIBLE);
             }
-        });*/
+        });
     }
 
     ////////////////////////////////////////////////////
@@ -103,6 +117,7 @@ public class FmListaLibrosReservarUsuario extends SherlockFragment {
             try {
                 TareasGenerales tareasGenerales = new TareasGenerales();
                 listaLibros = tareasGenerales.buscarLibros(libroBuscar);
+                Log.i("Reservar",">>>>>>>>>>> Tamaño lista libros buscada: "+listaLibros.size());
             }catch (Exception e){
                 resultadoTarea = false;
                 Log.d("ReservarUsuario ", "xxx Error TareaWsListadoLibros: " + e.getMessage());

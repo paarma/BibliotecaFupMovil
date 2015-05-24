@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.List;
@@ -41,6 +42,16 @@ public class LibroListAdapterUsuario extends ArrayAdapter<Libro> {
 
         textView = (TextView) view.findViewById(R.id.tbxIsbn);
         textView.setText(libroActual.getIsbn());
+
+        //Detalles del libro (campos ocultos)
+        EditText editText = (EditText) view.findViewById(R.id.editTextCodTopo);
+        editText.setText(libroActual.getCodigoTopografico());
+
+        editText = (EditText) view.findViewById(R.id.editTextTemas);
+        editText.setText(libroActual.getTemas());
+
+        editText = (EditText) view.findViewById(R.id.editTextPaginas);
+        editText.setText(String.valueOf(libroActual.getPaginas()));
 
     }
 }
