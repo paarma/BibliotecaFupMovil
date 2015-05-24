@@ -5,7 +5,7 @@
 
     tools:context=".MainActivity" >
 
-
+    <!-- RelativeLayout Utilizado para el cuerpo del contenido -->
     <RelativeLayout
         android:id="@+id/contenedor"
         android:layout_width="fill_parent"
@@ -19,7 +19,8 @@
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin" >
 
-    <!-- we're using scroll view to see all contents -->
+    <!-- Usamos el scroll para ver el contenido completo -->
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -29,7 +30,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" >
 
-            <!-- EditText for plain text input -->
+            <!-- EditText para el titulo del libro-->
 
             <TextView
                 android:id="@+id/textViewTitulo"
@@ -46,7 +47,7 @@
                 android:singleLine="true" >
             </EditText>
 
-            <!-- EditText for password input -->
+            <!-- EditText para ISBN-->
 
             <TextView
                 android:id="@+id/textViewIsbn"
@@ -63,7 +64,7 @@
                 >
             </EditText>
 
-            <!-- EditText for email address input -->
+            <!-- EditText para codigo topografico -->
 
             <TextView
                 android:id="@+id/textViewCodTopo"
@@ -79,7 +80,7 @@
                 android:layout_below="@+id/textViewCodTopo"
                 />
 
-            <!-- EditText for phone number input -->
+            <!-- EditText para temas del libro-->
 
             <TextView
                 android:id="@+id/textViewTemas"
@@ -95,7 +96,7 @@
                 android:layout_below="@+id/textViewTemas"
                />
 
-            <!-- EditText for number input -->
+            <!-- EditText numero de paginas del libro-->
 
             <TextView
                 android:id="@+id/textViewPaginas"
@@ -111,7 +112,7 @@
                 android:layout_below="@+id/textViewPaginas"
                 android:inputType="number" />
 
-            <!-- EditText for signed number input -->
+            <!-- EditText para el estado del libro-->
 
             <TextView
                 android:id="@+id/textViewEstado"
@@ -127,7 +128,7 @@
                 android:layout_below="@+id/textViewEstado"
                  />
 
-            <!-- EditText for decimal number input -->
+            <!-- EditText para el valor del libro -->
 
             <TextView
                 android:id="@+id/textViewValor"
@@ -143,11 +144,8 @@
                 android:layout_below="@+id/textViewValor"
                 android:inputType="numberDecimal" />
 
-            <!-- Some options with EditText -->
 
-
-
-            <!-- EditText for decimal number input -->
+            <!-- EditText para el tipo de adquisicion del libro -->
 
             <TextView
                 android:id="@+id/textViewAdquisicion"
@@ -163,9 +161,9 @@
                 android:layout_below="@+id/textViewAdquisicion"
                 />
 
-            <!-- Some options with EditText -->
 
-            <!-- EditText for decimal number input -->
+
+            <!-- EditText para el radicado del libro -->
 
             <TextView
                 android:id="@+id/textViewRadicado"
@@ -182,8 +180,6 @@
                 android:inputType="number" />
 
 
-            <!-- Some options with EditText -->
-
 
         </RelativeLayout>
     </ScrollView>
@@ -192,6 +188,8 @@
 
     </RelativeLayout>
 
+
+    <!-- Grilla para el menu inferior de la App -->
     <GridLayout
         android:id="@+id/barraMenu"
         android:layout_width="fill_parent"
@@ -204,7 +202,7 @@
         android:rowCount="1"
         android:paddingTop="4dp">
 
-
+        <!-- Boton que permite el guardado del libro-->
         <ImageButton
             android:id="@+id/btnGuardarAdmin"
             android:layout_width="64dp"
@@ -213,7 +211,7 @@
             android:scaleType="fitCenter"
             android:background="@android:color/transparent"
             />
-
+        <!-- Boton que cancela la operacion de guardado-->
         <ImageButton
             android:id="@+id/btnCancelarAdmin"
             android:layout_width="64dp"
