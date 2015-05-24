@@ -14,8 +14,8 @@ public class Configuracion extends Application {
      * aplicacion APP con el emulador se utiliza la direccion
      * ip virtual 10.0.2.2
      */
-   // private final static String IP_SERVER_WS = "10.0.2.2";
-    private final static String IP_SERVER_WS = "192.168.0.24";
+    private final static String IP_SERVER_WS = "10.0.2.2";
+
     /**
      * Puerto del server donde estan publicados los WebService
      * Ejemplo del valor = :8080
