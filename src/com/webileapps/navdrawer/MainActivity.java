@@ -70,6 +70,10 @@ public class MainActivity extends SherlockFragmentActivity {
         //Se obtiene el usuario logueado
         usuarioLogueado = (Usuario) getIntent().getExtras().getSerializable("usuarioLogueado");
 
+        
+        //Se obtiene el usuario logueado
+        usuarioLogueado = (Usuario) getIntent().getExtras().getSerializable("usuarioLogueado");
+
 
         // Get the view from drawer_main.xml
         setContentView(R.layout.drawer_main);

@@ -1,0 +1,97 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+
+    tools:context=".MainActivity" >
+
+    <!-- RelativeLayout Utilizado para el cuerpo del contenido -->
+    <RelativeLayout
+        android:id="@+id/contenedor"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_above="@+id/barraMenu"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin" >
+
+    <!-- Usamos el scroll para ver el contenido completo -->
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/scrollView">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <!-- EditText para el titulo del libro-->
+
+            <TextView
+                android:id="@+id/textViewEditorial"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Editorial:" />
+
+            <EditText
+                android:id="@+id/editTextEditorial"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textViewEditorial"
+
+                android:singleLine="true" >
+            </EditText>
+
+
+        </RelativeLayout>
+    </ScrollView>
+
+
+
+    </RelativeLayout>
+
+
+    <!-- Grilla para el menu inferior de la App -->
+    <GridLayout
+        android:id="@+id/barraMenu"
+        android:layout_width="fill_parent"
+        android:layout_height="38dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:background="@color/list_divider"
+        android:columnCount="2"
+        android:rowCount="1"
+        android:paddingTop="4dp">
+
+        <!-- Boton que permite el guardado del libro-->
+        <ImageButton
+            android:id="@+id/btnGuardarEditAdmin"
+            android:layout_width="64dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_save_white_48dp"
+            android:scaleType="fitCenter"
+            android:background="@android:color/transparent"
+            />
+        <!-- Boton que cancela la operacion de guardado-->
+        <ImageButton
+            android:id="@+id/btnCancelarEditAdmin"
+            android:layout_width="64dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_cancel_white_48dp"
+            android:scaleType="fitCenter"
+            android:background="@android:color/transparent"
+             />
+
+
+
+
+    </GridLayout>
+
+
+</RelativeLayout>

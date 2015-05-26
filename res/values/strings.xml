@@ -28,4 +28,13 @@
     <string name="adjuntar">Adjuntar</string>
     <string name="buscar">Buscar</string>
 
+
+    <string-array name="tipoAutor">
+        <item>Seleccione..</item>
+        <item>Personal</item>
+        <item>Institucional</item>
+        <item>Coperativo</item>
+
+    </string-array>
+
 </resources>
