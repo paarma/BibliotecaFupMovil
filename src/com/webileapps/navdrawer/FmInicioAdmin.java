@@ -31,7 +31,7 @@ public class FmInicioAdmin extends SherlockFragment {
 
                                             // update the main content by replacing fragments
                                             SherlockFragment fragment = null;
-                                            Log.e("Alex", "inicio - onclick boton");
+                                            Log.i("Alex", "inicio - onclick boton");
                                             fragment = new FmLibrosAdmin();
 
                                             if (fragment != null) {

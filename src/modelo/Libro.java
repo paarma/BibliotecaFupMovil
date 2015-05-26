@@ -10,7 +10,7 @@ public class Libro implements Serializable {
 
     private int idLibro;
     private String titulo;
-    private float valor;
+    private int valor;
     private String adquisicion;
     private String estado;
     private String isbn;
@@ -51,7 +51,7 @@ public class Libro implements Serializable {
         this.idCiudad = 0;
     }
 
-    public Libro(int idLibro, String titulo, float valor, String adquisicion,
+    public Libro(int idLibro, String titulo, int valor, String adquisicion,
                  String estado, String isbn, String radicado, Date fechaIngreso,
                  String codigoTopografico, String serie, int idSede, int idEditorial,
                  int idArea, int anio, String temas, int paginas, String disponibilidad,
@@ -94,11 +94,11 @@ public class Libro implements Serializable {
         this.titulo = titulo;
     }
 
-    public float getValor() {
+    public int getValor() {
         return valor;
     }
 
-    public void setValor(float valor) {
+    public void setValor(int valor) {
         this.valor = valor;
     }
 

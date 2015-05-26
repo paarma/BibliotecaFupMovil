@@ -17,6 +17,7 @@ import org.ksoap2.transport.HttpTransportSE;
 
 import modelo.Usuario;
 import util.Configuracion;
+import util.VariablesGlobales;
 
 /**
  * Created by pablo on 29/04/15.
@@ -27,6 +28,7 @@ public class FmLogin extends Activity {
     private Button btnLogin;
 
     private Usuario usuario;
+    VariablesGlobales variablesGlobales = VariablesGlobales.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,6 +133,7 @@ public class FmLogin extends Activity {
                 /*if(usuario.getRol().equalsIgnoreCase("ADMIN")){
                     goInicial = new Intent(FmLogin.this, MainActivity.class);
                 }*/
+                variablesGlobales.setUsuarioLogueado(usuario);
 
                 goInicial = new Intent(FmLogin.this, MainActivity.class);
 

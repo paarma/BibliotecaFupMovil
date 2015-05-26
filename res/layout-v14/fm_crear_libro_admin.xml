@@ -57,7 +57,7 @@
                 android:text="ISBN:" />
 
             <EditText
-                android:id="@+id/editTextPasswordInput"
+                android:id="@+id/editTextIsbn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/textViewIsbn"
@@ -70,7 +70,7 @@
                 android:id="@+id/textViewCodTopo"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/editTextPasswordInput"
+                android:layout_below="@+id/editTextIsbn"
                 android:text="Cod. Topografico:" />
 
             <EditText
@@ -204,7 +204,7 @@
 
         <!-- Boton que permite el guardado del libro-->
         <ImageButton
-            android:id="@+id/btnGuardarAdmin"
+            android:id="@+id/btnGuardarLibroAdmin"
             android:layout_width="64dp"
             android:layout_height="match_parent"
             android:src="@drawable/ic_save_white_48dp"
@@ -213,7 +213,7 @@
             />
         <!-- Boton que cancela la operacion de guardado-->
         <ImageButton
-            android:id="@+id/btnCancelarAdmin"
+            android:id="@+id/btnCancelarLibroAdmin"
             android:layout_width="64dp"
             android:layout_height="match_parent"
             android:src="@drawable/ic_cancel_white_48dp"

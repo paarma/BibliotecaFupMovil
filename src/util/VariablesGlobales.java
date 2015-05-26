@@ -1,5 +1,7 @@
 package util;
 
+import modelo.Usuario;
+
 /**
  * Created by pablo on 15/05/15.
  * Clase utilizada para gestionar variables globales
@@ -20,6 +22,11 @@ public class VariablesGlobales {
      */
     private String buscarLibroDesdeVista;
 
+    /**
+     *Variable que indica el usuario que inicio sesión en el sistema
+     */
+    private Usuario usuarioLogueado;
+
     // Restrict the constructor from being instantiated
     private VariablesGlobales(){}
 
@@ -35,6 +42,13 @@ public class VariablesGlobales {
     }
     public void setBuscarLibroDesdeVista(String buscarLibroDesdeVista) {
         this.buscarLibroDesdeVista = buscarLibroDesdeVista;
+    }
+    public Usuario getUsuarioLogueado() {
+        return usuarioLogueado;
+    }
+
+    public void setUsuarioLogueado(Usuario usuarioLogueado) {
+        this.usuarioLogueado = usuarioLogueado;
     }
 
     public static synchronized VariablesGlobales getInstance(){
