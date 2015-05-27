@@ -11,6 +11,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import modelo.Autor;
 import modelo.Libro;
 
 /**
@@ -135,6 +136,45 @@ public class TareasGenerales {
             }
         }catch (Exception e){
             Log.e("TareasGenerales.java ", "xxx Error guardarLibro(): " + e.getMessage());
+        }
+
+        return resultado;
+    }
+
+    /**
+     * Metodo encargado de guardar un Autor en la BD
+     * @param autor Autor el cual va  a ser guardado
+     * @return resultado
+     */
+    public boolean guardarAutor(Autor autor){
+
+        final String SOAP_ACTION = conf.getUrl()+"/guardarAutor";
+        final String METHOD_NAME = "guardarAutor";
+        final String NAMESPACE = conf.getNamespace();
+        final String URL = conf.getUrl();
+        boolean resultado = false;
+
+        SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
+        request.addProperty("descripcion", autor.getDescripcion());
+        request.addProperty("tipo",autor.getTipoAutor());
+
+
+        SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+        envelope.bodyOut = request;
+
+        HttpTransportSE transporte = new HttpTransportSE(URL);
+
+        try {
+            transporte.call(SOAP_ACTION, envelope);
+            int resultadoGuardar = Integer.parseInt(envelope.getResponse().toString());
+
+            Log.i("GuardandoAutor","*********************** guardandoAutor: "+resultadoGuardar);
+            if (resultadoGuardar == 1)
+            {
+                resultado = true;
+            }
+        }catch (Exception e){
+            Log.e("TareasGenerales.java ", "xxx Error guardarAutor(): " + e.getMessage());
         }
 
         return resultado;
