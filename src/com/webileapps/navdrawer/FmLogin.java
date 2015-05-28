@@ -101,10 +101,10 @@ public class FmLogin extends Activity {
                     {
                         usuario = new Usuario();
                         usuario.setIdUsuario(Integer.parseInt(user.getProperty("ID_USUARIO").toString()));
-                        usuario.setCedula(Long.parseLong(user.getProperty("CEDULA").toString()));
+                        usuario.setCedula(Integer.parseInt(user.getProperty("CEDULA").toString()));
                         usuario.setNombre(user.getProperty("NOMBRE").toString());
                         usuario.setApellido(user.getProperty("APELLIDO").toString());
-                        usuario.setTelefono(Long.parseLong(user.getProperty("TELEFONO").toString()));
+                        usuario.setTelefono(Integer.parseInt(user.getProperty("TELEFONO").toString()));
                         usuario.setDireccion(user.getProperty("DIRECCION").toString());
                         usuario.setEmail(user.getProperty("EMAIL").toString());
                         usuario.setCodigo(user.getProperty("CODIGO").toString());

@@ -9,10 +9,10 @@ import java.io.Serializable;
 public class Usuario implements Serializable {
 
     private int idUsuario;
-    private Long cedula;
+    private int cedula;
     private String nombre;
     private String apellido;
-    private Long telefono;
+    private int telefono;
     private String direccion;
     private String email;
     private String codigo;
@@ -21,10 +21,10 @@ public class Usuario implements Serializable {
 
     public Usuario() {
         this.idUsuario = 0;
-        this.cedula = null;
+        this.cedula = 0;
         this.nombre = "";
         this.apellido = "";
-        this.telefono = null;
+        this.telefono = 0;
         this.direccion = "";
         this.email = "";
         this.codigo = "";
@@ -32,7 +32,7 @@ public class Usuario implements Serializable {
         this.rol = null;
     }
 
-    public Usuario(int idUsuario, Long cedula, String nombre, String apellido, Long telefono, String direccion, String email, String codigo, String clave, String rol) {
+    public Usuario(int idUsuario, int cedula, String nombre, String apellido, int telefono, String direccion, String email, String codigo, String clave, String rol) {
         this.idUsuario = idUsuario;
         this.cedula = cedula;
         this.nombre = nombre;
@@ -53,11 +53,11 @@ public class Usuario implements Serializable {
         this.idUsuario = idUsuario;
     }
 
-    public Long getCedula() {
+    public int getCedula() {
         return cedula;
     }
 
-    public void setCedula(Long cedula) {
+    public void setCedula(int cedula) {
         this.cedula = cedula;
     }
 
@@ -77,11 +77,11 @@ public class Usuario implements Serializable {
         this.apellido = apellido;
     }
 
-    public Long getTelefono() {
+    public int getTelefono() {
         return telefono;
     }
 
-    public void setTelefono(Long telefono) {
+    public void setTelefono(int telefono) {
         this.telefono = telefono;
     }
 

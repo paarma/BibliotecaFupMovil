@@ -14,6 +14,7 @@ import java.util.List;
 import modelo.Autor;
 import modelo.Editorial;
 import modelo.Libro;
+import modelo.Usuario;
 
 /**
  * Created by pablo on 22/05/15.
@@ -200,6 +201,7 @@ public class TareasGenerales {
 
 
 
+
         SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
         envelope.bodyOut = request;
 
@@ -221,5 +223,51 @@ public class TareasGenerales {
         return resultado;
     }
 
+    /**
+     * Metodo encargado de guardar un usuario  en la BD para acceder a la App
+     * @param usuario Usuario el cual va  a ser guardado
+     * @return resultado
+     */
+    public boolean guardarUsuario(Usuario usuario){
+
+        final String SOAP_ACTION = conf.getUrl()+"/guardarUsuario";
+        final String METHOD_NAME = "guardarUsuario";
+        final String NAMESPACE = conf.getNamespace();
+        final String URL = conf.getUrl();
+        boolean resultado = false;
+
+        SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
+        request.addProperty("cedula", usuario.getCedula());
+        request.addProperty("nombre", usuario.getNombre());
+        request.addProperty("apellido", usuario.getApellido());
+        request.addProperty("telefono", usuario.getTelefono());
+        request.addProperty("direccion", usuario.getDireccion());
+        request.addProperty("email", usuario.getEmail());
+        request.addProperty("codigo", usuario.getCodigo());
+        request.addProperty("clave", usuario.getClave());
+
+        request.addProperty("rol",usuario.getRol());
+
+
+        SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+        envelope.bodyOut = request;
+
+        HttpTransportSE transporte = new HttpTransportSE(URL);
+
+        try {
+            transporte.call(SOAP_ACTION, envelope);
+            int resultadoGuardar = Integer.parseInt(envelope.getResponse().toString());
+
+            Log.i("GuardandoUsuario","*********************** guardandoUsuario: "+resultadoGuardar);
+            if (resultadoGuardar == 1)
+            {
+                resultado = true;
+            }
+        }catch (Exception e){
+            Log.e("TareasGenerales.java ", "xxx Error guardarUsuario(): " + e.getMessage());
+        }
+
+        return resultado;
+    }
 
 }
