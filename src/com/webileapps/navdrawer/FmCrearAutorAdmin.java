@@ -35,7 +35,7 @@ public class FmCrearAutorAdmin extends SherlockFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Get the view from fm_crear_libro_adminro_admin.xml
+        // Get the view from fm_crear_Autor_admin.xml
         View view = inflater.inflate(R.layout.fm_crear_autor_admin, container, false);
 
         descripcion = (EditText) view.findViewById(R.id.editTextAutor);

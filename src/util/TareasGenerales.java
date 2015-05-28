@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import modelo.Autor;
+import modelo.Editorial;
 import modelo.Libro;
 
 /**
@@ -179,4 +180,46 @@ public class TareasGenerales {
 
         return resultado;
     }
+
+
+    /**
+     * Metodo encargado de guardar una editorial en la BD
+     * @param editorial Editorial el cual va  a ser guardado
+     * @return resultado
+     */
+    public boolean guardarEditorial(Editorial editorial){
+
+        final String SOAP_ACTION = conf.getUrl()+"/guardarEditorial";
+        final String METHOD_NAME = "guardarEditorial";
+        final String NAMESPACE = conf.getNamespace();
+        final String URL = conf.getUrl();
+        boolean resultado = false;
+
+        SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
+        request.addProperty("descripcion", editorial.getDescripcion());
+
+
+
+        SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+        envelope.bodyOut = request;
+
+        HttpTransportSE transporte = new HttpTransportSE(URL);
+
+        try {
+            transporte.call(SOAP_ACTION, envelope);
+            int resultadoGuardar = Integer.parseInt(envelope.getResponse().toString());
+
+            Log.i("GuardandoEditorial","*********************** guardandoEditorial: "+resultadoGuardar);
+            if (resultadoGuardar == 1)
+            {
+                resultado = true;
+            }
+        }catch (Exception e){
+            Log.e("TareasGenerales.java ", "xxx Error guardarEditorial(): " + e.getMessage());
+        }
+
+        return resultado;
+    }
+
+
 }

@@ -36,7 +36,8 @@
                 android:id="@+id/textViewEditorial"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="Editorial:" />
+                android:text="Editorial:"
+                android:layout_marginTop="50dp" />
 
             <EditText
                 android:id="@+id/editTextEditorial"
@@ -44,7 +45,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/textViewEditorial"
 
-                android:singleLine="true" >
+                android:singleLine="true"
+                android:layout_marginTop="15dp">
             </EditText>
 
 
