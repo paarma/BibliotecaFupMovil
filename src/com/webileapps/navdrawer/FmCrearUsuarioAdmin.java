@@ -119,7 +119,7 @@ public class FmCrearUsuarioAdmin extends SherlockFragment {
                 }
 
                 if (spRol.getSelectedItem().toString().equals("Usuario")) {
-                    user.setRol("ADMIN");
+                    user.setRol("EST");
                 }
 
 
