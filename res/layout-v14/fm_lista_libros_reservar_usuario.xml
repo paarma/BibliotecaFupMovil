@@ -54,30 +54,29 @@
         </GridLayout>
 
         <!-- Boton dos -->
-        <!-- <GridLayout
+        <GridLayout
             android:layout_height="match_parent"
             android:columnCount="2"
             android:rowCount="1"
             android:clickable="true">
 
             <ImageButton
-                android:id="@+id/btnAdjuntarUser"
+                android:id="@+id/btnReservarUser"
                 android:layout_width="64dp"
                 android:layout_height="match_parent"
-                android:src="@drawable/ic_attach_file_white_48dp"
+                android:src="@drawable/ic_add_shopping_cart_white_48dp"
                 android:scaleType="fitCenter"
                 android:background="@android:color/transparent" />
 
             <TextView
-                android:text="@string/adjuntar"
                 android:layout_height="match_parent"
                 android:textAlignment="gravity"
                 android:textColor="@color/blanco"
                 android:gravity="center_vertical"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                android:text="Reservar" />
 
-        </GridLayout> -->
-
+        </GridLayout>
 
 
     </GridLayout>

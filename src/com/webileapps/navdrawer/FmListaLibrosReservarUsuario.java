@@ -1,7 +1,9 @@
 package com.webileapps.navdrawer;
 
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,16 +11,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragment;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import modelo.Libro;
+import modelo.Solicitud;
 import util.TareasGenerales;
+import util.Utilidades;
 import util.VariablesGlobales;
 
 public class FmListaLibrosReservarUsuario extends SherlockFragment {
@@ -30,7 +38,11 @@ public class FmListaLibrosReservarUsuario extends SherlockFragment {
 
     private List<Libro> listaLibros = new ArrayList<Libro>();
     private Libro libroSeleccionado, libroBuscar;
+    private Solicitud solicitud;
 
+    //Datepiker fecha reserva
+    DatePicker dpFechaReserva;
+    ImageButton btnReservar;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -39,8 +51,33 @@ public class FmListaLibrosReservarUsuario extends SherlockFragment {
 		// Get the view from fm_crear_libro_adminro_admin.xml
 		View view = inflater.inflate(R.layout.fm_lista_libros_reservar_usuario, container, false);
 
+        btnReservar = (ImageButton) view.findViewById(R.id.btnReservarUser);
+
         inicializarComponentes(view);
         inicializarListaLibros();
+
+        btnReservar.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Log.i("Reservar", ">>>>>>>>>>>>fecha reserva: " +
+                        Utilidades.formatoFechaYYYYMMDD.format(Utilidades.getDateFromDatePicker(dpFechaReserva)));
+                Log.i("Reservas", ">>>>>>>>>>>>>>> Fecha devolucion: "+
+                        Utilidades.sumarRestarDiasAFecha(
+                                Utilidades.getDateFromDatePicker(dpFechaReserva), 2));
+
+
+                solicitud = new Solicitud();
+                solicitud.setFechaSolicitud(new Date());
+                solicitud.setFechaReserva(Utilidades.getDateFromDatePicker(dpFechaReserva));
+                solicitud.setFechaDevolucion(Utilidades.sumarRestarDiasAFecha(solicitud.getFechaReserva(), 2));
+                solicitud.setIdUsuario(variablesGlobales.getUsuarioLogueado().getIdUsuario());
+                solicitud.setIdLibro(libroSeleccionado.getIdLibro());
+                solicitud.setEstado(Utilidades.estadoEnProceso);
+
+                TareaWsReservar tareaReservar = new TareaWsReservar();
+                tareaReservar.execute();
+            }
+        });
 
         return view;
 	}
@@ -74,6 +111,7 @@ public class FmListaLibrosReservarUsuario extends SherlockFragment {
 
         //Evento al seleccionar un elemento de la lista
         libroListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @TargetApi(Build.VERSION_CODES.HONEYCOMB)
             @Override
             public void onItemClick(AdapterView<?> padre, View vista, int posicion, long id) {
 
@@ -90,6 +128,13 @@ public class FmListaLibrosReservarUsuario extends SherlockFragment {
                 }catch (Exception e){
                     Log.e("Error", "Error ocultando detalles del libro: " + e.getMessage());
                 }
+
+                //Se obtiene la referencia del Datepiker
+                dpFechaReserva = (DatePicker) vista.findViewById(R.id.datePickerFechaReserva);
+
+                Calendar minCalendar = Calendar.getInstance();
+                minCalendar.set(Calendar.MILLISECOND, minCalendar.MILLISECOND - 1000);
+                dpFechaReserva.setMinDate(minCalendar.getTimeInMillis() - 1000);
 
                 //Se despliega el detalle del item seleccionado
                 vista.findViewById(R.id.contenedorDetalleLibroReservar).setVisibility(View.VISIBLE);
@@ -133,6 +178,37 @@ public class FmListaLibrosReservarUsuario extends SherlockFragment {
             }else{
                 String msn = "Error listando libros";
                 Toast.makeText(null, msn, Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+    /**
+     * Tarea encargada de reservar un libro
+     */
+    private class TareaWsReservar extends AsyncTask<String,Integer,Boolean> {
+
+        boolean resultadoTarea = true;
+
+        @SuppressLint("LongLogTag")
+        @Override
+        protected Boolean doInBackground(String... params) {
+
+            try {
+                TareasGenerales tareasGenerales = new TareasGenerales();
+                resultadoTarea = tareasGenerales.reservar(solicitud);
+            }catch (Exception e){
+                resultadoTarea = false;
+                Log.d("ReservarUsuario ", "xxx Error TareaWsReservar: " + e.getMessage());
+            }
+            return resultadoTarea;
+        }
+
+        public void onPostExecute(Boolean result){
+
+            if(result){
+                Toast.makeText(getActivity(), "Reserva exitosa", Toast.LENGTH_LONG).show();
+            }else{
+                Toast.makeText(getActivity(), "Error reservando libro", Toast.LENGTH_LONG).show();
             }
         }
     }

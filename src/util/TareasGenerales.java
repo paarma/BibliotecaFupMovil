@@ -14,6 +14,7 @@ import java.util.List;
 import modelo.Autor;
 import modelo.Editorial;
 import modelo.Libro;
+import modelo.Solicitud;
 import modelo.Usuario;
 
 /**
@@ -265,6 +266,52 @@ public class TareasGenerales {
             }
         }catch (Exception e){
             Log.e("TareasGenerales.java ", "xxx Error guardarUsuario(): " + e.getMessage());
+        }
+
+        return resultado;
+    }
+
+    /**
+     * Metodo encargado de reservar un libro
+     * @param solicitud
+     * @return
+     */
+    public boolean reservar(Solicitud solicitud){
+
+        final String SOAP_ACTION = conf.getUrl()+"/reservar";
+        final String METHOD_NAME = "reservar";
+        final String NAMESPACE = conf.getNamespace();
+        final String URL = conf.getUrl();
+        boolean resultado = false;
+
+        SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
+        request.addProperty("fechaSolicitud", Utilidades.formatoFechaYYYYMMDD.format(solicitud.getFechaSolicitud()));
+        request.addProperty("fechaReserva", Utilidades.formatoFechaYYYYMMDD.format(solicitud.getFechaReserva()));
+
+        //Dos dias más a partir de la fecha de reserva.
+        request.addProperty("fechaDevolucion",
+                Utilidades.formatoFechaYYYYMMDD.format(Utilidades.sumarRestarDiasAFecha(solicitud.getFechaReserva(), 2)));
+
+        request.addProperty("idUsuario", solicitud.getIdUsuario());
+        request.addProperty("idLibro", solicitud.getIdLibro());
+        request.addProperty("estado", solicitud.getEstado());
+
+        SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+        envelope.bodyOut = request;
+
+        HttpTransportSE transporte = new HttpTransportSE(URL);
+
+        try {
+            transporte.call(SOAP_ACTION, envelope);
+            int resultadoReserva = Integer.parseInt(envelope.getResponse().toString());
+
+            Log.i("Reservando","*********************** resultadoReserva: "+resultadoReserva);
+            if (resultadoReserva == 1)
+            {
+                resultado = true;
+            }
+        }catch (Exception e){
+            Log.e("TareasGenerales.java ", "xxx Error reservar(): " + e.getMessage());
         }
 
         return resultado;
