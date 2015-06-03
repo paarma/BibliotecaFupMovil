@@ -43,7 +43,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/textViewCedula"
-
+                    android:inputType="number"
                     android:singleLine="true" >
                 </EditText>
 
@@ -94,6 +94,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/textViewTelefono"
+                    android:inputType="number"
                     />
 
                 <!-- EditText numero de paginas del libro-->
@@ -110,7 +111,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/textViewDireccion"
-                    android:inputType="number" />
+                   />
 
                 <!-- EditText para el estado del libro-->
 
@@ -142,7 +143,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/textViewCodigo"
-                    android:inputType="numberDecimal" />
+                    android:inputType="number" />
 
 
                 <!-- EditText para el tipo de adquisicion del libro -->
