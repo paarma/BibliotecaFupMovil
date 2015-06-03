@@ -121,12 +121,22 @@
                 android:layout_below="@+id/editTextPaginas"
                 android:text="Estado:" />
 
-            <EditText
-                android:id="@+id/editTextEstado"
-                android:layout_width="match_parent"
+
+            <Spinner
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:id="@+id/spinnerEstado"
                 android:layout_below="@+id/textViewEstado"
-                 />
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="12dp"
+
+                android:dropDownSelector="@color/list_divider"
+
+                android:background="@color/list_divider" />
+
+
+
+
 
             <!-- EditText para el valor del libro -->
 
@@ -134,7 +144,7 @@
                 android:id="@+id/textViewValor"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/editTextEstado"
+                android:layout_below="@+id/spinnerEstado"
                 android:text="Valor:" />
 
             <EditText
@@ -178,6 +188,124 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/textViewRadicado"
                 android:inputType="number" />
+
+            <!-- EditText para el radicado del libro -->
+
+            <TextView
+                android:id="@+id/textViewSerie"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/editTextRadicado"
+                android:text="Serie:" />
+
+            <EditText
+                android:id="@+id/editTextSerie"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textViewSerie"
+                android:inputType="number" />
+
+            <!-- EditText para el radicado del libro -->
+
+            <TextView
+                android:id="@+id/textViewAnio"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/editTextSerie"
+                android:text="Año:" />
+
+            <EditText
+                android:id="@+id/editTextAnio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textViewAnio"
+                android:inputType="number" />
+
+
+            <!-- EditText para el estado del libro-->
+
+            <TextView
+                android:id="@+id/textViewEditorial"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/editTextAnio"
+                android:text="Editorial:" />
+
+
+            <Spinner
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/spinnerEditorial"
+                android:layout_below="@+id/textViewEditorial"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="12dp"
+                android:dropDownSelector="@color/list_divider"
+
+                android:background="@color/list_divider" />
+
+            <!-- EditText para el estado del libro-->
+
+            <TextView
+                android:id="@+id/textViewArea"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/spinnerEditorial"
+                android:text="Área:" />
+
+
+            <Spinner
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/spinnerArea"
+                android:layout_below="@+id/textViewArea"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="12dp"
+                android:dropDownSelector="@color/list_divider"
+
+                android:background="@color/list_divider" />
+
+            <!-- EditText para el estado del libro-->
+
+            <TextView
+                android:id="@+id/textViewSede"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/spinnerArea"
+                android:text="Sede:" />
+
+
+            <Spinner
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/spinnerSede"
+                android:layout_below="@+id/textViewSede"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="12dp"
+                android:dropDownSelector="@color/list_divider"
+
+                android:background="@color/list_divider" />
+
+
+            <!-- EditText para el estado del libro-->
+
+            <TextView
+                android:id="@+id/textViewCiudad"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/spinnerSede"
+                android:text="Ciudad:" />
+
+
+            <Spinner
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/spinnerCiudad"
+                android:layout_below="@+id/textViewCiudad"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="12dp"
+                android:dropDownSelector="@color/list_divider"
+
+                android:background="@color/list_divider" />
 
 
 
