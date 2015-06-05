@@ -332,7 +332,7 @@ public class MainActivity extends SherlockFragmentActivity {
 
     /**
      * Funcion encargada de buscar libros y direccionar a la pagina que invoco la busqueda
-     * ya sea por Reservar o MisLibros del rol Estudiante
+     * ya sea por Reservar o MisLibros del rol Usuario
      * @param view
      */
     public void buscarLibroUser(View view){
@@ -348,6 +348,9 @@ public class MainActivity extends SherlockFragmentActivity {
             //En caso contrario se envia a la vista de Reservar
             variablesGlobales.setOpcionMenu(0); //Reservar
         }
+
+        //Se capturan los parametros para la busqueda del libro
+        FmBuscarLibroUsuario.capturarObjetoBusqueda();
 
         ft.replace(R.id.content_frame, fmlibrosUsuario);
         ft.commit();

@@ -1,5 +1,6 @@
 package util;
 
+import modelo.Libro;
 import modelo.Usuario;
 
 /**
@@ -27,6 +28,11 @@ public class VariablesGlobales {
      */
     private Usuario usuarioLogueado;
 
+    /**
+     * Variable que contiene un libro con los parametros cargados para busqueda
+     */
+    private Libro libroBuscar;
+
     // Restrict the constructor from being instantiated
     private VariablesGlobales(){}
 
@@ -49,6 +55,14 @@ public class VariablesGlobales {
 
     public void setUsuarioLogueado(Usuario usuarioLogueado) {
         this.usuarioLogueado = usuarioLogueado;
+    }
+
+    public Libro getLibroBuscar() {
+        return libroBuscar;
+    }
+
+    public void setLibroBuscar(Libro libroBuscar) {
+        this.libroBuscar = libroBuscar;
     }
 
     public static synchronized VariablesGlobales getInstance(){

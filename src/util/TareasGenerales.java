@@ -48,6 +48,9 @@ public class TareasGenerales {
         SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
         request.addProperty("titulo",libroBuscar.getTitulo());
         request.addProperty("isbn",libroBuscar.getIsbn());
+        request.addProperty("codTopografico",libroBuscar.getCodigoTopografico());
+        request.addProperty("temas",libroBuscar.getTemas());
+        request.addProperty("editorial",libroBuscar.getIdEditorial());
 
         SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
         envelope.bodyOut = request;

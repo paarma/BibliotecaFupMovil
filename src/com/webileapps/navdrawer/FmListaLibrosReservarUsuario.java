@@ -1,3 +1,4 @@
+
 package com.webileapps.navdrawer;
 
 import android.annotation.SuppressLint;
@@ -19,7 +20,6 @@ import android.widget.Toast;
 import com.actionbarsherlock.app.SherlockFragment;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -37,19 +37,19 @@ public class FmListaLibrosReservarUsuario extends SherlockFragment {
     private ListView libroListView;
 
     private List<Libro> listaLibros = new ArrayList<Libro>();
-    private Libro libroSeleccionado, libroBuscar;
+    private Libro libroSeleccionado;
     private Solicitud solicitud;
 
     //Datepiker fecha reserva
     DatePicker dpFechaReserva;
     ImageButton btnReservar;
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
 
-		// Get the view from fm_crear_libro_adminro_admin.xml
-		View view = inflater.inflate(R.layout.fm_lista_libros_reservar_usuario, container, false);
+        // Get the view from fm_crear_libro_adminro_admin.xml
+        View view = inflater.inflate(R.layout.fm_lista_libros_reservar_usuario, container, false);
 
         btnReservar = (ImageButton) view.findViewById(R.id.btnReservarUser);
 
@@ -80,7 +80,7 @@ public class FmListaLibrosReservarUsuario extends SherlockFragment {
         });
 
         return view;
-	}
+    }
 
     /**
      * Se inicializan los componentes visuales
@@ -89,13 +89,14 @@ public class FmListaLibrosReservarUsuario extends SherlockFragment {
 
         libroListView = (ListView) view.findViewById(R.id.listViewReservarUsuario);
 
+
         /**
-         * Se inicializa el objeto libroBuscar si este no llega por el
-         * buscadorAvanzado de libros. Funcionalidad necesaria para
-         * fijar los parametros por defecto para la busqueda de libro
+         * Se inicializa el objeto libroBuscar
+         * Funcionalidad necesaria para fijar los parametros
+         * por defecto para la busqueda de libro
          */
-        if(libroBuscar == null){
-            libroBuscar = new Libro();
+        if(variablesGlobales.getLibroBuscar() == null){
+            variablesGlobales.setLibroBuscar(new Libro());
         }
     }
 
@@ -132,9 +133,10 @@ public class FmListaLibrosReservarUsuario extends SherlockFragment {
                 //Se obtiene la referencia del Datepiker
                 dpFechaReserva = (DatePicker) vista.findViewById(R.id.datePickerFechaReserva);
 
-                Calendar minCalendar = Calendar.getInstance();
+                //Se inhabilita seleccion de fechas pasadas en el datepicker
+/*                Calendar minCalendar = Calendar.getInstance();
                 minCalendar.set(Calendar.MILLISECOND, minCalendar.MILLISECOND - 1000);
-                dpFechaReserva.setMinDate(minCalendar.getTimeInMillis() - 1000);
+                dpFechaReserva.setMinDate(minCalendar.getTimeInMillis() - 1000);*/
 
                 //Se despliega el detalle del item seleccionado
                 vista.findViewById(R.id.contenedorDetalleLibroReservar).setVisibility(View.VISIBLE);
@@ -161,7 +163,7 @@ public class FmListaLibrosReservarUsuario extends SherlockFragment {
 
             try {
                 TareasGenerales tareasGenerales = new TareasGenerales();
-                listaLibros = tareasGenerales.buscarLibros(libroBuscar);
+                listaLibros = tareasGenerales.buscarLibros(variablesGlobales.getLibroBuscar());
                 Log.i("Reservar",">>>>>>>>>>> Tamaño lista libros buscada: "+listaLibros.size());
             }catch (Exception e){
                 resultadoTarea = false;
@@ -171,6 +173,9 @@ public class FmListaLibrosReservarUsuario extends SherlockFragment {
         }
 
         public void onPostExecute(Boolean result){
+
+            //Se inicializa el  objeto de busqueda Libro
+            variablesGlobales.setLibroBuscar(null);
 
             if(result){
                 adapterLibro = new LibroListAdapterUsuario(getActivity(), listaLibros);
