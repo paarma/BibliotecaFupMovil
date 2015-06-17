@@ -341,6 +341,7 @@ public class MainActivity extends SherlockFragmentActivity {
 
         //Para el caso del llamado desde la vista Mis Libros
         if(variablesGlobales != null &&
+                variablesGlobales.getBuscarLibroDesdeVista() != null &&
                 variablesGlobales.getBuscarLibroDesdeVista().equalsIgnoreCase("misLibros")){
             variablesGlobales.setOpcionMenu(1); //Mis Libros
 
