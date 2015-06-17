@@ -17,9 +17,14 @@ public class Utilidades {
     public static SimpleDateFormat formatoFechaYYYYMMDD = new SimpleDateFormat("yyyy-MM-dd");
 
     /**
-     * Variable String para manejar ESTADOS
+     * Variables String para manejar ESTADOS
      */
     public static String estadoEnProceso = "EN_PROCESO";
+
+    /**
+     * Variable entera para indicar el numero de dias por los que se puede prestar un libro.
+     */
+    public final static int diasTotalesPrestamo = 2;
 
     //Metodo encargado de retornar una fecha de un datepicker
     public static Date getDateFromDatePicker(DatePicker datePicker){

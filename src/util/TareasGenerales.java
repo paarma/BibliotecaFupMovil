@@ -293,7 +293,7 @@ public class TareasGenerales {
 
         //Dos dias más a partir de la fecha de reserva.
         request.addProperty("fechaDevolucion",
-                Utilidades.formatoFechaYYYYMMDD.format(Utilidades.sumarRestarDiasAFecha(solicitud.getFechaReserva(), 2)));
+                Utilidades.formatoFechaYYYYMMDD.format(solicitud.getFechaDevolucion()));
 
         request.addProperty("idUsuario", solicitud.getIdUsuario());
         request.addProperty("idLibro", solicitud.getIdLibro());

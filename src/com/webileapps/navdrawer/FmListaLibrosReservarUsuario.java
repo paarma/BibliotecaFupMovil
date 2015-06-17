@@ -63,13 +63,13 @@ public class FmListaLibrosReservarUsuario extends SherlockFragment {
                         Utilidades.formatoFechaYYYYMMDD.format(Utilidades.getDateFromDatePicker(dpFechaReserva)));
                 Log.i("Reservas", ">>>>>>>>>>>>>>> Fecha devolucion: "+
                         Utilidades.sumarRestarDiasAFecha(
-                                Utilidades.getDateFromDatePicker(dpFechaReserva), 2));
+                                Utilidades.getDateFromDatePicker(dpFechaReserva), Utilidades.diasTotalesPrestamo));
 
 
                 solicitud = new Solicitud();
                 solicitud.setFechaSolicitud(new Date());
                 solicitud.setFechaReserva(Utilidades.getDateFromDatePicker(dpFechaReserva));
-                solicitud.setFechaDevolucion(Utilidades.sumarRestarDiasAFecha(solicitud.getFechaReserva(), 2));
+                solicitud.setFechaDevolucion(Utilidades.sumarRestarDiasAFecha(solicitud.getFechaReserva(), Utilidades.diasTotalesPrestamo));
                 solicitud.setIdUsuario(variablesGlobales.getUsuarioLogueado().getIdUsuario());
                 solicitud.setIdLibro(libroSeleccionado.getIdLibro());
                 solicitud.setEstado(Utilidades.estadoEnProceso);
@@ -118,7 +118,7 @@ public class FmListaLibrosReservarUsuario extends SherlockFragment {
 
                 libroSeleccionado = listaLibros.get(posicion);
 
-                //Se ocultan todos los detalles que esten deplegados
+                //Se ocultan todos los detalles de libros que esten deplegados
                 try {
                     for(int j = 0; j<libroListView.getCount(); j++){
                         View containerAux = libroListView.getChildAt(j);
@@ -167,7 +167,7 @@ public class FmListaLibrosReservarUsuario extends SherlockFragment {
                 Log.i("Reservar",">>>>>>>>>>> Tamaño lista libros buscada: "+listaLibros.size());
             }catch (Exception e){
                 resultadoTarea = false;
-                Log.d("ReservarUsuario ", "xxx Error TareaWsListadoLibros: " + e.getMessage());
+                Log.d("ReservarUsuario ", "xxx Error TareaWsBuscarLibros: " + e.getMessage());
             }
             return resultadoTarea;
         }
@@ -182,7 +182,7 @@ public class FmListaLibrosReservarUsuario extends SherlockFragment {
                 libroListView.setAdapter(adapterLibro);
             }else{
                 String msn = "Error listando libros";
-                Toast.makeText(null, msn, Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), msn, Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -212,6 +212,19 @@ public class FmListaLibrosReservarUsuario extends SherlockFragment {
 
             if(result){
                 Toast.makeText(getActivity(), "Reserva exitosa", Toast.LENGTH_LONG).show();
+
+                //Se ocultan todos los detalles de libros que esten deplegados
+                try {
+                    for(int j = 0; j<libroListView.getCount(); j++){
+                        View containerAux = libroListView.getChildAt(j);
+                        if(containerAux != null) {
+                            libroListView.getChildAt(j).findViewById(R.id.contenedorDetalleLibroReservar).setVisibility(View.GONE);
+                        }
+                    }
+                }catch (Exception e){
+                    Log.e("Error", "Error ocultando detalles del libro: " + e.getMessage());
+                }
+
             }else{
                 Toast.makeText(getActivity(), "Error reservando libro", Toast.LENGTH_LONG).show();
             }
