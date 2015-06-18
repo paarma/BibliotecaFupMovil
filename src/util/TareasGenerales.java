@@ -295,8 +295,8 @@ public class TareasGenerales {
         request.addProperty("fechaDevolucion",
                 Utilidades.formatoFechaYYYYMMDD.format(solicitud.getFechaDevolucion()));
 
-        request.addProperty("idUsuario", solicitud.getIdUsuario());
-        request.addProperty("idLibro", solicitud.getIdLibro());
+        request.addProperty("idUsuario", solicitud.getUsuario().getIdUsuario());
+        request.addProperty("idLibro", solicitud.getLibro().getIdLibro());
         request.addProperty("estado", solicitud.getEstado());
 
         SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
@@ -318,6 +318,179 @@ public class TareasGenerales {
         }
 
         return resultado;
+    }
+
+
+    /**
+     * Metodo encargado de retornar el listado de solicitudes (reservas)
+     * @param libroBuscar objeto de la clase Libro el cual contiene los parametros
+     *                    de busqueda ya sean fijados o por defecto. En el caso
+     *                    de tenerlos por defecto (new Libro()) se listaran todas las reservas.
+     * @param idUsuarioReserva ID del usuario que reservo los libros.
+     *                         asignal el valor de 0 en caso de no filtrar por usuario.
+     * @param  estadoReserva Estado de la reserva. En caso de null, no se toma en cuenta
+     *                       este filtro.
+     * @return ListadoSolictudes
+     */
+    public List<Libro> buscarSolicitudes(Libro libroBuscar, int idUsuarioReserva, String estadoReserva){
+
+        final String SOAP_ACTION = conf.getUrl()+"/listadoReservas";
+        final String METHOD_NAME = "listadoReservas";
+        final String NAMESPACE = conf.getNamespace();
+        final String URL = conf.getUrl();
+        List<Libro> listaLibro = new ArrayList<Libro>();
+        List<Solicitud> listaSolicitudes = new ArrayList<Solicitud>();
+
+        SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
+        request.addProperty("titulo",libroBuscar.getTitulo());
+        request.addProperty("isbn",libroBuscar.getIsbn());
+        request.addProperty("codTopografico",libroBuscar.getCodigoTopografico());
+        request.addProperty("temas",libroBuscar.getTemas());
+        request.addProperty("editorial",libroBuscar.getIdEditorial());
+        request.addProperty("idUsuarioReserva",idUsuarioReserva);
+        request.addProperty("estadoReserva",estadoReserva);
+
+        SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+        envelope.bodyOut = request;
+
+        HttpTransportSE transporte = new HttpTransportSE(URL);
+
+        try {
+            transporte.call(SOAP_ACTION, envelope);
+            java.util.Vector<SoapObject> rs = (java.util.Vector<SoapObject>) envelope.getResponse();
+
+            if (rs != null)
+            {
+                for (SoapObject solicitudSoap : rs)
+                {
+                    Libro libroBd = buscarLibroPorId(Integer.parseInt(solicitudSoap.getProperty("ID_LIBRO_SOL").toString()));
+                    Usuario usuarioBd = buscarUsuarioPorId(Integer.parseInt(solicitudSoap.getProperty("ID_USUARIO_SOL").toString()));
+
+                    Solicitud sol = new Solicitud();
+                    sol.setIdSolicitud(Integer.parseInt(solicitudSoap.getProperty("ID_SOLICITUD").toString()));
+
+                    //Pendiente formatear Date
+                    //sol.setFechaSolicitud(solicitudSoap.getProperty("FECHA_SOLICITUD").toString());
+                    //sol.setFechaReserva(solicitudSoap.getProperty("FECHA_RESERVA").toString());
+                    //sol.setFechaDevolucion(solicitudSoap.getProperty("FECHA_DEVOLUCION").toString());
+                    //sol.setFechaEntrega(solicitudSoap.getProperty("FECHA_ENTREGA").toString());
+
+                    sol.setUsuario(usuarioBd);
+                    sol.setLibro(libroBd);
+                    sol.setEstado(solicitudSoap.getProperty("ESTADO_SOL").toString());
+
+                    listaLibro.add(libroBd);
+                }
+            }
+        }catch (Exception e){
+            Log.e("TareasGenerales.java ", "xxx Error buscarSolicitudes(): " + e.getMessage());
+        }
+        return listaLibro;
+    }
+
+    /**
+     * Metodo encargado de retornar un libro segun su ID
+     * @param idLibro
+     * @return Libro
+     */
+    public Libro buscarLibroPorId(int idLibro){
+
+        final String SOAP_ACTION = conf.getUrl()+"/buscarLibroPorId";
+        final String METHOD_NAME = "buscarLibroPorId";
+        final String NAMESPACE = conf.getNamespace();
+        final String URL = conf.getUrl();
+        Libro lib = null;
+
+        SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
+        request.addProperty("idLibro",idLibro);
+
+        SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+        envelope.bodyOut = request;
+
+        HttpTransportSE transporte = new HttpTransportSE(URL);
+        try {
+            transporte.call(SOAP_ACTION, envelope);
+            java.util.Vector<SoapObject> rs = (java.util.Vector<SoapObject>) envelope.getResponse();
+
+            if (rs != null)
+            {
+                for (SoapObject libroSoap : rs)
+                {
+                    lib = new Libro();
+                    lib.setIdLibro(Integer.parseInt(libroSoap.getProperty("ID_LIBRO").toString()));
+                    lib.setTitulo(libroSoap.getProperty("TITULO").toString());
+                    lib.setIsbn(libroSoap.getProperty("ISBN").toString());
+
+                    if(libroSoap.getProperty("COD_TOPOGRAFICO") != null){
+                        lib.setCodigoTopografico(libroSoap.getProperty("COD_TOPOGRAFICO").toString());
+                    }
+
+                    if(libroSoap.getProperty("TEMAS") != null){
+                        lib.setTemas(libroSoap.getProperty("TEMAS").toString());
+                    }
+                    if(libroSoap.getProperty("PAGINAS") != null) {
+                        lib.setPaginas(Integer.parseInt(libroSoap.getProperty("PAGINAS").toString()));
+                    }
+
+                    Log.i("Generales.java",">>>>>>>>>>>> buscarLibroPorId: "+lib.getIdLibro());
+                    break;
+                }
+            }
+        }catch (Exception e){
+            Log.e("Generales.java", "xxx Error buscarLibroPorId(): "+e.getMessage());
+        }
+        return lib;
+    }
+
+    /**
+     * Metodo encargado de retornar un usuario segun su ID
+     * @param idUsuario
+     * @return Usuario
+     */
+    public Usuario buscarUsuarioPorId(int idUsuario){
+
+        final String SOAP_ACTION = conf.getUrl()+"/buscarUsuarioPorId";
+        final String METHOD_NAME = "buscarUsuarioPorId";
+        final String NAMESPACE = conf.getNamespace();
+        final String URL = conf.getUrl();
+        Usuario usuario = null;
+
+        SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
+        request.addProperty("idUsuario",idUsuario);
+
+        SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+        envelope.bodyOut = request;
+
+        HttpTransportSE transporte = new HttpTransportSE(URL);
+        try {
+            transporte.call(SOAP_ACTION, envelope);
+            java.util.Vector<SoapObject> rs = (java.util.Vector<SoapObject>) envelope.getResponse();
+
+            if (rs != null)
+            {
+                for (SoapObject user : rs)
+                {
+                    usuario = new Usuario();
+                    usuario.setIdUsuario(Integer.parseInt(user.getProperty("ID_USUARIO").toString()));
+                    usuario.setCedula(Integer.parseInt(user.getProperty("CEDULA").toString()));
+                    usuario.setNombre(user.getProperty("NOMBRE").toString());
+                    usuario.setApellido(user.getProperty("APELLIDO").toString());
+                    usuario.setTelefono(Integer.parseInt(user.getProperty("TELEFONO").toString()));
+                    usuario.setDireccion(user.getProperty("DIRECCION").toString());
+                    usuario.setEmail(user.getProperty("EMAIL").toString());
+                    usuario.setCodigo(user.getProperty("CODIGO").toString());
+                    usuario.setClave(user.getProperty("CLAVE").toString());
+                    usuario.setRol(user.getProperty("ROL").toString());
+
+                    Log.i("Generales.java",">>>>>>>>>>>> buscarUsuarioPorId: "+usuario.getIdUsuario());
+                    break;
+                }
+            }
+        }catch (Exception e){
+            Log.d("Generales.java ", "xxx Error buscarUsuarioPorId(): "+e.getMessage());
+        }
+        return usuario;
+
     }
 
 }

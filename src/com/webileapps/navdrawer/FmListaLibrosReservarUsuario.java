@@ -70,8 +70,8 @@ public class FmListaLibrosReservarUsuario extends SherlockFragment {
                 solicitud.setFechaSolicitud(new Date());
                 solicitud.setFechaReserva(Utilidades.getDateFromDatePicker(dpFechaReserva));
                 solicitud.setFechaDevolucion(Utilidades.sumarRestarDiasAFecha(solicitud.getFechaReserva(), Utilidades.diasTotalesPrestamo));
-                solicitud.setIdUsuario(variablesGlobales.getUsuarioLogueado().getIdUsuario());
-                solicitud.setIdLibro(libroSeleccionado.getIdLibro());
+                solicitud.setUsuario(variablesGlobales.getUsuarioLogueado());
+                solicitud.setLibro(libroSeleccionado);
                 solicitud.setEstado(Utilidades.estadoEnProceso);
 
                 TareaWsReservar tareaReservar = new TareaWsReservar();

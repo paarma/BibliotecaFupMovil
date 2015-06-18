@@ -16,8 +16,8 @@ public class Solicitud implements Serializable {
     // Dos dias mas apartir de la fecha de reserva.
     private Date fechaDevolucion;
     private Date fechaEntrega; // Fecha  en la cual el usuario entregó el libro.
-    private int idUsuario; // Usuario al cual se le presta el libro.
-    private int idLibro;
+    private Usuario usuario; // Usuario al cual se le presta el libro.
+    private Libro libro;
     private String estado;
 
 
@@ -27,21 +27,21 @@ public class Solicitud implements Serializable {
         this.fechaReserva = null;
         this.fechaDevolucion = null;
         this.fechaEntrega = null;
-        this.idUsuario = 0;
-        this.idLibro = 0;
+        this.usuario = null;
+        this.libro = null;
         this.estado = "";
     }
 
     public Solicitud(int idSolicitud, Date fechaSolicitud, Date fechaReserva,
-                     Date fechaDevolucion, Date fechaEntrega, int idUsuario,
-                     int idLibro, String estado) {
+                     Date fechaDevolucion, Date fechaEntrega, Usuario usuario,
+                     Libro libro, String estado) {
         this.idSolicitud = idSolicitud;
         this.fechaSolicitud = fechaSolicitud;
         this.fechaReserva = fechaReserva;
         this.fechaDevolucion = fechaDevolucion;
         this.fechaEntrega = fechaEntrega;
-        this.idUsuario = idUsuario;
-        this.idLibro = idLibro;
+        this.usuario = usuario;
+        this.libro = libro;
         this.estado = estado;
     }
 
@@ -87,20 +87,20 @@ public class Solicitud implements Serializable {
         this.fechaEntrega = fechaEntrega;
     }
 
-    public int getIdUsuario() {
-        return idUsuario;
+    public Usuario getUsuario() {
+        return usuario;
     }
 
-    public void setIdUsuario(int idUsuario) {
-        this.idUsuario = idUsuario;
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
-    public int getIdLibro() {
-        return idLibro;
+    public Libro getLibro() {
+        return libro;
     }
 
-    public void setIdLibro(int idLibro) {
-        this.idLibro = idLibro;
+    public void setLibro(Libro libro) {
+        this.libro = libro;
     }
 
     public String getEstado(){

@@ -118,10 +118,14 @@ public class FmMisLibrosUsuario extends SherlockFragment {
         @Override
         protected Boolean doInBackground(String... params) {
 
+            //Filtrar por estado de la reserva.
+            String estadoReserva = "";
+
             try {
                 TareasGenerales tareasGenerales = new TareasGenerales();
-                listaLibros = tareasGenerales.buscarLibros(variablesGlobales.getLibroBuscar());
-                Log.i("MisLibros",">>>>>>>>>>> Tamaño lista libros buscada: "+listaLibros.size());
+                listaLibros = tareasGenerales.buscarSolicitudes(variablesGlobales.getLibroBuscar(),
+                        variablesGlobales.getUsuarioLogueado().getIdUsuario(), estadoReserva);
+                Log.i("MisLibros",">>>>>>>>>>> Tamaño lista Mislibros buscada: "+listaLibros.size());
             }catch (Exception e){
                 resultadoTarea = false;
                 Log.d("MisLibros ", "xxx Error TareaWsBuscarMisLibros: " + e.getMessage());
