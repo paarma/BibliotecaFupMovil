@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:id="@+id/imgReservaUsuario"
+        android:src="@drawable/ic_book_white_48dp"/>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Titulo"
+                android:id="@+id/tbxTitulo"
+            android:textStyle="italic"
+            android:textSize="15dp"/>
+
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Isbn"
+                android:id="@+id/tbxIsbn"
+            android:textIsSelectable="false"
+            android:textSize="10dp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- Panel oculto-->
+    <LinearLayout
+        android:id="@+id/contenedorDetalleLibroMisLibros"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:visibility="gone"
+        android:weightSum="1">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!-- EditText para codigo topografico -->
+            <TextView
+                android:id="@+id/textViewCodTopo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/editTextPasswordInput"
+                android:text="Cod. Topografico:" />
+
+            <EditText
+                android:id="@+id/editTextCodTopo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textViewCodTopo"
+                android:enabled="false"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!-- EditText para temas del libro-->
+            <TextView
+                android:id="@+id/textViewTemas"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/editTextCodTopo"
+                android:text="Temas:" />
+
+            <EditText
+                android:id="@+id/editTextTemas"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textViewTemas"
+                android:enabled="false"
+                />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!-- EditText numero de paginas del libro-->
+            <TextView
+                android:id="@+id/textViewPaginas"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/editTextTemas"
+                android:text="Paginas:" />
+
+            <EditText
+                android:id="@+id/editTextPaginas"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textViewPaginas"
+                android:inputType="number"
+                android:enabled="false"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Mis Librosssssss"
+                android:id="@+id/textView3"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp" />
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+    <!-- Fin panel oculto -->
+
+</LinearLayout>

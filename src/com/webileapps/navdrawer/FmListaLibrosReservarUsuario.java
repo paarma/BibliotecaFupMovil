@@ -175,14 +175,17 @@ public class FmListaLibrosReservarUsuario extends SherlockFragment {
         public void onPostExecute(Boolean result){
 
             //Se inicializa el  objeto de busqueda Libro
-            variablesGlobales.setLibroBuscar(null);
+            variablesGlobales.setLibroBuscar(new Libro());
 
             if(result){
                 adapterLibro = new LibroListAdapterUsuario(getActivity(), listaLibros);
                 libroListView.setAdapter(adapterLibro);
             }else{
-                String msn = "Error listando libros";
-                Toast.makeText(getActivity(), msn, Toast.LENGTH_LONG).show();
+                //Se despliega mensaje de error si esta en la pantalla de "reservar"
+                if(variablesGlobales.getOpcionMenu() == 0) {
+                    String msn = "Error listando libros";
+                    Toast.makeText(getActivity(), msn, Toast.LENGTH_LONG).show();
+                }
             }
         }
     }
