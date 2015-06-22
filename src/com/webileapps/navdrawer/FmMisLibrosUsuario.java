@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -37,6 +38,8 @@ public class FmMisLibrosUsuario extends SherlockFragment {
     private List<Solicitud> listaSolicitud = new ArrayList<Solicitud>();
     private Libro libroSeleccionado;
 
+    ImageButton btnRefrescar;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -45,6 +48,25 @@ public class FmMisLibrosUsuario extends SherlockFragment {
 
         inicializarComponentes(view);
         inicializarListaLibros();
+
+        btnRefrescar = (ImageButton) view.findViewById(R.id.btnRefrescarMisLibros);
+
+        btnRefrescar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                /**
+                 * Se inicializa el objeto libroBuscar
+                 * Funcionalidad necesaria para fijar los parametros
+                 * por defecto para la busqueda de libro
+                 */
+                if(variablesGlobales.getLibroBuscar() == null){
+                    variablesGlobales.setLibroBuscar(new Libro());
+                }
+
+                inicializarListaLibros();
+            }
+        });
 
         return view;
     }
