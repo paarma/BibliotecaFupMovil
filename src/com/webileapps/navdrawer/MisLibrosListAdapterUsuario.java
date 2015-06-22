@@ -10,6 +10,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import modelo.Solicitud;
+import util.Utilidades;
 
 /**
  * Created by pablo on 22/05/15.
@@ -52,6 +53,17 @@ public class MisLibrosListAdapterUsuario extends ArrayAdapter<Solicitud> {
 
         editText = (EditText) view.findViewById(R.id.editTextPaginas);
         editText.setText(String.valueOf(solicutudActual.getLibro().getPaginas()));
+
+        //Detalles de la reserva (campos ocultos)
+        editText = (EditText) view.findViewById(R.id.editTextFechaReserva);
+        editText.setText(Utilidades.formatoFechaYYYYMMDD.format(solicutudActual.getFechaReserva()));
+
+        editText = (EditText) view.findViewById(R.id.editTextFechaDevolucion);
+        editText.setText(Utilidades.formatoFechaYYYYMMDD.format(solicutudActual.getFechaDevolucion()));
+
+        editText = (EditText) view.findViewById(R.id.editTextEstadoReserva);
+        //editText.setText(Utilidades.estadoSolicitudReservaUsuario(solicutudActual.getEstado()));
+        editText.setText(solicutudActual.getEstado());
 
     }
 }

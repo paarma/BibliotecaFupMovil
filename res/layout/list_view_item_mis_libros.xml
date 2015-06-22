@@ -120,22 +120,69 @@
 
         </LinearLayout>
 
-        <LinearLayout
-            android:orientation="vertical"
+        <!-- Datos de la reserva-->
+        <LinearLayout android:layout_marginTop="15dp"
+            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Mis Librosssssss"
-                android:id="@+id/textView3"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="20dp" />
+                android:text="Fecha Reserva:"
+                android:id="@+id/textViewFechaReserva" />
 
+            <EditText
+                android:id="@+id/editTextFechaReserva"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textViewFechaReserva"
+                android:enabled="false"/>
 
         </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Fecha Devolución:"
+                android:id="@+id/textViewDevolucion" />
+
+            <EditText
+                android:id="@+id/editTextFechaDevolucion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textViewDevolucion"
+                android:enabled="false"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Estado:"
+                android:id="@+id/textViewEstadoReserva" />
+
+            <EditText
+                android:id="@+id/editTextEstadoReserva"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textViewEstadoReserva"
+                android:enabled="false"/>
+
+        </LinearLayout>
+
+        <!-- Fin datos de la reserva-->
+
 
     </LinearLayout>
     <!-- Fin panel oculto -->
