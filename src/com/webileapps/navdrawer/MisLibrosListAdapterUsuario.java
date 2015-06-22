@@ -9,17 +9,17 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import modelo.Libro;
+import modelo.Solicitud;
 
 /**
  * Created by pablo on 22/05/15.
  */
-public class MisLibrosListAdapterUsuario extends ArrayAdapter<Libro> {
+public class MisLibrosListAdapterUsuario extends ArrayAdapter<Solicitud> {
 
     private Activity ctx;
 
-    public MisLibrosListAdapterUsuario(Activity context, List<Libro> libros) {
-        super(context, R.layout.list_view_item_mis_libros,libros);
+    public MisLibrosListAdapterUsuario(Activity context, List<Solicitud> listaSolicitud) {
+        super(context, R.layout.list_view_item_mis_libros,listaSolicitud);
         this.ctx = context;
     }
 
@@ -30,28 +30,28 @@ public class MisLibrosListAdapterUsuario extends ArrayAdapter<Libro> {
             view = ctx.getLayoutInflater().inflate(R.layout.list_view_item_mis_libros,parent,false);
         }
 
-        Libro  libroActual = this.getItem(position);
-        inicializarCamposTexto(view, libroActual);
+        Solicitud solicutudActual = this.getItem(position);
+        inicializarCamposTexto(view, solicutudActual);
         return view;
     }
 
-    private void inicializarCamposTexto(View view, Libro libroActual) {
+    private void inicializarCamposTexto(View view, Solicitud solicutudActual) {
 
         TextView textView = (TextView) view.findViewById(R.id.tbxTitulo);
-        textView.setText(libroActual.getTitulo());
+        textView.setText(solicutudActual.getLibro().getTitulo());
 
         textView = (TextView) view.findViewById(R.id.tbxIsbn);
-        textView.setText(libroActual.getIsbn());
+        textView.setText(solicutudActual.getLibro().getIsbn());
 
         //Detalles del libro (campos ocultos)
         EditText editText = (EditText) view.findViewById(R.id.editTextCodTopo);
-        editText.setText(libroActual.getCodigoTopografico());
+        editText.setText(solicutudActual.getLibro().getCodigoTopografico());
 
         editText = (EditText) view.findViewById(R.id.editTextTemas);
-        editText.setText(libroActual.getTemas());
+        editText.setText(solicutudActual.getLibro().getTemas());
 
         editText = (EditText) view.findViewById(R.id.editTextPaginas);
-        editText.setText(String.valueOf(libroActual.getPaginas()));
+        editText.setText(String.valueOf(solicutudActual.getLibro().getPaginas()));
 
     }
 }

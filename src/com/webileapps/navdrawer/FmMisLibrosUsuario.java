@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import modelo.Libro;
+import modelo.Solicitud;
 import util.TareasGenerales;
 import util.VariablesGlobales;
 
@@ -30,10 +31,10 @@ public class FmMisLibrosUsuario extends SherlockFragment {
 
     VariablesGlobales variablesGlobales = VariablesGlobales.getInstance();
 
-    private ArrayAdapter<Libro> adapterLibro;
+    private ArrayAdapter<Solicitud> adapterSolicitud;
     private ListView libroListView;
 
-    private List<Libro> listaLibros = new ArrayList<Libro>();
+    private List<Solicitud> listaSolicitud = new ArrayList<Solicitud>();
     private Libro libroSeleccionado;
 
     @Override
@@ -81,7 +82,7 @@ public class FmMisLibrosUsuario extends SherlockFragment {
             @Override
             public void onItemClick(AdapterView<?> padre, View vista, int posicion, long id) {
 
-                libroSeleccionado = listaLibros.get(posicion);
+                libroSeleccionado = listaSolicitud.get(posicion).getLibro();
 
                 //Se ocultan todos los detalles de libros que esten deplegados
                 try {
@@ -123,9 +124,9 @@ public class FmMisLibrosUsuario extends SherlockFragment {
 
             try {
                 TareasGenerales tareasGenerales = new TareasGenerales();
-                listaLibros = tareasGenerales.buscarSolicitudes(variablesGlobales.getLibroBuscar(),
+                listaSolicitud = tareasGenerales.buscarSolicitudes(variablesGlobales.getLibroBuscar(),
                         variablesGlobales.getUsuarioLogueado().getIdUsuario(), estadoReserva);
-                Log.i("MisLibros",">>>>>>>>>>> Tamaño lista Mislibros buscada: "+listaLibros.size());
+                Log.i("MisLibros",">>>>>>>>>>> Tamaño lista Mislibros buscada: "+listaSolicitud.size());
             }catch (Exception e){
                 resultadoTarea = false;
                 Log.d("MisLibros ", "xxx Error TareaWsBuscarMisLibros: " + e.getMessage());
@@ -139,8 +140,8 @@ public class FmMisLibrosUsuario extends SherlockFragment {
             variablesGlobales.setLibroBuscar(null);
 
             if(result){
-                adapterLibro = new MisLibrosListAdapterUsuario(getActivity(), listaLibros);
-                libroListView.setAdapter(adapterLibro);
+                adapterSolicitud = new MisLibrosListAdapterUsuario(getActivity(), listaSolicitud);
+                libroListView.setAdapter(adapterSolicitud);
             }else{
                 //Se despliega mensaje de error si esta en la pantalla de "misLibros"
                 if(variablesGlobales.getOpcionMenu()==1) {

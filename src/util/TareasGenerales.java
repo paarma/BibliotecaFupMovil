@@ -9,6 +9,7 @@ import org.ksoap2.transport.HttpTransportSE;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import modelo.Autor;
@@ -332,13 +333,12 @@ public class TareasGenerales {
      *                       este filtro.
      * @return ListadoSolictudes
      */
-    public List<Libro> buscarSolicitudes(Libro libroBuscar, int idUsuarioReserva, String estadoReserva){
+    public List<Solicitud> buscarSolicitudes(Libro libroBuscar, int idUsuarioReserva, String estadoReserva){
 
         final String SOAP_ACTION = conf.getUrl()+"/listadoReservas";
         final String METHOD_NAME = "listadoReservas";
         final String NAMESPACE = conf.getNamespace();
         final String URL = conf.getUrl();
-        List<Libro> listaLibro = new ArrayList<Libro>();
         List<Solicitud> listaSolicitudes = new ArrayList<Solicitud>();
 
         SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
@@ -369,23 +369,45 @@ public class TareasGenerales {
                     Solicitud sol = new Solicitud();
                     sol.setIdSolicitud(Integer.parseInt(solicitudSoap.getProperty("ID_SOLICITUD").toString()));
 
-                    //Pendiente formatear Date
-                    //sol.setFechaSolicitud(solicitudSoap.getProperty("FECHA_SOLICITUD").toString());
-                    //sol.setFechaReserva(solicitudSoap.getProperty("FECHA_RESERVA").toString());
-                    //sol.setFechaDevolucion(solicitudSoap.getProperty("FECHA_DEVOLUCION").toString());
-                    //sol.setFechaEntrega(solicitudSoap.getProperty("FECHA_ENTREGA").toString());
-
                     sol.setUsuario(usuarioBd);
                     sol.setLibro(libroBd);
                     sol.setEstado(solicitudSoap.getProperty("ESTADO_SOL").toString());
 
-                    listaLibro.add(libroBd);
+                    //Fechas
+                    Date fechas;
+
+                    if(solicitudSoap.getProperty("FECHA_SOLICITUD") != null){
+                        fechas = Utilidades.formatoFechaYYYYMMDD.parse(solicitudSoap.getProperty("FECHA_SOLICITUD").toString());
+                        sol.setFechaSolicitud(fechas);
+                    }
+
+                    if(solicitudSoap.getProperty("FECHA_RESERVA") != null){
+                        fechas = Utilidades.formatoFechaYYYYMMDD.parse(solicitudSoap.getProperty("FECHA_RESERVA").toString());
+                        sol.setFechaReserva(fechas);
+                    }
+
+                    if(solicitudSoap.getProperty("FECHA_DEVOLUCION") != null){
+                        fechas = Utilidades.formatoFechaYYYYMMDD.parse(solicitudSoap.getProperty("FECHA_DEVOLUCION").toString());
+                        sol.setFechaDevolucion(fechas);
+                    }
+
+                    if(solicitudSoap.getProperty("FECHA_ENTREGA") != null){
+                        fechas = Utilidades.formatoFechaYYYYMMDD.parse(solicitudSoap.getProperty("FECHA_ENTREGA").toString());
+                        sol.setFechaEntrega(fechas);
+                    }
+
+                    Log.i("TareasGenerales", ">>>>>>>>>>>>>>>>>>>> fecha SOLICITUD: " + sol.getFechaSolicitud());
+                    Log.i("TareasGenerales", ">>>>>>>>>>>>>>>>>>>> fecha RESERVA: " + sol.getFechaReserva());
+                    Log.i("TareasGenerales", ">>>>>>>>>>>>>>>>>>>> fecha DEVOLUCION: " + sol.getFechaDevolucion());
+                    Log.i("TareasGenerales", ">>>>>>>>>>>>>>>>>>>> fecha ENTREGA: " + sol.getFechaEntrega());
+
+                    listaSolicitudes.add(sol);
                 }
             }
         }catch (Exception e){
             Log.e("TareasGenerales.java ", "xxx Error buscarSolicitudes(): " + e.getMessage());
         }
-        return listaLibro;
+        return listaSolicitudes;
     }
 
     /**
