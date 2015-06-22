@@ -54,21 +54,4 @@ public class Utilidades {
         return calendar.getTime();
     }
 
-    /**
-     * Metodo encargado de retornar de manera String el estado de una reserva en cada proceso.
-     * @param estado de la reserva :
-     *  - EN_PROCESO: indica que se ha realizado una solicitud de reserva.
-     *  - PRESTADO: indica que el libro ya se le ha prestado al usuario.
-     *  - FINALIZADO: indica que el libro ya ha sido regresado a la biblioteca por el usuario.
-     *  - CANCELADO: indica que se realizó una solicitud de reserva, pero el libro no fue llevado por el usuario en la fecha de reserva.
-     * @return
-     */
-/*    public static String estadoSolicitudReservaUsuario(String estado){
-        String respuestaEstado = "";
-
-        if(estado.equals(estadoEnProceso)){
-            respuestaEstado = "EN PROCESO";
-        }
-        return  respuestaEstado;
-    }*/
 }

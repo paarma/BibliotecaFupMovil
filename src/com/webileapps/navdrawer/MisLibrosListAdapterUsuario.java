@@ -62,7 +62,6 @@ public class MisLibrosListAdapterUsuario extends ArrayAdapter<Solicitud> {
         editText.setText(Utilidades.formatoFechaYYYYMMDD.format(solicutudActual.getFechaDevolucion()));
 
         editText = (EditText) view.findViewById(R.id.editTextEstadoReserva);
-        //editText.setText(Utilidades.estadoSolicitudReservaUsuario(solicutudActual.getEstado()));
         editText.setText(solicutudActual.getEstado());
 
     }
