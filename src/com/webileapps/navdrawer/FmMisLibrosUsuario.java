@@ -159,7 +159,7 @@ public class FmMisLibrosUsuario extends SherlockFragment {
         public void onPostExecute(Boolean result){
 
             //Se inicializa el  objeto de busqueda Libro
-            variablesGlobales.setLibroBuscar(null);
+            variablesGlobales.setLibroBuscar(new Libro());
 
             if(result){
                 adapterSolicitud = new MisLibrosListAdapterUsuario(getActivity(), listaSolicitud);

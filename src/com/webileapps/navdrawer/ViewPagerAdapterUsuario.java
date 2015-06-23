@@ -23,8 +23,8 @@ public class ViewPagerAdapterUsuario extends FragmentPagerAdapter {
 
             // Open FmReservar.java
             case 0:
-                FmListaLibrosReservarUsuario fmListaLibrosUsuario = new FmListaLibrosReservarUsuario();
-                return fmListaLibrosUsuario;
+                FmReservarUsuario fmReservarUsuario = new FmReservarUsuario();
+                return fmReservarUsuario;
 
             // Open FragmentTab2.java
             case 1:

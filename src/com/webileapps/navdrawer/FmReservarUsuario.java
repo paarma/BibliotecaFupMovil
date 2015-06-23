@@ -29,7 +29,7 @@ import util.TareasGenerales;
 import util.Utilidades;
 import util.VariablesGlobales;
 
-public class FmListaLibrosReservarUsuario extends SherlockFragment {
+public class FmReservarUsuario extends SherlockFragment {
 
     VariablesGlobales variablesGlobales = VariablesGlobales.getInstance();
 
