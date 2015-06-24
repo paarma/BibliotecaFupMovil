@@ -48,6 +48,8 @@ public class FmReservarUsuario extends SherlockFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        Log.i("RESERVAR","************************************** INICIO RESERVAR");
+
         // Get the view from fm_crear_libro_adminro_admin.xml
         View view = inflater.inflate(R.layout.fm_lista_libros_reservar_usuario, container, false);
 

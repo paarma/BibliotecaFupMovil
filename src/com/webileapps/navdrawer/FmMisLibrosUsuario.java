@@ -43,7 +43,9 @@ public class FmMisLibrosUsuario extends SherlockFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Get the view from fm_lista_libros_admin.xmladmin.xml
+
+        Log.i("MIS_LIBROS","************************************** INICIO MIS_LIBROS");
+
         View view = inflater.inflate(R.layout.fm_mis_libros_usuario, container, false);
 
         inicializarComponentes(view);
@@ -54,17 +56,7 @@ public class FmMisLibrosUsuario extends SherlockFragment {
         btnRefrescar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                /**
-                 * Se inicializa el objeto libroBuscar
-                 * Funcionalidad necesaria para fijar los parametros
-                 * por defecto para la busqueda de libro
-                 */
-                if(variablesGlobales.getLibroBuscar() == null){
-                    variablesGlobales.setLibroBuscar(new Libro());
-                }
-
-                inicializarListaLibros();
+                inicializar();
             }
         });
 
@@ -86,6 +78,22 @@ public class FmMisLibrosUsuario extends SherlockFragment {
         if(variablesGlobales.getLibroBuscar() == null){
             variablesGlobales.setLibroBuscar(new Libro());
         }
+    }
+
+    /**
+     * Metodoencargado de inicializar las variables del Fragment
+     */
+    public void inicializar(){
+        /**
+         * Se inicializa el objeto libroBuscar
+         * Funcionalidad necesaria para fijar los parametros
+         * por defecto para la busqueda de libro
+         */
+        if(variablesGlobales.getLibroBuscar() == null){
+            variablesGlobales.setLibroBuscar(new Libro());
+        }
+
+        inicializarListaLibros();
     }
 
     /**
@@ -174,5 +182,19 @@ public class FmMisLibrosUsuario extends SherlockFragment {
         }
     }
 
+    /////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////
+    /**
+     * Sobreescritura del metodo onResume
+     * (se agrega la funcionalidad para recargar los datos generales de la clase)
+     */
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+
+        //Funcionalidad para recergar las variables del Fragment
+        inicializar();
+    }
 
 }

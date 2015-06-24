@@ -1,6 +1,7 @@
 package com.webileapps.navdrawer;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +29,9 @@ public class FmBuscarLibroUsuario extends SherlockFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Get the view from fm_lista_libros_admin.xmladmin.xml
+
+        Log.i("BUSCAR","************************************** INICIO BUSCAR LIBRO. (USUARIO)");
+
         View view = inflater.inflate(R.layout.fm_buscar_libro_usuario, container, false);
 
         inicializarComponentes(view);
