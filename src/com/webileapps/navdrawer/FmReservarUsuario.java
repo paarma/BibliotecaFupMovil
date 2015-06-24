@@ -90,16 +90,6 @@ public class FmReservarUsuario extends SherlockFragment {
     private void inicializarComponentes(View view) {
 
         libroListView = (ListView) view.findViewById(R.id.listViewReservarUsuario);
-
-
-        /**
-         * Se inicializa el objeto libroBuscar
-         * Funcionalidad necesaria para fijar los parametros
-         * por defecto para la busqueda de libro
-         */
-        if(variablesGlobales.getLibroBuscar() == null){
-            variablesGlobales.setLibroBuscar(new Libro());
-        }
     }
 
     /**
@@ -176,9 +166,6 @@ public class FmReservarUsuario extends SherlockFragment {
 
         public void onPostExecute(Boolean result){
 
-            //Se inicializa el  objeto de busqueda Libro
-            variablesGlobales.setLibroBuscar(new Libro());
-
             if(result){
                 adapterLibro = new LibroListAdapterUsuario(getActivity(), listaLibros);
                 libroListView.setAdapter(adapterLibro);
@@ -234,5 +221,21 @@ public class FmReservarUsuario extends SherlockFragment {
                 Toast.makeText(getActivity(), "Error reservando libro", Toast.LENGTH_LONG).show();
             }
         }
+    }
+
+
+    /////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////
+    /**
+     * Sobreescritura del metodo onResume
+     * (se agrega la funcionalidad para recargar los datos generales de la clase)
+     */
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+
+        //Funcionalidad para recergar las variables del Fragment
+        inicializarListaLibros();
     }
 }

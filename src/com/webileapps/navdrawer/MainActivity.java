@@ -32,6 +32,7 @@ import android.widget.ListView;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.MenuItem;
 
+import modelo.Libro;
 import modelo.Usuario;
 import util.VariablesGlobales;
 
@@ -237,7 +238,11 @@ public class MainActivity extends SherlockFragmentActivity {
 
             //ESTUDIANTE
             if (usuarioLogueado.getRol().equalsIgnoreCase("EST")) {
+
                 fmlibrosUsuario= new FmLibrosUsuario();
+                //Se inicializa el objeto libroBuscar
+                variablesGlobales.setLibroBuscar(new Libro());
+
                 // Locate Position
                 switch (position) {
                     case 0:

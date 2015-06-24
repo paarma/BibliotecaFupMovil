@@ -31,7 +31,7 @@ public class VariablesGlobales {
     /**
      * Variable que contiene un libro con los parametros cargados para busqueda
      */
-    private Libro libroBuscar;
+    private Libro libroBuscar = new Libro();
 
     // Restrict the constructor from being instantiated
     private VariablesGlobales(){}

@@ -12,6 +12,7 @@ import com.actionbarsherlock.app.SherlockFragment;
 
 import java.lang.reflect.Field;
 
+import modelo.Libro;
 import util.VariablesGlobales;
 
 /**
@@ -48,13 +49,19 @@ public class FmLibrosUsuario extends SherlockFragment {
 
                 Fragment fragment = ((ViewPagerAdapterUsuario)mViewPager.getAdapter()).getFragment(position);
                 if(fragment != null) {
+
+                    //Se inicializa el objeto libroBuscar
+                    variablesGlobales.setLibroBuscar(new Libro());
+
                     switch (position) {
                         case 0:
                             Log.i("pagina0", ">>>>>>>>>>>>>>>>> reservar");
+                            //Se comenta temporalmente. Utilizar en caso de acutalizar el listado de librospara el usuario.
+                            //fragment.onResume(); //metodo sobreecrito onResume para recargar los datos del fragment
                             break;
                         case 1:
                             Log.i("pagina1", ">>>>>>>>>>>>>>>>> misLibros");
-                            fragment.onResume();
+                            fragment.onResume(); //metodo sobreecrito onResume para recargar los datos del fragment
                             break;
                         case 2:
                             Log.i("pagina2", ">>>>>>>>>>>>>>>>> buscar");

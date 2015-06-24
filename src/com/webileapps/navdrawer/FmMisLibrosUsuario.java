@@ -56,7 +56,7 @@ public class FmMisLibrosUsuario extends SherlockFragment {
         btnRefrescar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                inicializar();
+                inicializarListaLibros();
             }
         });
 
@@ -69,31 +69,6 @@ public class FmMisLibrosUsuario extends SherlockFragment {
     private void inicializarComponentes(View view) {
 
         libroListView = (ListView) view.findViewById(R.id.listViewMisLibrosUsuario);
-
-        /**
-         * Se inicializa el objeto libroBuscar
-         * Funcionalidad necesaria para fijar los parametros
-         * por defecto para la busqueda de libro
-         */
-        if(variablesGlobales.getLibroBuscar() == null){
-            variablesGlobales.setLibroBuscar(new Libro());
-        }
-    }
-
-    /**
-     * Metodoencargado de inicializar las variables del Fragment
-     */
-    public void inicializar(){
-        /**
-         * Se inicializa el objeto libroBuscar
-         * Funcionalidad necesaria para fijar los parametros
-         * por defecto para la busqueda de libro
-         */
-        if(variablesGlobales.getLibroBuscar() == null){
-            variablesGlobales.setLibroBuscar(new Libro());
-        }
-
-        inicializarListaLibros();
     }
 
     /**
@@ -166,9 +141,6 @@ public class FmMisLibrosUsuario extends SherlockFragment {
 
         public void onPostExecute(Boolean result){
 
-            //Se inicializa el  objeto de busqueda Libro
-            variablesGlobales.setLibroBuscar(new Libro());
-
             if(result){
                 adapterSolicitud = new MisLibrosListAdapterUsuario(getActivity(), listaSolicitud);
                 libroListView.setAdapter(adapterSolicitud);
@@ -194,7 +166,7 @@ public class FmMisLibrosUsuario extends SherlockFragment {
         super.onResume();
 
         //Funcionalidad para recergar las variables del Fragment
-        inicializar();
+        inicializarListaLibros();
     }
 
 }
