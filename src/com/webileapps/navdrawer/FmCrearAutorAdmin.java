@@ -15,8 +15,12 @@ import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragment;
 
-import modelo.Autor;
-import util.TareasGenerales;
+import org.ksoap2.SoapEnvelope;
+import org.ksoap2.serialization.SoapObject;
+import org.ksoap2.serialization.SoapSerializationEnvelope;
+import org.ksoap2.transport.HttpTransportSE;
+
+import util.Configuracion;
 import util.VariablesGlobales;
 
 
@@ -78,9 +82,15 @@ public class FmCrearAutorAdmin extends SherlockFragment {
 
 
     /**
-     * Tarea encargada de guardar un libro
+     * Tarea encargada de guardar un autor
      */
     private class TareaWsGuardarAutor extends AsyncTask<String,Integer,Boolean> {
+
+        Configuracion conf = new Configuracion();
+        final String SOAP_ACTION = conf.getUrl()+"/guardarAutor";
+        final String METHOD_NAME = "guardarAutor";
+        final String NAMESPACE = conf.getNamespace();
+        final String URL = conf.getUrl();
 
         boolean resultadoTarea = false;
 
@@ -88,24 +98,34 @@ public class FmCrearAutorAdmin extends SherlockFragment {
         @Override
         protected Boolean doInBackground(String... params) {
 
+            SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
+            request.addProperty("descripcion", descripcion.getText().toString());
+
+            if (select.getSelectedItem().toString().equals("Personal")) {
+                request.addProperty("tipo",1);
+            }
+
+            if (select.getSelectedItem().toString().equals("Institucional")) {
+                request.addProperty("tipo",2);
+            }
+            if (select.getSelectedItem().toString().equals("Corporativo")) {
+                request.addProperty("tipo",3);
+            }
+
+            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+            envelope.bodyOut = request;
+
+            HttpTransportSE transporte = new HttpTransportSE(URL);
+
             try {
-                TareasGenerales tareasGenerales = new TareasGenerales();
 
-                Autor aut = new Autor();
-                aut.setDescripcion(descripcion.getText().toString());
+                transporte.call(SOAP_ACTION, envelope);
+                int resultadoGuardar = Integer.parseInt(envelope.getResponse().toString());
 
-                if (select.getSelectedItem().toString().equals("Personal")) {
-                    aut.setTipoAutor(1);
+                if(resultadoGuardar == 1) {
+                    resultadoTarea = true;
                 }
 
-                if (select.getSelectedItem().toString().equals("Institucional")) {
-                    aut.setTipoAutor(2);
-                }
-                if (select.getSelectedItem().toString().equals("Corporativo")) {
-                    aut.setTipoAutor(3);
-                }
-
-                resultadoTarea = tareasGenerales.guardarAutor(aut);
             } catch (Exception e) {
                 resultadoTarea = false;
                 Log.e("FmCrearAutor ", "xxx Error TareaWsGuardarAutor: " + e.getMessage());

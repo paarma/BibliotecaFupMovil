@@ -15,10 +15,16 @@ import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragment;
 
+import org.ksoap2.SoapEnvelope;
+import org.ksoap2.serialization.SoapObject;
+import org.ksoap2.serialization.SoapSerializationEnvelope;
+import org.ksoap2.transport.HttpTransportSE;
+
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import modelo.Libro;
-import util.TareasGenerales;
+import util.Configuracion;
 import util.VariablesGlobales;
 
 public class FmCrearLibroAdmin extends SherlockFragment {
@@ -127,86 +133,83 @@ public class FmCrearLibroAdmin extends SherlockFragment {
         @Override
         protected Boolean doInBackground(String... params) {
 
+            Libro lib = new Libro();
+            lib.setTitulo(titulo.getText().toString());
+
+            if(valor.getText().toString().trim().length() > 0){
+                lib.setValor(Integer.parseInt(valor.getText().toString()));
+            }
+
+            if(paginas.getText().toString().trim().length() > 0){
+                lib.setPaginas(Integer.parseInt(paginas.getText().toString()));
+            }
+
+            if(anio.getText().toString().trim().length() > 0){
+                lib.setAnio(Integer.parseInt(anio.getText().toString()));
+            }
+
+
+            lib.setSerie(serie.getText().toString());
+            lib.setIsbn(isbn.getText().toString());
+            lib.setCodigoTopografico(codTopografico.getText().toString());
+            lib.setAdquisicion(adquisicion.getText().toString());
+
+            if (estado.getSelectedItem().toString().equals("Bueno")) {
+                lib.setEstado("BUENO");
+            }
+
+            if (estado.getSelectedItem().toString().equals("Malo")) {
+                lib.setEstado("MALO");
+            }
+
+            lib.setRadicado(radicado.getText().toString());
+            lib.setFechaIngreso(new Date());
+            //lib.setSerie("1");
+            //lib.setIdSede(1);
+            //lib.setIdEditorial(1);
+            //lib.setIdArea(1);
+            //lib.setAnio(1);
+            lib.setTemas(temas.getText().toString());
+            //lib.setDisponibilidad("SI");
+            lib.setIdUsuario(variablesGlobales.getUsuarioLogueado().getIdUsuario());
+            //lib.setIdCiudad(1);
+
+            if (editorial.getSelectedItem().toString().equals("Editorial_1")) {
+                lib.setIdEditorial(1);
+            }
+
+            if (editorial.getSelectedItem().toString().equals("Editorial_2")) {
+                lib.setIdEditorial(2);
+            }
+
+
+            if (area.getSelectedItem().toString().equals("Area_1")) {
+                lib.setIdArea(1);
+            }
+
+            if (area.getSelectedItem().toString().equals("Area_2")) {
+                lib.setIdArea(2);
+            }
+
+
+            if (sede.getSelectedItem().toString().equals("Sede_1")) {
+                lib.setIdSede(1);
+            }
+
+            if (sede.getSelectedItem().toString().equals("Sede_2")) {
+                lib.setIdSede(2);
+            }
+
+            if (ciudad.getSelectedItem().toString().equals("Ciudad_1")) {
+                lib.setIdCiudad(1);
+            }
+
+            if (ciudad.getSelectedItem().toString().equals("Ciudad_2")) {
+                lib.setIdCiudad(2);
+            }
+
             try {
-                TareasGenerales tareasGenerales = new TareasGenerales();
-
-                Libro lib = new Libro();
-                lib.setTitulo(titulo.getText().toString());
-
-                if(valor.getText().toString().trim().length() > 0){
-                    lib.setValor(Integer.parseInt(valor.getText().toString()));
-                }
-
-                if(paginas.getText().toString().trim().length() > 0){
-                    lib.setPaginas(Integer.parseInt(paginas.getText().toString()));
-                }
-
-                if(anio.getText().toString().trim().length() > 0){
-                    lib.setAnio(Integer.parseInt(anio.getText().toString()));
-                }
-
-
-                lib.setSerie(serie.getText().toString());
-                lib.setIsbn(isbn.getText().toString());
-                lib.setCodigoTopografico(codTopografico.getText().toString());
-                lib.setAdquisicion(adquisicion.getText().toString());
-
-                if (estado.getSelectedItem().toString().equals("Bueno")) {
-                    lib.setEstado("BUENO");
-                }
-
-                if (estado.getSelectedItem().toString().equals("Malo")) {
-                    lib.setEstado("MALO");
-                }
-
-                lib.setRadicado(radicado.getText().toString());
-                lib.setFechaIngreso(new Date());
-                //lib.setSerie("1");
-                //lib.setIdSede(1);
-                //lib.setIdEditorial(1);
-                //lib.setIdArea(1);
-                //lib.setAnio(1);
-                lib.setTemas(temas.getText().toString());
-                //lib.setDisponibilidad("SI");
-                lib.setIdUsuario(variablesGlobales.getUsuarioLogueado().getIdUsuario());
-                //lib.setIdCiudad(1);
-
-                if (editorial.getSelectedItem().toString().equals("Editorial_1")) {
-                    lib.setIdEditorial(1);
-                }
-
-                if (editorial.getSelectedItem().toString().equals("Editorial_2")) {
-                    lib.setIdEditorial(2);
-                }
-
-
-                if (area.getSelectedItem().toString().equals("Area_1")) {
-                    lib.setIdArea(1);
-                }
-
-                if (area.getSelectedItem().toString().equals("Area_2")) {
-                    lib.setIdArea(2);
-                }
-
-
-                if (sede.getSelectedItem().toString().equals("Sede_1")) {
-                    lib.setIdSede(1);
-                }
-
-                if (sede.getSelectedItem().toString().equals("Sede_2")) {
-                    lib.setIdSede(2);
-                }
-
-                if (ciudad.getSelectedItem().toString().equals("Ciudad_1")) {
-                    lib.setIdCiudad(1);
-                }
-
-                if (ciudad.getSelectedItem().toString().equals("Ciudad_2")) {
-                    lib.setIdCiudad(2);
-                }
-
-
-                resultadoTarea = tareasGenerales.guardarLibro(lib);
+                resultadoTarea = guardarLibro(lib);
             }catch (Exception e){
                 resultadoTarea = false;
                 Log.e("FmCrearLibro ", "xxx Error TareaWsGuardarLibro: " + e.getMessage());
@@ -223,6 +226,64 @@ public class FmCrearLibroAdmin extends SherlockFragment {
                 Toast.makeText(getActivity(), "Error almacenando el libro", Toast.LENGTH_LONG).show();
             }
         }
+    }
+
+    /**
+     * Metodo encargado de guardar un libro en la BD
+     * @param libro Libro el cual va  a ser guardado
+     * @return resultado
+     */
+    public boolean guardarLibro(Libro libro){
+
+        Configuracion conf = new Configuracion();
+        final String SOAP_ACTION = conf.getUrl()+"/guardarLibro";
+        final String METHOD_NAME = "guardarLibro";
+        final String NAMESPACE = conf.getNamespace();
+        final String URL = conf.getUrl();
+        boolean resultado = false;
+
+        SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
+        request.addProperty("titulo",libro.getTitulo());
+        request.addProperty("valor",libro.getValor());
+        request.addProperty("adquisicion",libro.getAdquisicion());
+        request.addProperty("estado",libro.getEstado());
+        request.addProperty("isbn",libro.getIsbn());
+        request.addProperty("radicado",libro.getRadicado());
+
+        SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
+        request.addProperty("fechaIngreso", formatoFecha.format(libro.getFechaIngreso()));
+
+        request.addProperty("codTopografico",libro.getCodigoTopografico());
+        request.addProperty("serie",libro.getSerie());
+        request.addProperty("idSede",libro.getIdSede());
+        request.addProperty("idEditorial",libro.getIdEditorial());
+        request.addProperty("idArea",libro.getIdArea());
+        request.addProperty("anio",libro.getAnio());
+        request.addProperty("temas",libro.getTemas());
+        request.addProperty("paginas",libro.getPaginas());
+        request.addProperty("disponibilidad",libro.getDisponibilidad());
+        request.addProperty("idUsuario",libro.getIdUsuario()); //Usuario logueado
+        request.addProperty("idCiudad",libro.getIdCiudad());
+
+        SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+        envelope.bodyOut = request;
+
+        HttpTransportSE transporte = new HttpTransportSE(URL);
+
+        try {
+            transporte.call(SOAP_ACTION, envelope);
+            int resultadoGuardar = Integer.parseInt(envelope.getResponse().toString());
+
+            Log.i("GuardandoLibro","*********************** resultado guardarLibro: "+resultadoGuardar);
+            if (resultadoGuardar == 1)
+            {
+                resultado = true;
+            }
+        }catch (Exception e){
+            Log.e("GuardandoLibro", "xxx Error guardarLibro(): " + e.getMessage());
+        }
+
+        return resultado;
     }
 
 }

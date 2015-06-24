@@ -15,8 +15,13 @@ import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragment;
 
+import org.ksoap2.SoapEnvelope;
+import org.ksoap2.serialization.SoapObject;
+import org.ksoap2.serialization.SoapSerializationEnvelope;
+import org.ksoap2.transport.HttpTransportSE;
+
 import modelo.Usuario;
-import util.TareasGenerales;
+import util.Configuracion;
 import util.VariablesGlobales;
 
 
@@ -95,35 +100,33 @@ public class FmCrearUsuarioAdmin extends SherlockFragment {
         @Override
         protected Boolean doInBackground(String... params) {
 
+            Usuario user = new Usuario();
+
+            if(cedula.getText().toString().trim().length() > 0){
+                user.setCedula(Integer.parseInt(cedula.getText().toString()));
+            }
+            user.setNombre(nombre.getText().toString());
+            user.setApellido(apellido.getText().toString());
+            if(telefono.getText().toString().trim().length() > 0){
+                user.setTelefono(Integer.parseInt(telefono.getText().toString()));
+            }
+            user.setDireccion(direccion.getText().toString());
+            user.setEmail(email.getText().toString());
+            user.setCodigo(codigo.getText().toString());
+            user.setClave(clave.getText().toString());
+
+
+            if (spRol.getSelectedItem().toString().equals("Administrador")) {
+                user.setRol("ADMIN");
+            }
+
+            if (spRol.getSelectedItem().toString().equals("Usuario")) {
+                user.setRol("EST");
+            }
+
             try {
-                TareasGenerales tareasGenerales = new TareasGenerales();
+                resultadoTarea = guardarUsuario(user);
 
-                Usuario user = new Usuario();
-
-                if(cedula.getText().toString().trim().length() > 0){
-                    user.setCedula(Integer.parseInt(cedula.getText().toString()));
-                }
-                user.setNombre(nombre.getText().toString());
-                user.setApellido(apellido.getText().toString());
-                if(telefono.getText().toString().trim().length() > 0){
-                    user.setTelefono(Integer.parseInt(telefono.getText().toString()));
-                }
-                user.setDireccion(direccion.getText().toString());
-                user.setEmail(email.getText().toString());
-                user.setCodigo(codigo.getText().toString());
-                user.setClave(clave.getText().toString());
-
-
-                if (spRol.getSelectedItem().toString().equals("Administrador")) {
-                    user.setRol("ADMIN");
-                }
-
-                if (spRol.getSelectedItem().toString().equals("Usuario")) {
-                    user.setRol("EST");
-                }
-
-
-                resultadoTarea = tareasGenerales.guardarUsuario(user);
             } catch (Exception e) {
                 resultadoTarea = false;
                 Log.e("FmCrearUsuario ", "xxx Error TareaWsGuardarUsuario: " + e.getMessage());
@@ -146,10 +149,55 @@ public class FmCrearUsuarioAdmin extends SherlockFragment {
         //Metodo encardado de limpiar los campos del formulario
         public void limpiarCampos(){
             nombre.getText().clear();
-
-
-
         }
+
+
+    /**
+     * Metodo encargado de guardar un usuario  en la BD para acceder a la App
+     * @param usuario Usuario el cual va  a ser guardado
+     * @return resultado
+     */
+    public boolean guardarUsuario(Usuario usuario){
+
+        Configuracion conf = new Configuracion();
+        final String SOAP_ACTION = conf.getUrl()+"/guardarUsuario";
+        final String METHOD_NAME = "guardarUsuario";
+        final String NAMESPACE = conf.getNamespace();
+        final String URL = conf.getUrl();
+        boolean resultado = false;
+
+        SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
+        request.addProperty("cedula", usuario.getCedula());
+        request.addProperty("nombre", usuario.getNombre());
+        request.addProperty("apellido", usuario.getApellido());
+        request.addProperty("telefono", usuario.getTelefono());
+        request.addProperty("direccion", usuario.getDireccion());
+        request.addProperty("email", usuario.getEmail());
+        request.addProperty("codigo", usuario.getCodigo());
+        request.addProperty("clave", usuario.getClave());
+
+        request.addProperty("rol",usuario.getRol());
+
+        SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+        envelope.bodyOut = request;
+
+        HttpTransportSE transporte = new HttpTransportSE(URL);
+
+        try {
+            transporte.call(SOAP_ACTION, envelope);
+            int resultadoGuardar = Integer.parseInt(envelope.getResponse().toString());
+
+            Log.i("GuardandoUsuario","*********************** guardandoUsuario: "+resultadoGuardar);
+            if (resultadoGuardar == 1)
+            {
+                resultado = true;
+            }
+        }catch (Exception e){
+            Log.e("GuardandoUsuario", "xxx Error guardarUsuario(): " + e.getMessage());
+        }
+
+        return resultado;
+    }
 
 }
 
