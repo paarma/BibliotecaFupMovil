@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import modelo.Editorial;
 import modelo.Libro;
 import modelo.Solicitud;
 import modelo.Usuario;
@@ -221,6 +222,45 @@ public class TareasGenerales {
             Log.e("TareasGenerales.java ", "xxx Error buscarSolicitudes(): " + e.getMessage());
         }
         return listaSolicitudes;
+    }
+
+    /**
+     * Metodo encargado de listar las editoriales de la BD.
+     * @return
+     */
+    public List<Editorial> listarEditoriales(){
+
+        final String SOAP_ACTION = conf.getUrl()+"/listadoEditoriales";
+        final String METHOD_NAME = "listadoEditoriales";
+        final String NAMESPACE = conf.getNamespace();
+        final String URL = conf.getUrl();
+        List<Editorial> listaEditoriales = new ArrayList<Editorial>();
+
+        SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
+
+        SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+        envelope.bodyOut = request;
+
+        HttpTransportSE transporte = new HttpTransportSE(URL);
+
+        try {
+
+            transporte.call(SOAP_ACTION, envelope);
+            java.util.Vector<SoapObject> rs = (java.util.Vector<SoapObject>) envelope.getResponse();
+
+            if (rs != null) {
+                for (SoapObject editorialSoap : rs) {
+
+                    Editorial editorial = new Editorial();
+                    editorial.setIdEditorial(Integer.parseInt(editorialSoap.getProperty("ID_EDITORIAL").toString()));
+                    editorial.setDescripcion(editorialSoap.getProperty("DESCRIPCION").toString());
+                    listaEditoriales.add(editorial);
+                }
+            }
+        }catch (Exception e){
+            Log.e("TareasGenerales.java ", "xxx Error listarEditoriales(): " + e.getMessage());
+        }
+        return listaEditoriales;
     }
 
     /**

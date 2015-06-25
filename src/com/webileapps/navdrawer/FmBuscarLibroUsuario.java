@@ -1,5 +1,7 @@
 package com.webileapps.navdrawer;
 
+import android.annotation.SuppressLint;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -8,10 +10,17 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragment;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import modelo.Editorial;
 import modelo.Libro;
+import util.NothingSelectedSpinnerAdapter;
+import util.TareasGenerales;
 import util.VariablesGlobales;
 
 /**
@@ -19,19 +28,17 @@ import util.VariablesGlobales;
  */
 public class FmBuscarLibroUsuario extends SherlockFragment {
 
-    private final static String[] tipoEditorial = { "Seleccione..", "Editorial_1", "Editorial_2"};
-
-    private static Spinner editorial;
+    private static Spinner spinnerEditorial;
     private static EditText titulo, isbn, codTopografico, temas;
 
     private static VariablesGlobales variablesGlobales = VariablesGlobales.getInstance();
+    private List<Editorial> listaEditoriales = new ArrayList<Editorial>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         Log.i("BUSCAR","************************************** INICIO BUSCAR LIBRO. (USUARIO)");
-
         View view = inflater.inflate(R.layout.fm_buscar_libro_usuario, container, false);
 
         inicializarComponentes(view);
@@ -41,15 +48,22 @@ public class FmBuscarLibroUsuario extends SherlockFragment {
 
     public void inicializarComponentes(View view){
 
-        editorial = (Spinner) view.findViewById(R.id.spinnerEditorial);
-        ArrayAdapter adapterEditorial = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_spinner_dropdown_item, tipoEditorial);
-        Spinner spEditorial = (Spinner) view.findViewById(R.id.spinnerEditorial);
-        spEditorial.setAdapter(adapterEditorial);
+        spinnerEditorial = (Spinner) view.findViewById(R.id.spinnerEditorial);
+        cargarSpinnerEditorial();
 
         titulo = (EditText) view.findViewById(R.id.editTextTitulo);
         isbn = (EditText) view.findViewById(R.id.editTextIsbn);
         codTopografico = (EditText) view.findViewById(R.id.editTextCodTopo);
         temas = (EditText) view.findViewById(R.id.editTextTemas);
+    }
+
+    /**
+     * Metodo encagado de carar el spinner Editorial
+     */
+    private void cargarSpinnerEditorial(){
+
+        TareaWsListarEditoriales tareaListarEditoriales = new TareaWsListarEditoriales();
+        tareaListarEditoriales.execute();
     }
 
     /**
@@ -75,17 +89,66 @@ public class FmBuscarLibroUsuario extends SherlockFragment {
             libro.setTemas(temas.getText().toString());
         }
 
-        //*********************************funcionalidad temporal para editorial
-        if (editorial.getSelectedItem().toString().equals("Editorial_1")) {
-            libro.setIdEditorial(1);
+        Editorial editorialSeleccionada = (Editorial) spinnerEditorial.getSelectedItem();
+        if(editorialSeleccionada != null){
+            libro.setIdEditorial(editorialSeleccionada.getIdEditorial());
+            Log.i("Buscar",">>>>>>>> Editorial seleccionada buscarLibro: "+editorialSeleccionada.getDescripcion());
         }
-
-        if (editorial.getSelectedItem().toString().equals("Editorial_2")) {
-            libro.setIdEditorial(2);
-        }
-        //**********************************fin funcionalidad temporal editorial
 
         variablesGlobales.setLibroBuscar(libro);
+    }
 
+
+    ////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////
+    //////////////////////////////////////////////////// tareas
+    //Tarea Asíncrona para llamar al WS de consulta en segundo plano
+
+    /**
+     * Tarea WS encargada de listar las Editoriales y cargar su spinner
+     */
+    private class TareaWsListarEditoriales extends AsyncTask<String,Integer,Boolean> {
+
+        boolean resultadoTarea = true;
+
+        @SuppressLint("LongLogTag")
+        @Override
+        protected Boolean doInBackground(String... params) {
+
+            try {
+                TareasGenerales tareasGenerales = new TareasGenerales();
+                listaEditoriales = tareasGenerales.listarEditoriales();
+                Log.i("Buscar",">>>>>>>>>>> Tamaño lista editoriales: "+listaEditoriales.size());
+
+            }catch (Exception e){
+                resultadoTarea = false;
+                Log.d("Buscar ", "xxx Error TareaWsListarEditoriales: " + e.getMessage());
+            }
+            return resultadoTarea;
+        }
+
+        public void onPostExecute(Boolean result){
+
+            if(result){
+
+                ArrayAdapter<Editorial> adapter = new ArrayAdapter<Editorial>(getActivity(),
+                        android.R.layout.simple_list_item_1,listaEditoriales);
+
+                //Se modifica el seteo general del adapter...
+                //spinnerEditorial.setAdapter(adapter);
+
+                //Se setea el adapter agregando el item "Seleccione..." (NothingSelectedSpinnerAdapter)
+                spinnerEditorial.setAdapter(new NothingSelectedSpinnerAdapter(
+                        adapter,R.layout.contact_spinner_nothing_selected,
+                        getActivity()));
+
+            }else{
+                //Se despliega mensaje de error si esta en la pantalla de "buscar"
+                if(variablesGlobales.getOpcionMenu() == 2) {
+                    String msn = "Error listando Editoriales";
+                    Toast.makeText(getActivity(), msn, Toast.LENGTH_LONG).show();
+                }
+            }
+        }
     }
 }

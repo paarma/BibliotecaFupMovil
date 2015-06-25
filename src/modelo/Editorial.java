@@ -43,4 +43,16 @@ public class Editorial implements Serializable {
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
+
+    ////////////////////////////////////////////////////////////////////////////
+    /**
+     * Metodo sobreescrito toString para retornar el valor del campo descripcion.
+     * Util para mostrar la descripcion en los spinner
+     * @return
+     */
+    @Override
+    public String toString()
+    {
+        return this.descripcion;
+    }
 }
