@@ -5,30 +5,30 @@ import java.io.Serializable;
 /**
  * Created by pablo on 22/05/15.
  */
-public class Editorial implements Serializable {
+public class Area implements Serializable {
 
-    private int idEditorial;
+    private int idArea;
     private String descripcion;
 
 
-    public Editorial() {
+    public Area() {
 
-        this.idEditorial = 0;
+        this.idArea = 0;
         this.descripcion = "";
     }
 
-    public Editorial(int idEditorial, String descripcion) {
+    public Area(int idArea, String descripcion) {
 
-        this.idEditorial = idEditorial;
+        this.idArea = idArea;
         this.descripcion = descripcion;
     }
 
-    public int getIdEditorial() {
-        return idEditorial;
+    public int getIdArea() {
+        return idArea;
     }
 
-    public void setIdEditorial(int idEditorial) {
-        this.idEditorial = idEditorial;
+    public void setIdArea(int idArea) {
+        this.idArea = idArea;
     }
 
     public String getDescripcion() {

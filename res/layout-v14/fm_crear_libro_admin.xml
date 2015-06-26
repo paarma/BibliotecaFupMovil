@@ -31,7 +31,6 @@
             android:layout_height="match_parent" >
 
             <!-- EditText para el titulo del libro-->
-
             <TextView
                 android:id="@+id/textViewTitulo"
                 android:layout_width="fill_parent"
@@ -43,12 +42,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/textViewTitulo"
-
                 android:singleLine="true" >
             </EditText>
 
             <!-- EditText para ISBN-->
-
             <TextView
                 android:id="@+id/textViewIsbn"
                 android:layout_width="fill_parent"
@@ -60,12 +57,10 @@
                 android:id="@+id/editTextIsbn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/textViewIsbn"
-                >
+                android:layout_below="@+id/textViewIsbn" >
             </EditText>
 
             <!-- EditText para codigo topografico -->
-
             <TextView
                 android:id="@+id/textViewCodTopo"
                 android:layout_width="fill_parent"
@@ -81,7 +76,6 @@
                 />
 
             <!-- EditText para temas del libro-->
-
             <TextView
                 android:id="@+id/textViewTemas"
                 android:layout_width="fill_parent"
@@ -97,7 +91,6 @@
                />
 
             <!-- EditText numero de paginas del libro-->
-
             <TextView
                 android:id="@+id/textViewPaginas"
                 android:layout_width="fill_parent"
@@ -112,39 +105,13 @@
                 android:layout_below="@+id/textViewPaginas"
                 android:inputType="number" />
 
-            <!-- EditText para el estado del libro-->
-
-            <TextView
-                android:id="@+id/textViewEstado"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/editTextPaginas"
-                android:text="Estado:" />
-
-
-            <Spinner
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/spinnerEstado"
-                android:layout_below="@+id/textViewEstado"
-                android:layout_centerHorizontal="true"
-                android:layout_marginBottom="12dp"
-
-                android:dropDownSelector="@color/list_divider"
-
-                android:background="@color/list_divider" />
-
-
-
-
 
             <!-- EditText para el valor del libro -->
-
             <TextView
                 android:id="@+id/textViewValor"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/spinnerEstado"
+                android:layout_below="@+id/editTextPaginas"
                 android:text="Valor:" />
 
             <EditText
@@ -155,31 +122,12 @@
                 android:inputType="numberDecimal" />
 
 
-            <!-- EditText para el tipo de adquisicion del libro -->
-
-            <TextView
-                android:id="@+id/textViewAdquisicion"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/editTextValor"
-                android:text="Adquisición:" />
-
-            <EditText
-                android:id="@+id/editTextAdquisicion"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/textViewAdquisicion"
-                />
-
-
-
             <!-- EditText para el radicado del libro -->
-
             <TextView
                 android:id="@+id/textViewRadicado"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/editTextAdquisicion"
+                android:layout_below="@+id/editTextValor"
                 android:text="Radicado:" />
 
             <EditText
@@ -189,8 +137,7 @@
                 android:layout_below="@+id/textViewRadicado"
                 android:inputType="number" />
 
-            <!-- EditText para el radicado del libro -->
-
+            <!-- EditText para la Serie del libro -->
             <TextView
                 android:id="@+id/textViewSerie"
                 android:layout_width="fill_parent"
@@ -205,8 +152,7 @@
                 android:layout_below="@+id/textViewSerie"
                 android:inputType="number" />
 
-            <!-- EditText para el radicado del libro -->
-
+            <!-- EditText para el Año del libro -->
             <TextView
                 android:id="@+id/textViewAnio"
                 android:layout_width="fill_parent"
@@ -222,8 +168,7 @@
                 android:inputType="number" />
 
 
-            <!-- EditText para el estado del libro-->
-
+            <!-- EditText para Editorial del libro-->
             <TextView
                 android:id="@+id/textViewEditorial"
                 android:layout_width="fill_parent"
@@ -240,11 +185,9 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="12dp"
                 android:dropDownSelector="@color/list_divider"
-
                 android:background="@color/list_divider" />
 
-            <!-- EditText para el estado del libro-->
-
+            <!-- EditText para Areas del libro-->
             <TextView
                 android:id="@+id/textViewArea"
                 android:layout_width="fill_parent"
@@ -261,11 +204,9 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="12dp"
                 android:dropDownSelector="@color/list_divider"
-
                 android:background="@color/list_divider" />
 
-            <!-- EditText para el estado del libro-->
-
+            <!-- EditText para el Sede del libro-->
             <TextView
                 android:id="@+id/textViewSede"
                 android:layout_width="fill_parent"
@@ -282,12 +223,10 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="12dp"
                 android:dropDownSelector="@color/list_divider"
-
                 android:background="@color/list_divider" />
 
 
-            <!-- EditText para el estado del libro-->
-
+            <!-- EditText para Ciudad del libro-->
             <TextView
                 android:id="@+id/textViewCiudad"
                 android:layout_width="fill_parent"
@@ -304,10 +243,42 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="12dp"
                 android:dropDownSelector="@color/list_divider"
-
                 android:background="@color/list_divider" />
 
 
+            <!-- EditText para el tipo de adquisicion del libro -->
+            <TextView
+                android:id="@+id/textViewAdquisicion"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/spinnerCiudad"
+                android:text="Adquisición:" />
+
+            <EditText
+                android:id="@+id/editTextAdquisicion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textViewAdquisicion"
+                />
+
+
+            <!-- EditText para el estado del libro-->
+            <TextView
+                android:id="@+id/textViewEstado"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/editTextAdquisicion"
+                android:text="Estado:" />
+
+            <Spinner
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/spinnerEstado"
+                android:layout_below="@+id/textViewEstado"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="12dp"
+                android:dropDownSelector="@color/list_divider"
+                android:background="@color/list_divider" />
 
         </RelativeLayout>
     </ScrollView>

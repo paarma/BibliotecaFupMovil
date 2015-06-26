@@ -23,19 +23,21 @@ import org.ksoap2.transport.HttpTransportSE;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import modelo.Area;
+import modelo.Editorial;
 import modelo.Libro;
+import modelo.Sede;
+import util.CargarSpinners;
 import util.Configuracion;
 import util.VariablesGlobales;
 
 public class FmCrearLibroAdmin extends SherlockFragment {
 
     EditText titulo, isbn, codTopografico, temas, paginas, valor, adquisicion, radicado,anio,serie;
-    Spinner estado,editorial,area,sede,ciudad;
+    Spinner estado, spinnerEditorial, spinnerArea, spinnerSede, ciudad;
     VariablesGlobales variablesGlobales = VariablesGlobales.getInstance();
+
     private final static String[] tipoEstado = { "Seleccione..", "Bueno", "Malo"};
-    private final static String[] tipoEditorial = { "Seleccione..", "Editorial_1", "Editorial_2"};
-    private final static String[] tipoArea = { "Seleccione..", "Area_1", "Area_2"};
-    private final static String[] tipoSede = { "Seleccione..", "Sede_1", "Sede_2"};
     private final static String[] tipoCiudad = { "Seleccione..", "Ciudad_1", "Ciudad_2"};
 
 
@@ -44,23 +46,6 @@ public class FmCrearLibroAdmin extends SherlockFragment {
 			Bundle savedInstanceState) {
 		// Get the view from fm_crear_libro_adminro_admin.xml
 		View view = inflater.inflate(R.layout.fm_crear_libro_admin, container, false);
-
-        titulo = (EditText) view.findViewById(R.id.editTextTitulo);
-        isbn = (EditText) view.findViewById(R.id.editTextIsbn);
-        codTopografico = (EditText) view.findViewById(R.id.editTextCodTopo);
-        temas = (EditText) view.findViewById(R.id.editTextTemas);
-        paginas = (EditText) view.findViewById(R.id.editTextPaginas);
-        anio = (EditText) view.findViewById(R.id.editTextAnio);
-        serie = (EditText) view.findViewById(R.id.editTextSerie);
-        estado = (Spinner) view.findViewById(R.id.spinnerEstado);
-        editorial = (Spinner) view.findViewById(R.id.spinnerEditorial);
-        area = (Spinner) view.findViewById(R.id.spinnerArea);
-        sede = (Spinner) view.findViewById(R.id.spinnerSede);
-        ciudad = (Spinner) view.findViewById(R.id.spinnerCiudad);
-
-        valor = (EditText) view.findViewById(R.id.editTextValor);
-        adquisicion = (EditText) view.findViewById(R.id.editTextAdquisicion);
-        radicado = (EditText) view.findViewById(R.id.editTextRadicado);
 
         inicializarComponentes(view);
 
@@ -87,8 +72,11 @@ public class FmCrearLibroAdmin extends SherlockFragment {
 		return view;
 	}
 
-    //Metodo encardado de limpiar los campos del formulario
+    /**
+     * Metodo encardado de limpiar los campos del formulario
+     */
     public void limpiarCampos(){
+
         titulo.getText().clear();
         isbn.getText().clear();
         codTopografico.getText().clear();
@@ -101,25 +89,42 @@ public class FmCrearLibroAdmin extends SherlockFragment {
     }
 
     public void inicializarComponentes(View view){
+
+        titulo = (EditText) view.findViewById(R.id.editTextTitulo);
+        isbn = (EditText) view.findViewById(R.id.editTextIsbn);
+        codTopografico = (EditText) view.findViewById(R.id.editTextCodTopo);
+        temas = (EditText) view.findViewById(R.id.editTextTemas);
+        paginas = (EditText) view.findViewById(R.id.editTextPaginas);
+        anio = (EditText) view.findViewById(R.id.editTextAnio);
+        serie = (EditText) view.findViewById(R.id.editTextSerie);
+        estado = (Spinner) view.findViewById(R.id.spinnerEstado);
+        spinnerEditorial = (Spinner) view.findViewById(R.id.spinnerEditorial);
+        spinnerArea = (Spinner) view.findViewById(R.id.spinnerArea);
+        spinnerSede = (Spinner) view.findViewById(R.id.spinnerSede);
+        ciudad = (Spinner) view.findViewById(R.id.spinnerCiudad);
+        valor = (EditText) view.findViewById(R.id.editTextValor);
+        adquisicion = (EditText) view.findViewById(R.id.editTextAdquisicion);
+        radicado = (EditText) view.findViewById(R.id.editTextRadicado);
+
+        cargarSpinners();
+
         ArrayAdapter adapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_spinner_dropdown_item, tipoEstado);
         Spinner spTipoEstado = (Spinner) view.findViewById(R.id.spinnerEstado);
         spTipoEstado.setAdapter(adapter);
 
-        ArrayAdapter adapterEditorial = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_spinner_dropdown_item, tipoEditorial);
-        Spinner spEditorial = (Spinner) view.findViewById(R.id.spinnerEditorial);
-        spEditorial.setAdapter(adapterEditorial);
-
-        ArrayAdapter adapterArea = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_spinner_dropdown_item, tipoArea);
-        Spinner spArea = (Spinner) view.findViewById(R.id.spinnerArea);
-        spArea.setAdapter(adapterArea);
-
-        ArrayAdapter adapterSede = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_spinner_dropdown_item, tipoSede);
-        Spinner spSede = (Spinner) view.findViewById(R.id.spinnerSede);
-        spSede.setAdapter(adapterSede);
-
         ArrayAdapter adapterCiudad = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_spinner_dropdown_item, tipoCiudad);
         Spinner spCiudad = (Spinner) view.findViewById(R.id.spinnerCiudad);
         spCiudad.setAdapter(adapterCiudad);
+    }
+
+    /**
+     * Carga los spinners contenidos en la creacion del libro.
+     */
+    public void cargarSpinners(){
+
+        CargarSpinners.loadDatos(getActivity(), Editorial.class.getSimpleName(), spinnerEditorial);
+        CargarSpinners.loadDatos(getActivity(), Area.class.getSimpleName(), spinnerArea);
+        CargarSpinners.loadDatos(getActivity(), Sede.class.getSimpleName(), spinnerSede);
     }
 
     /**
@@ -165,39 +170,25 @@ public class FmCrearLibroAdmin extends SherlockFragment {
             lib.setRadicado(radicado.getText().toString());
             lib.setFechaIngreso(new Date());
             //lib.setSerie("1");
-            //lib.setIdSede(1);
-            //lib.setIdEditorial(1);
-            //lib.setIdArea(1);
             //lib.setAnio(1);
             lib.setTemas(temas.getText().toString());
             //lib.setDisponibilidad("SI");
             lib.setIdUsuario(variablesGlobales.getUsuarioLogueado().getIdUsuario());
             //lib.setIdCiudad(1);
 
-            if (editorial.getSelectedItem().toString().equals("Editorial_1")) {
-                lib.setIdEditorial(1);
+            Editorial editorialSeleccionada = (Editorial) spinnerEditorial.getSelectedItem();
+            if(editorialSeleccionada != null){
+                lib.setIdEditorial(editorialSeleccionada.getIdEditorial());
             }
 
-            if (editorial.getSelectedItem().toString().equals("Editorial_2")) {
-                lib.setIdEditorial(2);
+            Area arealSeleccionada = (Area) spinnerArea.getSelectedItem();
+            if(arealSeleccionada != null){
+                lib.setIdArea(arealSeleccionada.getIdArea());
             }
 
-
-            if (area.getSelectedItem().toString().equals("Area_1")) {
-                lib.setIdArea(1);
-            }
-
-            if (area.getSelectedItem().toString().equals("Area_2")) {
-                lib.setIdArea(2);
-            }
-
-
-            if (sede.getSelectedItem().toString().equals("Sede_1")) {
-                lib.setIdSede(1);
-            }
-
-            if (sede.getSelectedItem().toString().equals("Sede_2")) {
-                lib.setIdSede(2);
+            Sede sedeSeleccionada = (Sede) spinnerSede.getSelectedItem();
+            if(sedeSeleccionada != null){
+                lib.setIdSede(sedeSeleccionada.getIdSede());
             }
 
             if (ciudad.getSelectedItem().toString().equals("Ciudad_1")) {

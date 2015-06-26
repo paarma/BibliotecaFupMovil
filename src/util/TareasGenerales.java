@@ -11,8 +11,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import modelo.Area;
 import modelo.Editorial;
 import modelo.Libro;
+import modelo.Sede;
 import modelo.Solicitud;
 import modelo.Usuario;
 
@@ -261,6 +263,84 @@ public class TareasGenerales {
             Log.e("TareasGenerales.java ", "xxx Error listarEditoriales(): " + e.getMessage());
         }
         return listaEditoriales;
+    }
+
+    /**
+     * Metodo encargado de listar las Areas de la BD.
+     * @return
+     */
+    public List<Area> listarAreas(){
+
+        final String SOAP_ACTION = conf.getUrl()+"/listadoAreas";
+        final String METHOD_NAME = "listadoAreas";
+        final String NAMESPACE = conf.getNamespace();
+        final String URL = conf.getUrl();
+        List<Area> listaAreas = new ArrayList<Area>();
+
+        SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
+
+        SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+        envelope.bodyOut = request;
+
+        HttpTransportSE transporte = new HttpTransportSE(URL);
+
+        try {
+
+            transporte.call(SOAP_ACTION, envelope);
+            java.util.Vector<SoapObject> rs = (java.util.Vector<SoapObject>) envelope.getResponse();
+
+            if (rs != null) {
+                for (SoapObject editorialSoap : rs) {
+
+                    Area area = new Area();
+                    area.setIdArea(Integer.parseInt(editorialSoap.getProperty("ID_AREA").toString()));
+                    area.setDescripcion(editorialSoap.getProperty("DESCRIPCION").toString());
+                    listaAreas.add(area);
+                }
+            }
+        }catch (Exception e){
+            Log.e("TareasGenerales.java ", "xxx Error listarAreas(): " + e.getMessage());
+        }
+        return listaAreas;
+    }
+
+    /**
+     * Metodo encargado de listar las Sedes de la BD.
+     * @return
+     */
+    public List<Sede> listarSedes(){
+
+        final String SOAP_ACTION = conf.getUrl()+"/listadoSedes";
+        final String METHOD_NAME = "listadoSedes";
+        final String NAMESPACE = conf.getNamespace();
+        final String URL = conf.getUrl();
+        List<Sede> listaDedes = new ArrayList<Sede>();
+
+        SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
+
+        SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+        envelope.bodyOut = request;
+
+        HttpTransportSE transporte = new HttpTransportSE(URL);
+
+        try {
+
+            transporte.call(SOAP_ACTION, envelope);
+            java.util.Vector<SoapObject> rs = (java.util.Vector<SoapObject>) envelope.getResponse();
+
+            if (rs != null) {
+                for (SoapObject editorialSoap : rs) {
+
+                    Sede sede = new Sede();
+                    sede.setIdSede(Integer.parseInt(editorialSoap.getProperty("ID_SEDE").toString()));
+                    sede.setDescripcion(editorialSoap.getProperty("DESCRIPCION").toString());
+                    listaDedes.add(sede);
+                }
+            }
+        }catch (Exception e){
+            Log.e("TareasGenerales.java ", "xxx Error listarSedes(): " + e.getMessage());
+        }
+        return listaDedes;
     }
 
     /**
