@@ -1,20 +1,11 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:text="@string/FragmentTab2"
-        android:id="@+id/textView2" />
-
-
+    android:layout_height="match_parent"
+    android:id="@+id/content_frame_libros_admin">
 
     <GridLayout
-        android:id="@+id/barraMenu"
+        android:id="@+id/barraMenuLibrosAdmin"
         android:layout_width="fill_parent"
         android:layout_height="38dp"
         android:layout_alignParentBottom="true"
@@ -25,7 +16,7 @@
         android:rowCount="2"
         android:paddingTop="4dp">
 
-
+        <!-- Boton uno -->
         <GridLayout
             android:layout_height="match_parent"
             android:columnCount="2"
@@ -33,23 +24,25 @@
             android:clickable="true">
 
             <ImageButton
-                android:id="@+id/btnNuevoUser"
+                android:id="@+id/btnBuscarLibroAdmin"
                 android:layout_width="64dp"
                 android:layout_height="match_parent"
-                android:src="@drawable/ic_action_user"
+                android:src="@drawable/abs__ic_search"
                 android:scaleType="fitCenter"
-                android:background="@android:color/transparent" />
+                android:background="@android:color/transparent"
+                android:onClick="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"/>
 
             <TextView
-                android:text="@string/nuevo"
                 android:layout_height="match_parent"
                 android:textAlignment="gravity"
                 android:textColor="@color/blanco"
                 android:gravity="center_vertical"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                android:background="@drawable/drawer_shadow"/>
 
         </GridLayout>
 
+        <!-- Boton dos -->
         <GridLayout
             android:layout_height="match_parent"
             android:columnCount="2"
@@ -57,26 +50,34 @@
             android:clickable="true">
 
             <ImageButton
-                android:id="@+id/btnAdjuntarUser"
+                android:id="@+id/btnRefrescarLibrosAdmin"
                 android:layout_width="64dp"
                 android:layout_height="match_parent"
-                android:src="@drawable/ic_attach_file_white_48dp"
+                android:src="@drawable/ic_autorenew_white_48dp"
                 android:scaleType="fitCenter"
                 android:background="@android:color/transparent" />
 
             <TextView
-                android:text="@string/adjuntar"
                 android:layout_height="match_parent"
                 android:textAlignment="gravity"
                 android:textColor="@color/blanco"
                 android:gravity="center_vertical"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                android:text="Actualizar" />
 
         </GridLayout>
-
-
 
     </GridLayout>
 
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/listViewLibrosAdmin"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_above="@+id/barraMenuLibrosAdmin"
+        android:choiceMode="singleChoice"
+        android:divider="@drawable/horizontal_divider"/>
 
 </RelativeLayout>

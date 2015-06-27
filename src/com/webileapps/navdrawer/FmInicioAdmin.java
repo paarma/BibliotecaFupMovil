@@ -40,7 +40,7 @@ public class FmInicioAdmin extends SherlockFragment {
                                                         .replace(R.id.content_frame, fragment).commit();
                                             } else {
                                                 // error in creating fragment
-                                                Log.e("Alex", "MainActivity - Error cuando se creo el fragment");
+                                                Log.i("Alex", "MainActivity - Error cuando se creo el fragment");
                                             }
 
                                         }
@@ -57,7 +57,7 @@ public class FmInicioAdmin extends SherlockFragment {
 
                                             // update the main content by replacing fragments
                                             SherlockFragment fragment = null;
-                                            Log.e("Alex", "inicio - onclick boton");
+                                            Log.i("Alex", "inicio - onclick boton");
                                             fragment = new FmAutorAdmin();
 
                                             if (fragment != null) {
@@ -66,7 +66,7 @@ public class FmInicioAdmin extends SherlockFragment {
                                                         .replace(R.id.content_frame, fragment).commit();
                                             } else {
                                                 // error in creating fragment
-                                                Log.e("Alex", "MainActivity - Error cuando se creo el fragment");
+                                                Log.i("Alex", "MainActivity - Error cuando se creo el fragment");
                                             }
 
                                         }
@@ -81,7 +81,7 @@ public class FmInicioAdmin extends SherlockFragment {
 
                                             // update the main content by replacing fragments
                                             SherlockFragment fragment = null;
-                                            Log.e("Alex", "inicio - onclick boton");
+                                            Log.i("Alex", "inicio - onclick boton");
                                             fragment = new FmEditorialAdmin();
 
                                             if (fragment != null) {
@@ -90,7 +90,7 @@ public class FmInicioAdmin extends SherlockFragment {
                                                         .replace(R.id.content_frame, fragment).commit();
                                             } else {
                                                 // error in creating fragment
-                                                Log.e("Alex", "MainActivity - Error cuando se creo el fragment");
+                                                Log.i("Alex", "MainActivity - Error cuando se creo el fragment");
                                             }
 
                                         }
@@ -104,7 +104,7 @@ public class FmInicioAdmin extends SherlockFragment {
 
                                             // update the main content by replacing fragments
                                             SherlockFragment fragment = null;
-                                            Log.e("Alex", "inicio - onclick boton");
+                                            Log.i("Alex", "inicio - onclick boton");
                                             fragment = new FmSolicitudesAdmin();
 
                                             if (fragment != null) {
@@ -113,7 +113,7 @@ public class FmInicioAdmin extends SherlockFragment {
                                                         .replace(R.id.content_frame, fragment).commit();
                                             } else {
                                                 // error in creating fragment
-                                                Log.e("Alex", "MainActivity - Error cuando se creo el fragment");
+                                                Log.i("Alex", "MainActivity - Error cuando se creo el fragment");
                                             }
 
                                         }
@@ -127,7 +127,7 @@ public class FmInicioAdmin extends SherlockFragment {
 
                                                // update the main content by replacing fragments
                                                SherlockFragment fragment = null;
-                                               Log.e("Alex", "inicio - onclick boton");
+                                               Log.i("Alex", "inicio - onclick boton");
                                                fragment = new FmReportesAdmin();
 
                                                if (fragment != null) {
@@ -136,7 +136,7 @@ public class FmInicioAdmin extends SherlockFragment {
                                                            .replace(R.id.content_frame, fragment).commit();
                                                } else {
                                                    // error in creating fragment
-                                                   Log.e("Alex", "MainActivity - Error cuando se creo el fragment");
+                                                   Log.i("Alex", "MainActivity - Error cuando se creo el fragment");
                                                }
 
                                            }

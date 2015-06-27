@@ -66,29 +66,56 @@ public class TareasGenerales {
             {
                 for (SoapObject libroSoap : rs)
                 {
-                    Libro lib = new Libro();
-                    lib.setIdLibro(Integer.parseInt(libroSoap.getProperty("ID_LIBRO").toString()));
-                    lib.setTitulo(libroSoap.getProperty("TITULO").toString());
-                    lib.setIsbn(libroSoap.getProperty("ISBN").toString());
-
-                    if(libroSoap.getProperty("COD_TOPOGRAFICO") != null){
-                        lib.setCodigoTopografico(libroSoap.getProperty("COD_TOPOGRAFICO").toString());
-                    }
-
-                    if(libroSoap.getProperty("TEMAS") != null){
-                        lib.setTemas(libroSoap.getProperty("TEMAS").toString());
-                    }
-                    if(libroSoap.getProperty("PAGINAS") != null) {
-                        lib.setPaginas(Integer.parseInt(libroSoap.getProperty("PAGINAS").toString()));
-                    }
-
-                    listaLibro.add(lib);
+                    listaLibro.add(obtenerLibroSoap(libroSoap));
                 }
             }
         }catch (Exception e){
             Log.e("TareasGenerales.java ", "xxx Error buscarLibros(): " + e.getMessage());
         }
         return listaLibro;
+    }
+
+    /**
+     * Metodo encardado de setear los valores desde la BD (Soap) a un Libro.
+     * @param libroSoap Objeto Soap que contiene los datos de libro para ser setados.
+     * @return
+     */
+    public Libro obtenerLibroSoap(SoapObject libroSoap){
+
+        Libro lib = new Libro();
+        lib.setIdLibro(Integer.parseInt(libroSoap.getProperty("ID_LIBRO").toString()));
+        lib.setTitulo(libroSoap.getProperty("TITULO").toString());
+        lib.setIsbn(libroSoap.getProperty("ISBN").toString());
+
+        if(libroSoap.getProperty("COD_TOPOGRAFICO") != null){
+            lib.setCodigoTopografico(libroSoap.getProperty("COD_TOPOGRAFICO").toString());
+        }
+
+        if(libroSoap.getProperty("TEMAS") != null){
+            lib.setTemas(libroSoap.getProperty("TEMAS").toString());
+        }
+
+        if(libroSoap.getProperty("PAGINAS") != null) {
+            lib.setPaginas(Integer.parseInt(libroSoap.getProperty("PAGINAS").toString()));
+        }
+
+        if(libroSoap.getProperty("VALOR") != null) {
+            lib.setValor(Integer.parseInt(libroSoap.getProperty("VALOR").toString()));
+        }
+
+        if(libroSoap.getProperty("RADICADO") != null) {
+            lib.setRadicado(libroSoap.getProperty("RADICADO").toString());
+        }
+
+        if(libroSoap.getProperty("SERIE") != null) {
+            lib.setSerie(libroSoap.getProperty("SERIE").toString());
+        }
+
+        if(libroSoap.getProperty("ANIO") != null) {
+            lib.setAnio(Integer.parseInt(libroSoap.getProperty("ANIO").toString()));
+        }
+
+        return lib;
     }
 
     /**
@@ -371,22 +398,7 @@ public class TareasGenerales {
             {
                 for (SoapObject libroSoap : rs)
                 {
-                    lib = new Libro();
-                    lib.setIdLibro(Integer.parseInt(libroSoap.getProperty("ID_LIBRO").toString()));
-                    lib.setTitulo(libroSoap.getProperty("TITULO").toString());
-                    lib.setIsbn(libroSoap.getProperty("ISBN").toString());
-
-                    if(libroSoap.getProperty("COD_TOPOGRAFICO") != null){
-                        lib.setCodigoTopografico(libroSoap.getProperty("COD_TOPOGRAFICO").toString());
-                    }
-
-                    if(libroSoap.getProperty("TEMAS") != null){
-                        lib.setTemas(libroSoap.getProperty("TEMAS").toString());
-                    }
-                    if(libroSoap.getProperty("PAGINAS") != null) {
-                        lib.setPaginas(Integer.parseInt(libroSoap.getProperty("PAGINAS").toString()));
-                    }
-
+                    lib = obtenerLibroSoap(libroSoap);
                     Log.i("Generales.java",">>>>>>>>>>>> buscarLibroPorId: "+lib.getIdLibro());
                     break;
                 }

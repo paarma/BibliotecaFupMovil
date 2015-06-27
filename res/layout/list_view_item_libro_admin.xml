@@ -11,7 +11,7 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="35dp"
-        android:id="@+id/imgReservaUsuario"
+        android:id="@+id/imgLibroAdmin"
         android:src="@drawable/ic_book_white_48dp"/>
 
         <LinearLayout
@@ -43,7 +43,7 @@
 
     <!-- Panel oculto-->
     <LinearLayout
-        android:id="@+id/contenedorDetalleLibroReservar"
+        android:id="@+id/contenedorDetalleLibroAdmin"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
@@ -120,29 +120,94 @@
         </LinearLayout>
 
         <LinearLayout
-            android:orientation="vertical"
+            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+            <!-- EditText para el valor del libro -->
             <TextView
+                android:id="@+id/textViewValor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Fecha Reserva:"
-                android:id="@+id/textView3"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="20dp" />
+                android:layout_below="@+id/editTextPaginas"
+                android:text="Valor:" />
 
-            <DatePicker
-                android:layout_width="150dp"
+            <EditText
+                android:id="@+id/editTextValor"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/datePickerFechaReserva"
-                android:layout_centerHorizontal="true"
-                android:layout_marginBottom="66dp"
-                android:calendarViewShown="false"
-                android:visibility="visible"
-                android:measureAllChildren="false"
-                android:layout_gravity="center_horizontal" />
+                android:layout_below="@+id/textViewValor"
+                android:inputType="numberDecimal"
+                android:enabled="false"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!-- EditText para el radicado del libro -->
+            <TextView
+                android:id="@+id/textViewRadicado"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/editTextValor"
+                android:text="Radicado:" />
+
+            <EditText
+                android:id="@+id/editTextRadicado"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textViewRadicado"
+                android:inputType="number"
+                android:enabled="false"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!-- EditText para la Serie del libro -->
+            <TextView
+                android:id="@+id/textViewSerie"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/editTextRadicado"
+                android:text="Serie:" />
+
+            <EditText
+                android:id="@+id/editTextSerie"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textViewSerie"
+                android:inputType="number"
+                android:enabled="false"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!-- EditText para el Año del libro -->
+            <TextView
+                android:id="@+id/textViewAnio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/editTextSerie"
+                android:text="Año:" />
+
+            <EditText
+                android:id="@+id/editTextAnio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textViewAnio"
+                android:inputType="number"
+                android:enabled="false"/>
 
         </LinearLayout>
 
