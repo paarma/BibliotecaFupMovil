@@ -114,7 +114,7 @@ public class FmListaLibrosAdmin extends SherlockFragment {
                 Log.i("LibrosAdmin",">>>>>>>>>>> Tamaño lista libros buscada: "+listaLibros.size());
             }catch (Exception e){
                 resultadoTarea = false;
-                Log.d("LibrosAdmin ", "xxx Error TareaWsBuscarLibros: " + e.getMessage());
+                Log.e("ListaLibrosAdmin ", "xxx Error TareaWsBuscarLibros: " + e.getMessage());
             }
             return resultadoTarea;
         }

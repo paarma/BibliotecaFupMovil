@@ -178,12 +178,12 @@ public class FmCrearLibroAdmin extends SherlockFragment {
 
             Editorial editorialSeleccionada = (Editorial) spinnerEditorial.getSelectedItem();
             if(editorialSeleccionada != null){
-                lib.setIdEditorial(editorialSeleccionada.getIdEditorial());
+                lib.setEditorial(editorialSeleccionada);
             }
 
             Area arealSeleccionada = (Area) spinnerArea.getSelectedItem();
             if(arealSeleccionada != null){
-                lib.setIdArea(arealSeleccionada.getIdArea());
+                lib.setArea(arealSeleccionada);
             }
 
             Sede sedeSeleccionada = (Sede) spinnerSede.getSelectedItem();
@@ -247,8 +247,8 @@ public class FmCrearLibroAdmin extends SherlockFragment {
         request.addProperty("codTopografico",libro.getCodigoTopografico());
         request.addProperty("serie",libro.getSerie());
         request.addProperty("idSede",libro.getIdSede());
-        request.addProperty("idEditorial",libro.getIdEditorial());
-        request.addProperty("idArea",libro.getIdArea());
+        request.addProperty("idEditorial",libro.getEditorial().getIdEditorial());
+        request.addProperty("idArea",libro.getArea().getIdArea());
         request.addProperty("anio",libro.getAnio());
         request.addProperty("temas",libro.getTemas());
         request.addProperty("paginas",libro.getPaginas());

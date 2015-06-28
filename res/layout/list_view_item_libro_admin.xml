@@ -211,6 +211,52 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!-- EditText para Editorial del libro-->
+            <TextView
+                android:id="@+id/textViewEditorial"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/editTextAnio"
+                android:text="Editorial:" />
+
+
+            <EditText
+                android:id="@+id/editTextEditorial"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textViewEditorial"
+                android:enabled="false"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!-- EditText para Area del libro-->
+            <TextView
+                android:id="@+id/textViewArea"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/editTextEditorial"
+                android:text="Área:" />
+
+
+            <EditText
+                android:id="@+id/editTextArea"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textViewArea"
+                android:enabled="false"/>
+
+        </LinearLayout>
+
     </LinearLayout>
     <!-- Fin panel oculto -->
 

@@ -51,7 +51,13 @@ public class TareasGenerales {
         request.addProperty("isbn",libroBuscar.getIsbn());
         request.addProperty("codTopografico",libroBuscar.getCodigoTopografico());
         request.addProperty("temas",libroBuscar.getTemas());
-        request.addProperty("editorial",libroBuscar.getIdEditorial());
+
+        if(libroBuscar.getEditorial() != null){
+        request.addProperty("editorial",libroBuscar.getEditorial().getIdEditorial());
+        }else{
+            request.addProperty("editorial","");
+        }
+
 
         SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
         envelope.bodyOut = request;
@@ -113,6 +119,16 @@ public class TareasGenerales {
 
         if(libroSoap.getProperty("ANIO") != null) {
             lib.setAnio(Integer.parseInt(libroSoap.getProperty("ANIO").toString()));
+        }
+
+        //Editorial
+        if(libroSoap.getProperty("ID_EDITORIAL") != null) {
+            lib.setEditorial(buscarEditorialPorId(Integer.parseInt(libroSoap.getProperty("ID_EDITORIAL").toString())));
+        }
+
+        //Area
+        if(libroSoap.getProperty("ID_AREA") != null) {
+            lib.setArea(buscarAreaPorId(Integer.parseInt(libroSoap.getProperty("ID_AREA").toString())));
         }
 
         return lib;
@@ -189,7 +205,14 @@ public class TareasGenerales {
         request.addProperty("isbn",libroBuscar.getIsbn());
         request.addProperty("codTopografico",libroBuscar.getCodigoTopografico());
         request.addProperty("temas",libroBuscar.getTemas());
-        request.addProperty("editorial",libroBuscar.getIdEditorial());
+
+        //Busqueda por editorial
+        if(libroBuscar.getEditorial() != null){
+            request.addProperty("editorial",libroBuscar.getEditorial().getIdEditorial());
+        }else{
+            request.addProperty("editorial","");
+        }
+
         request.addProperty("idUsuarioReserva",idUsuarioReserva);
         request.addProperty("estadoReserva",estadoReserva);
 
@@ -458,6 +481,90 @@ public class TareasGenerales {
         }
         return usuario;
 
+    }
+
+    /**
+     * Metodo encargado de retornar una Editorial segun su ID
+     * @param idEditorial
+     * @return Editorial
+     */
+    public Editorial buscarEditorialPorId(int idEditorial){
+
+        final String SOAP_ACTION = conf.getUrl()+"/buscarEditorialPorId";
+        final String METHOD_NAME = "buscarEditorialPorId";
+        final String NAMESPACE = conf.getNamespace();
+        final String URL = conf.getUrl();
+        Editorial editorial = null;
+
+        SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
+        request.addProperty("idEditorial",idEditorial);
+
+        SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+        envelope.bodyOut = request;
+
+        HttpTransportSE transporte = new HttpTransportSE(URL);
+        try {
+            transporte.call(SOAP_ACTION, envelope);
+            java.util.Vector<SoapObject> rs = (java.util.Vector<SoapObject>) envelope.getResponse();
+
+            if (rs != null)
+            {
+                for (SoapObject edit : rs)
+                {
+                    editorial = new Editorial();
+                    editorial.setIdEditorial(Integer.parseInt(edit.getProperty("ID_EDITORIAL").toString()));
+                    editorial.setDescripcion(edit.getProperty("DESCRIPCION").toString());
+
+                    Log.i("Generales.java",">>>>>>>>>>>> buscarEditorialPorId: "+editorial.getIdEditorial());
+                    break;
+                }
+            }
+        }catch (Exception e){
+            Log.d("Generales.java ", "xxx Error buscarEditorialPorId(): "+e.getMessage());
+        }
+        return editorial;
+    }
+
+    /**
+     * Metodo encargado de retornar un Area segun su ID
+     * @param idArea
+     * @return Area
+     */
+    public Area buscarAreaPorId(int idArea){
+
+        final String SOAP_ACTION = conf.getUrl()+"/buscarAreaPorId";
+        final String METHOD_NAME = "buscarAreaPorId";
+        final String NAMESPACE = conf.getNamespace();
+        final String URL = conf.getUrl();
+        Area area = null;
+
+        SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
+        request.addProperty("idArea",idArea);
+
+        SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+        envelope.bodyOut = request;
+
+        HttpTransportSE transporte = new HttpTransportSE(URL);
+        try {
+            transporte.call(SOAP_ACTION, envelope);
+            java.util.Vector<SoapObject> rs = (java.util.Vector<SoapObject>) envelope.getResponse();
+
+            if (rs != null)
+            {
+                for (SoapObject areaSoap : rs)
+                {
+                    area = new Area();
+                    area.setIdArea(Integer.parseInt(areaSoap.getProperty("ID_AREA").toString()));
+                    area.setDescripcion(areaSoap.getProperty("DESCRIPCION").toString());
+
+                    Log.i("Generales.java",">>>>>>>>>>>> buscarAreaPorId: "+area.getIdArea());
+                    break;
+                }
+            }
+        }catch (Exception e){
+            Log.d("Generales.java ", "xxx Error buscarAreaPorId(): "+e.getMessage());
+        }
+        return area;
     }
 
 }

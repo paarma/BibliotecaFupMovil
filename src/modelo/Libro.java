@@ -19,8 +19,8 @@ public class Libro implements Serializable {
     private String codigoTopografico;
     private String serie;
     private int idSede;
-    private int idEditorial;
-    private int idArea;
+    private Editorial editorial;
+    private Area area;
     private int anio;
     private String temas;
     private int paginas;
@@ -41,8 +41,8 @@ public class Libro implements Serializable {
         this.codigoTopografico = "";
         this.serie = "";
         this.idSede = 0;
-        this.idEditorial = 0;
-        this.idArea = 0;
+        this.editorial = null;
+        this.area = null;
         this.anio = 0;
         this.temas = "";
         this.paginas = 0;
@@ -53,8 +53,8 @@ public class Libro implements Serializable {
 
     public Libro(int idLibro, String titulo, int valor, String adquisicion,
                  String estado, String isbn, String radicado, Date fechaIngreso,
-                 String codigoTopografico, String serie, int idSede, int idEditorial,
-                 int idArea, int anio, String temas, int paginas, String disponibilidad,
+                 String codigoTopografico, String serie, int idSede, Editorial editorial,
+                 Area area, int anio, String temas, int paginas, String disponibilidad,
                  int idUsuario, int idCiudad) {
 
         this.idLibro = idLibro;
@@ -68,8 +68,8 @@ public class Libro implements Serializable {
         this.codigoTopografico = codigoTopografico;
         this.serie = serie;
         this.idSede = idSede;
-        this.idEditorial = idEditorial;
-        this.idArea = idArea;
+        this.editorial = editorial;
+        this.area = area;
         this.anio = anio;
         this.temas = temas;
         this.paginas = paginas;
@@ -166,20 +166,20 @@ public class Libro implements Serializable {
         this.idSede = idSede;
     }
 
-    public int getIdEditorial() {
-        return idEditorial;
+    public Editorial getEditorial() {
+        return editorial;
     }
 
-    public void setIdEditorial(int idEditorial) {
-        this.idEditorial = idEditorial;
+    public void setEditorial(Editorial editorial) {
+        this.editorial = editorial;
     }
 
-    public int getIdArea() {
-        return idArea;
+    public Area getArea() {
+        return area;
     }
 
-    public void setIdArea(int idArea) {
-        this.idArea = idArea;
+    public void setArea(Area area) {
+        this.area = area;
     }
 
     public int getAnio() {

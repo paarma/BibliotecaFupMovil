@@ -91,7 +91,7 @@ public class FmBuscarLibroUsuario extends SherlockFragment {
 
         Editorial editorialSeleccionada = (Editorial) spinnerEditorial.getSelectedItem();
         if(editorialSeleccionada != null){
-            libro.setIdEditorial(editorialSeleccionada.getIdEditorial());
+            libro.setEditorial(editorialSeleccionada);
             Log.i("Buscar",">>>>>>>> Editorial seleccionada buscarLibro: "+editorialSeleccionada.getDescripcion());
         }
 

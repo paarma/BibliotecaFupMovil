@@ -65,5 +65,15 @@ public class LibroListAdapterAdmin extends ArrayAdapter<Libro> {
         editText = (EditText) view.findViewById(R.id.editTextAnio);
         editText.setText(String.valueOf(libroActual.getAnio()));
 
+        if(libroActual.getEditorial() != null) {
+            editText = (EditText) view.findViewById(R.id.editTextEditorial);
+            editText.setText(String.valueOf(libroActual.getEditorial().getDescripcion()));
+        }
+
+        if(libroActual.getArea() != null) {
+            editText = (EditText) view.findViewById(R.id.editTextArea);
+            editText.setText(String.valueOf(libroActual.getArea().getDescripcion()));
+        }
+
     }
 }
