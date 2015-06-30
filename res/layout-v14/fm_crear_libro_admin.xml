@@ -254,12 +254,15 @@
                 android:layout_below="@+id/spinnerCiudad"
                 android:text="Adquisición:" />
 
-            <EditText
-                android:id="@+id/editTextAdquisicion"
-                android:layout_width="match_parent"
+            <Spinner
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:id="@+id/spinnerAdquisicion"
                 android:layout_below="@+id/textViewAdquisicion"
-                />
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="12dp"
+                android:dropDownSelector="@color/list_divider"
+                android:background="@color/list_divider" />
 
 
             <!-- EditText para el estado del libro-->
@@ -267,7 +270,7 @@
                 android:id="@+id/textViewEstado"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/editTextAdquisicion"
+                android:layout_below="@+id/spinnerAdquisicion"
                 android:text="Estado:" />
 
             <Spinner

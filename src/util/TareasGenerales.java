@@ -131,6 +131,19 @@ public class TareasGenerales {
             lib.setArea(buscarAreaPorId(Integer.parseInt(libroSoap.getProperty("ID_AREA").toString())));
         }
 
+        //Sede
+        if(libroSoap.getProperty("ID_SEDE") != null) {
+            lib.setSede(buscarSedePorId(Integer.parseInt(libroSoap.getProperty("ID_SEDE").toString())));
+        }
+
+        if(libroSoap.getProperty("ADQUISICION") != null) {
+            lib.setAdquisicion(libroSoap.getProperty("ADQUISICION").toString());
+        }
+
+        if(libroSoap.getProperty("ESTADO") != null) {
+            lib.setEstado(libroSoap.getProperty("ESTADO").toString());
+        }
+
         return lib;
     }
 
@@ -565,6 +578,48 @@ public class TareasGenerales {
             Log.d("Generales.java ", "xxx Error buscarAreaPorId(): "+e.getMessage());
         }
         return area;
+    }
+
+    /**
+     * Metodo encargado de retornar una Sede segun su ID
+     * @param idSede
+     * @return Sede
+     */
+    public Sede buscarSedePorId(int idSede){
+
+        final String SOAP_ACTION = conf.getUrl()+"/buscarSedePorId";
+        final String METHOD_NAME = "buscarSedePorId";
+        final String NAMESPACE = conf.getNamespace();
+        final String URL = conf.getUrl();
+        Sede sede = null;
+
+        SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
+        request.addProperty("idSede",idSede);
+
+        SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+        envelope.bodyOut = request;
+
+        HttpTransportSE transporte = new HttpTransportSE(URL);
+        try {
+            transporte.call(SOAP_ACTION, envelope);
+            java.util.Vector<SoapObject> rs = (java.util.Vector<SoapObject>) envelope.getResponse();
+
+            if (rs != null)
+            {
+                for (SoapObject sedeSoap : rs)
+                {
+                    sede = new Sede();
+                    sede.setIdSede(Integer.parseInt(sedeSoap.getProperty("ID_SEDE").toString()));
+                    sede.setDescripcion(sedeSoap.getProperty("DESCRIPCION").toString());
+
+                    Log.i("Generales.java",">>>>>>>>>>>> buscarSedePorId: "+sede.getIdSede());
+                    break;
+                }
+            }
+        }catch (Exception e){
+            Log.d("Generales.java ", "xxx Error buscarSedePorId(): "+e.getMessage());
+        }
+        return sede;
     }
 
 }

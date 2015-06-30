@@ -34,10 +34,9 @@ import util.VariablesGlobales;
 public class FmCrearLibroAdmin extends SherlockFragment {
 
     EditText titulo, isbn, codTopografico, temas, paginas, valor, adquisicion, radicado,anio,serie;
-    Spinner estado, spinnerEditorial, spinnerArea, spinnerSede, ciudad;
+    Spinner spinnerEstado, spinnerAdquisicion, spinnerEditorial, spinnerArea, spinnerSede, ciudad;
     VariablesGlobales variablesGlobales = VariablesGlobales.getInstance();
 
-    private final static String[] tipoEstado = { "Seleccione..", "Bueno", "Malo"};
     private final static String[] tipoCiudad = { "Seleccione..", "Ciudad_1", "Ciudad_2"};
 
 
@@ -84,7 +83,6 @@ public class FmCrearLibroAdmin extends SherlockFragment {
         paginas.getText().clear();
 
         valor.getText().clear();
-        adquisicion.getText().clear();
         radicado.getText().clear();
     }
 
@@ -97,7 +95,8 @@ public class FmCrearLibroAdmin extends SherlockFragment {
         paginas = (EditText) view.findViewById(R.id.editTextPaginas);
         anio = (EditText) view.findViewById(R.id.editTextAnio);
         serie = (EditText) view.findViewById(R.id.editTextSerie);
-        estado = (Spinner) view.findViewById(R.id.spinnerEstado);
+        spinnerEstado = (Spinner) view.findViewById(R.id.spinnerEstado);
+        spinnerAdquisicion = (Spinner) view.findViewById(R.id.spinnerAdquisicion);
         spinnerEditorial = (Spinner) view.findViewById(R.id.spinnerEditorial);
         spinnerArea = (Spinner) view.findViewById(R.id.spinnerArea);
         spinnerSede = (Spinner) view.findViewById(R.id.spinnerSede);
@@ -108,9 +107,14 @@ public class FmCrearLibroAdmin extends SherlockFragment {
 
         cargarSpinners();
 
-        ArrayAdapter adapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_spinner_dropdown_item, tipoEstado);
-        Spinner spTipoEstado = (Spinner) view.findViewById(R.id.spinnerEstado);
-        spTipoEstado.setAdapter(adapter);
+        //Se cargan algunos spinners con los datos del archivo arrays.xml
+        ArrayAdapter adapterEstado = ArrayAdapter.createFromResource(getActivity(), R.array.estados_crear_libro, android.R.layout.simple_spinner_item);
+        adapterEstado.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerEstado.setAdapter(adapterEstado);
+
+        ArrayAdapter adapterAdquisicion = ArrayAdapter.createFromResource(getActivity(), R.array.adquisicion_crear_libro, android.R.layout.simple_spinner_item);
+        adapterAdquisicion.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerAdquisicion.setAdapter(adapterAdquisicion);
 
         ArrayAdapter adapterCiudad = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_spinner_dropdown_item, tipoCiudad);
         Spinner spCiudad = (Spinner) view.findViewById(R.id.spinnerCiudad);
@@ -157,14 +161,13 @@ public class FmCrearLibroAdmin extends SherlockFragment {
             lib.setSerie(serie.getText().toString());
             lib.setIsbn(isbn.getText().toString());
             lib.setCodigoTopografico(codTopografico.getText().toString());
-            lib.setAdquisicion(adquisicion.getText().toString());
 
-            if (estado.getSelectedItem().toString().equals("Bueno")) {
-                lib.setEstado("BUENO");
+            if (!spinnerEstado.getSelectedItem().toString().equals("Seleccione...")) {
+                lib.setEstado(spinnerEstado.getSelectedItem().toString());
             }
 
-            if (estado.getSelectedItem().toString().equals("Malo")) {
-                lib.setEstado("MALO");
+            if (!spinnerAdquisicion.getSelectedItem().toString().equals("Seleccione...")) {
+                lib.setAdquisicion(spinnerAdquisicion.getSelectedItem().toString());
             }
 
             lib.setRadicado(radicado.getText().toString());
@@ -188,7 +191,7 @@ public class FmCrearLibroAdmin extends SherlockFragment {
 
             Sede sedeSeleccionada = (Sede) spinnerSede.getSelectedItem();
             if(sedeSeleccionada != null){
-                lib.setIdSede(sedeSeleccionada.getIdSede());
+                lib.setSede(sedeSeleccionada);
             }
 
             if (ciudad.getSelectedItem().toString().equals("Ciudad_1")) {
@@ -246,7 +249,7 @@ public class FmCrearLibroAdmin extends SherlockFragment {
 
         request.addProperty("codTopografico",libro.getCodigoTopografico());
         request.addProperty("serie",libro.getSerie());
-        request.addProperty("idSede",libro.getIdSede());
+        request.addProperty("idSede",libro.getSede().getIdSede());
         request.addProperty("idEditorial",libro.getEditorial().getIdEditorial());
         request.addProperty("idArea",libro.getArea().getIdArea());
         request.addProperty("anio",libro.getAnio());

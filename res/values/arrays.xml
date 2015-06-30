@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="estados_crear_libro">
+        <item>Seleccione...</item>
+        <item>BUENO</item>
+        <item>REGULAR</item>
+        <item>MALO</item>
+    </string-array>
+
+    <string-array name="adquisicion_crear_libro">
+        <item>Seleccione...</item>
+        <item>COMPRADO</item>
+        <item>DONADO</item>
+    </string-array>
+
+</resources>

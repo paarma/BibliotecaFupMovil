@@ -257,6 +257,73 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!-- EditText para el Sede del libro-->
+            <TextView
+                android:id="@+id/textViewSede"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/editTextArea"
+                android:text="Sede:" />
+
+
+            <EditText
+                android:id="@+id/editTextSede"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textViewSede"
+                android:enabled="false"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!-- EditText para el tipo de adquisicion del libro -->
+            <TextView
+                android:id="@+id/textViewAdquisicion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/editTextSede"
+                android:text="Adquisición:" />
+
+            <EditText
+                android:id="@+id/editTextAdquisicion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textViewAdquisicion"
+                android:enabled="false"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!-- EditText para el estado del libro-->
+            <TextView
+                android:id="@+id/textViewEstado"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/editTextAdquisicion"
+                android:text="Estado:" />
+
+            <EditText
+                android:id="@+id/editTextEstado"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textViewEstado"
+                android:enabled="false"/>
+
+        </LinearLayout>
+
     </LinearLayout>
     <!-- Fin panel oculto -->
 

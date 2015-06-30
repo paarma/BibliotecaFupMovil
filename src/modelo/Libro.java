@@ -18,7 +18,7 @@ public class Libro implements Serializable {
     private Date fechaIngreso;
     private String codigoTopografico;
     private String serie;
-    private int idSede;
+    private Sede sede;
     private Editorial editorial;
     private Area area;
     private int anio;
@@ -40,7 +40,7 @@ public class Libro implements Serializable {
         this.fechaIngreso = null;
         this.codigoTopografico = "";
         this.serie = "";
-        this.idSede = 0;
+        this.sede = null;
         this.editorial = null;
         this.area = null;
         this.anio = 0;
@@ -53,7 +53,7 @@ public class Libro implements Serializable {
 
     public Libro(int idLibro, String titulo, int valor, String adquisicion,
                  String estado, String isbn, String radicado, Date fechaIngreso,
-                 String codigoTopografico, String serie, int idSede, Editorial editorial,
+                 String codigoTopografico, String serie, Sede sede, Editorial editorial,
                  Area area, int anio, String temas, int paginas, String disponibilidad,
                  int idUsuario, int idCiudad) {
 
@@ -67,7 +67,7 @@ public class Libro implements Serializable {
         this.fechaIngreso = fechaIngreso;
         this.codigoTopografico = codigoTopografico;
         this.serie = serie;
-        this.idSede = idSede;
+        this.sede = sede;
         this.editorial = editorial;
         this.area = area;
         this.anio = anio;
@@ -158,12 +158,12 @@ public class Libro implements Serializable {
         this.serie = serie;
     }
 
-    public int getIdSede() {
-        return idSede;
+    public Sede getSede() {
+        return sede;
     }
 
-    public void setIdSede(int idSede) {
-        this.idSede = idSede;
+    public void setSede(Sede sede) {
+        this.sede = sede;
     }
 
     public Editorial getEditorial() {
