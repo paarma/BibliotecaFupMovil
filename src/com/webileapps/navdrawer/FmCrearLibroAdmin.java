@@ -249,9 +249,25 @@ public class FmCrearLibroAdmin extends SherlockFragment {
 
         request.addProperty("codTopografico",libro.getCodigoTopografico());
         request.addProperty("serie",libro.getSerie());
-        request.addProperty("idSede",libro.getSede().getIdSede());
-        request.addProperty("idEditorial",libro.getEditorial().getIdEditorial());
-        request.addProperty("idArea",libro.getArea().getIdArea());
+
+        if(libro.getSede() != null){
+            request.addProperty("idSede",libro.getSede().getIdSede());
+        }else{
+            request.addProperty("idSede","");
+        }
+
+        if(libro.getEditorial() != null){
+            request.addProperty("idEditorial",libro.getEditorial().getIdEditorial());
+        }else{
+            request.addProperty("idEditorial","");
+        }
+
+        if(libro.getArea() != null) {
+            request.addProperty("idArea", libro.getArea().getIdArea());
+        }else{
+            request.addProperty("idArea","");
+        }
+
         request.addProperty("anio",libro.getAnio());
         request.addProperty("temas",libro.getTemas());
         request.addProperty("paginas",libro.getPaginas());
