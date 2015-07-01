@@ -198,6 +198,10 @@ public class MainActivity extends SherlockFragmentActivity {
         if(usuarioLogueado != null) {
             //Administrador
             if (usuarioLogueado.getRol().equalsIgnoreCase("ADMIN")) {
+
+                //Se inicializa el objeto libroBuscar
+                variablesGlobales.setLibroBuscar(new Libro());
+
                 // Locate Position
                 switch (position) {
                     case 0:
@@ -359,6 +363,42 @@ public class MainActivity extends SherlockFragmentActivity {
         FmBuscarLibroUsuario.capturarObjetoBusqueda();
 
         ft.replace(R.id.content_frame, fmlibrosUsuario);
+        ft.commit();
+    }
+
+    //Botones al pie de la pantalla (Admin)
+    /**
+     * Boton Buscar Libro ubicado al pie de las pantallas listadoLibros del rol Admin
+     * y permite dirigir a la pantalla de buscar
+     * @param view
+     */
+    public void verBuscarLibroAdmin(View view){
+
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+
+        variablesGlobales.setOpcionMenu(2); //Buscar Libros
+        fmLibrosAdmin = new FmLibrosAdmin();
+
+        ft.replace(R.id.content_frame, fmLibrosAdmin);
+        ft.commit();
+    }
+
+    /**
+     * Funcion encargada de buscar libros y direccionar a la pagina que invoco la busqueda
+     * ya sea por Reservar o MisLibros del rol Usuario
+     * @param view
+     */
+    public void buscarLibroAdmin(View view){
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+
+        variablesGlobales.setOpcionMenu(1); //Listado Libros
+
+        fmLibrosAdmin = new FmLibrosAdmin();
+
+        //Se capturan los parametros para la busqueda del libro
+        FmBuscarLibrosAdmin.capturarObjetoBusqueda();
+
+        ft.replace(R.id.content_frame, fmLibrosAdmin);
         ft.commit();
     }
 

@@ -3,6 +3,7 @@ package com.webileapps.navdrawer;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +12,11 @@ import com.actionbarsherlock.app.SherlockFragment;
 
 import java.lang.reflect.Field;
 
+import util.VariablesGlobales;
+
 public class FmLibrosAdmin extends SherlockFragment {
+
+    VariablesGlobales variablesGlobales = VariablesGlobales.getInstance();
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -21,7 +26,12 @@ public class FmLibrosAdmin extends SherlockFragment {
 		ViewPager mViewPager = (ViewPager) view.findViewById(R.id.viewPager);
 		// Set the ViewPagerAdapter into ViewPager
 		mViewPager.setAdapter(new ViewPagerAdapterLibroAdmin(getChildFragmentManager()));
-		return view;
+
+        //Despliega el TAB especifico seleccionado desde el MENU
+        mViewPager.setCurrentItem(variablesGlobales.getOpcionMenu());
+        Log.i("FmLibrosAdmin", ">>>>>>>>>>>>>>>> opcion menu seleccionado " + variablesGlobales.getOpcionMenu());
+
+        return view;
 	}
 
 	@Override
