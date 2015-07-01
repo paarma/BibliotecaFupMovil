@@ -109,7 +109,7 @@ public class CargarSpinners {
 
                 if(nombreClase.equals(Editorial.class.getSimpleName())) {
                     ArrayAdapter<Editorial> adapter = new ArrayAdapter<Editorial>(fActivity,
-                            android.R.layout.simple_list_item_1, listaEditoriales);
+                            R.layout.spinner_item, listaEditoriales);
 
                     spinner.setAdapter(new NothingSelectedSpinnerAdapter(
                             adapter, R.layout.contact_spinner_nothing_selected,
@@ -118,7 +118,7 @@ public class CargarSpinners {
 
                 if(nombreClase.equals(Area.class.getSimpleName())) {
                     ArrayAdapter<Area> adapter = new ArrayAdapter<Area>(fActivity,
-                            android.R.layout.simple_list_item_1, listaAreas);
+                            R.layout.spinner_item, listaAreas);
 
                     spinner.setAdapter(new NothingSelectedSpinnerAdapter(
                             adapter, R.layout.contact_spinner_nothing_selected,
@@ -127,7 +127,7 @@ public class CargarSpinners {
 
                 if(nombreClase.equals(Sede.class.getSimpleName())) {
                     ArrayAdapter<Sede> adapter = new ArrayAdapter<Sede>(fActivity,
-                            android.R.layout.simple_list_item_1, listaSedes);
+                            R.layout.spinner_item, listaSedes);
 
                     spinner.setAdapter(new NothingSelectedSpinnerAdapter(
                             adapter, R.layout.contact_spinner_nothing_selected,

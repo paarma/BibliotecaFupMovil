@@ -109,14 +109,14 @@ public class FmCrearLibroAdmin extends SherlockFragment {
 
         //Se cargan algunos spinners con los datos del archivo arrays.xml
         ArrayAdapter adapterEstado = ArrayAdapter.createFromResource(getActivity(), R.array.estados_crear_libro, android.R.layout.simple_spinner_item);
-        adapterEstado.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        adapterEstado.setDropDownViewResource(R.layout.spinner_item);
         spinnerEstado.setAdapter(adapterEstado);
 
         ArrayAdapter adapterAdquisicion = ArrayAdapter.createFromResource(getActivity(), R.array.adquisicion_crear_libro, android.R.layout.simple_spinner_item);
-        adapterAdquisicion.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        adapterAdquisicion.setDropDownViewResource(R.layout.spinner_item);
         spinnerAdquisicion.setAdapter(adapterAdquisicion);
 
-        ArrayAdapter adapterCiudad = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_spinner_dropdown_item, tipoCiudad);
+        ArrayAdapter adapterCiudad = new ArrayAdapter<String>(getActivity(), R.layout.spinner_item, tipoCiudad);
         Spinner spCiudad = (Spinner) view.findViewById(R.id.spinnerCiudad);
         spCiudad.setAdapter(adapterCiudad);
     }

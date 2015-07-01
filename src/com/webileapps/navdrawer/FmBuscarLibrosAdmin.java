@@ -126,7 +126,7 @@ public class FmBuscarLibrosAdmin extends SherlockFragment {
             if(result){
 
                 ArrayAdapter<Editorial> adapter = new ArrayAdapter<Editorial>(getActivity(),
-                        android.R.layout.simple_list_item_1,listaEditoriales);
+                        R.layout.spinner_item,listaEditoriales);
 
                 //Se modifica el seteo general del adapter...
                 //spinnerEditorial.setAdapter(adapter);
