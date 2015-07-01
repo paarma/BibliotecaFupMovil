@@ -250,8 +250,14 @@ public class UtilidadesBuscarPorId {
 
         Libro lib = new Libro();
         lib.setIdLibro(Integer.parseInt(libroSoap.getProperty("ID_LIBRO").toString()));
-        lib.setTitulo(libroSoap.getProperty("TITULO").toString());
-        lib.setIsbn(libroSoap.getProperty("ISBN").toString());
+
+        if(libroSoap.getProperty("TITULO") != null){
+            lib.setTitulo(libroSoap.getProperty("TITULO").toString());
+        }
+
+        if(libroSoap.getProperty("ISBN") != null){
+            lib.setIsbn(libroSoap.getProperty("ISBN").toString());
+        }
 
         if(libroSoap.getProperty("COD_TOPOGRAFICO") != null){
             lib.setCodigoTopografico(libroSoap.getProperty("COD_TOPOGRAFICO").toString());
