@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragment;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -129,6 +130,31 @@ public class FmReservarUsuario extends SherlockFragment {
 /*                Calendar minCalendar = Calendar.getInstance();
                 minCalendar.set(Calendar.MILLISECOND, minCalendar.MILLISECOND - 1000);
                 dpFechaReserva.setMinDate(minCalendar.getTimeInMillis() - 1000);*/
+
+                /////////////////////////////////////////////////////////////////////
+                //Se oculta el año del datepicker para solo mostrar el dia y la fecha.
+                try {
+                    Field f[] = dpFechaReserva.getClass().getDeclaredFields();
+                    for (Field field : f) {
+                        if (field.getName().equals("mYearPicker") || field.getName().equals("mYearSpinner")) {
+                            field.setAccessible(true);
+                            Object yearPicker = new Object();
+                            yearPicker = field.get(dpFechaReserva);
+                            ((View) yearPicker).setVisibility(View.GONE);
+                        }
+                    }
+                }
+                catch (SecurityException e) {
+                    Log.d("ERROR", e.getMessage());
+                }
+                catch (IllegalArgumentException e) {
+                    Log.d("ERROR", e.getMessage());
+                }
+                catch (IllegalAccessException e) {
+                    Log.d("ERROR", e.getMessage());
+                }
+                ////////////////////////////////////////////////////////////////////
+                /////////////////Fin ocultar campos del datepicker
 
                 //Se despliega el detalle del item seleccionado
                 vista.findViewById(R.id.contenedorDetalleLibroReservar).setVisibility(View.VISIBLE);
