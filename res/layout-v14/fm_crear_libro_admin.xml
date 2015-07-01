@@ -152,20 +152,34 @@
                 android:layout_below="@+id/textViewSerie"
                 android:inputType="number" />
 
-            <!-- EditText para el Año del libro -->
-            <TextView
-                android:id="@+id/textViewAnio"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/editTextSerie"
-                android:text="Año:" />
 
-            <EditText
-                android:id="@+id/editTextAnio"
+            <!-- Año del libro -->
+            <LinearLayout
+                android:id="@+id/linearAnioLibro"
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/textViewAnio"
-                android:inputType="number" />
+                android:layout_below="@+id/editTextSerie">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Año:"
+                    android:id="@+id/textViewAnioLibro"
+                    android:layout_gravity="center_horizontal|top"
+                    android:layout_marginTop="70dp" />
+
+                <DatePicker
+                    android:layout_width="272dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/datePickerAnioLibro"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="66dp"
+                    android:calendarViewShown="false"
+                    android:visibility="visible"
+                    android:measureAllChildren="false"
+                    android:layout_gravity="center_horizontal" />
+            </LinearLayout>
 
 
             <!-- EditText para Editorial del libro-->
@@ -173,7 +187,7 @@
                 android:id="@+id/textViewEditorial"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/editTextAnio"
+                android:layout_below="@+id/linearAnioLibro"
                 android:text="Editorial:" />
 
 

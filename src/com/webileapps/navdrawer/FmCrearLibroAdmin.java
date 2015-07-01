@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
@@ -20,6 +21,7 @@ import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
+import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -33,12 +35,14 @@ import util.VariablesGlobales;
 
 public class FmCrearLibroAdmin extends SherlockFragment {
 
-    EditText titulo, isbn, codTopografico, temas, paginas, valor, adquisicion, radicado,anio,serie;
+    EditText titulo, isbn, codTopografico, temas, paginas, valor, adquisicion, radicado, serie;
     Spinner spinnerEstado, spinnerAdquisicion, spinnerEditorial, spinnerArea, spinnerSede, ciudad;
+
+    DatePicker dpickerAnioLibro;
+
     VariablesGlobales variablesGlobales = VariablesGlobales.getInstance();
 
     private final static String[] tipoCiudad = { "Seleccione..", "Ciudad_1", "Ciudad_2"};
-
 
     @Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -93,7 +97,6 @@ public class FmCrearLibroAdmin extends SherlockFragment {
         codTopografico = (EditText) view.findViewById(R.id.editTextCodTopo);
         temas = (EditText) view.findViewById(R.id.editTextTemas);
         paginas = (EditText) view.findViewById(R.id.editTextPaginas);
-        anio = (EditText) view.findViewById(R.id.editTextAnio);
         serie = (EditText) view.findViewById(R.id.editTextSerie);
         spinnerEstado = (Spinner) view.findViewById(R.id.spinnerEstado);
         spinnerAdquisicion = (Spinner) view.findViewById(R.id.spinnerAdquisicion);
@@ -119,6 +122,33 @@ public class FmCrearLibroAdmin extends SherlockFragment {
         ArrayAdapter adapterCiudad = new ArrayAdapter<String>(getActivity(), R.layout.spinner_item, tipoCiudad);
         Spinner spCiudad = (Spinner) view.findViewById(R.id.spinnerCiudad);
         spCiudad.setAdapter(adapterCiudad);
+
+        ////////////////Se referencia el datepicker
+        //y se ocultan los campos dia y mes para solo mostrar el año.
+        dpickerAnioLibro = (DatePicker) view.findViewById(R.id.datePickerAnioLibro);
+        try {
+            Field f[] = dpickerAnioLibro.getClass().getDeclaredFields();
+            for (Field field : f) {
+                if (field.getName().equals("mDayPicker") || field.getName().equals("mDaySpinner") ||
+                    field.getName().equals("mMonthPicker") || field.getName().equals("mMonthSpinner") ) {
+                    field.setAccessible(true);
+                    Object yearPicker = new Object();
+                    yearPicker = field.get(dpickerAnioLibro);
+                    ((View) yearPicker).setVisibility(View.GONE);
+                }
+            }
+        }
+        catch (SecurityException e) {
+            Log.d("ERROR", e.getMessage());
+        }
+        catch (IllegalArgumentException e) {
+            Log.d("ERROR", e.getMessage());
+        }
+        catch (IllegalAccessException e) {
+            Log.d("ERROR", e.getMessage());
+        }
+        /////////////////Fin carga datepicker
+
     }
 
     /**
@@ -153,11 +183,7 @@ public class FmCrearLibroAdmin extends SherlockFragment {
                 lib.setPaginas(Integer.parseInt(paginas.getText().toString()));
             }
 
-            if(anio.getText().toString().trim().length() > 0){
-                lib.setAnio(Integer.parseInt(anio.getText().toString()));
-            }
-
-
+            lib.setAnio(dpickerAnioLibro.getYear());
             lib.setSerie(serie.getText().toString());
             lib.setIsbn(isbn.getText().toString());
             lib.setCodigoTopografico(codTopografico.getText().toString());
