@@ -72,6 +72,7 @@ public class FmListaLibrosAdmin extends SherlockFragment {
             public void onItemClick(AdapterView<?> padre, View vista, int posicion, long id) {
 
                 libroSeleccionado = listaLibros.get(posicion);
+                variablesGlobales.setLibroSeleccionadoAdmin(libroSeleccionado);
 
                 //Se ocultan todos los detalles de libros que esten deplegados
                 try {

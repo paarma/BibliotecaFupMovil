@@ -12,24 +12,67 @@ import com.actionbarsherlock.app.SherlockFragment;
 
 import java.lang.reflect.Field;
 
+import modelo.Libro;
 import util.VariablesGlobales;
 
 public class FmLibrosAdmin extends SherlockFragment {
 
     VariablesGlobales variablesGlobales = VariablesGlobales.getInstance();
+    ViewPager mViewPager;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.viewpager_main, container, false);
 		// Locate the ViewPager in viewpager_main.xml
-		ViewPager mViewPager = (ViewPager) view.findViewById(R.id.viewPager);
+		mViewPager = (ViewPager) view.findViewById(R.id.viewPager);
 		// Set the ViewPagerAdapter into ViewPager
 		mViewPager.setAdapter(new ViewPagerAdapterLibroAdmin(getChildFragmentManager()));
 
         //Despliega el TAB especifico seleccionado desde el MENU
         mViewPager.setCurrentItem(variablesGlobales.getOpcionMenu());
         Log.i("FmLibrosAdmin", ">>>>>>>>>>>>>>>> opcion menu seleccionado " + variablesGlobales.getOpcionMenu());
+
+        //Evento al cambiar de TAB'S
+        mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                Log.i("pagina",">>>>>>>>>>>>>>>>>>>>>>>>>>> pagina seleccionada: "+position);
+
+                Fragment fragment = ((ViewPagerAdapterLibroAdmin)mViewPager.getAdapter()).getFragment(position);
+                if(fragment != null) {
+
+                    //Se inicializa el objeto libroBuscar
+                    variablesGlobales.setLibroBuscar(new Libro());
+
+                    switch (position) {
+                        case 0:
+                            Log.i("pagina0", ">>>>>>>>>>>>>>>>> Crear/Editar");
+                            //metodo sobreecrito onResume para recargar los datos del fragment
+                            //tambien carga los datos de un libro en caso de haber seleccionado un libro previamente.
+                            fragment.onResume();
+                            break;
+                        case 1:
+                            Log.i("pagina1", ">>>>>>>>>>>>>>>>> Lista Libros");
+                            fragment.onResume(); //metodo sobreecrito onResume para recargar los datos del fragment
+                            break;
+                        case 2:
+                            Log.i("pagina2", ">>>>>>>>>>>>>>>>> buscar");
+                            break;
+                    }
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
 
         return view;
 	}

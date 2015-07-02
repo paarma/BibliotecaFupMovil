@@ -50,6 +50,32 @@
             android:clickable="true">
 
             <ImageButton
+                android:id="@+id/btnActualizarLibroAdmin"
+                android:layout_width="64dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_mode_edit_white_48dp"
+                android:scaleType="fitCenter"
+                android:background="@android:color/transparent"
+                android:onClick="actualizarLibroAdmin"/>
+
+            <TextView
+                android:layout_height="match_parent"
+                android:textAlignment="gravity"
+                android:textColor="@color/blanco"
+                android:gravity="center_vertical"
+                android:textSize="18sp"
+                android:background="@drawable/drawer_shadow"/>
+
+        </GridLayout>
+
+        <!-- Boton tres -->
+        <GridLayout
+            android:layout_height="match_parent"
+            android:columnCount="2"
+            android:rowCount="1"
+            android:clickable="true">
+
+            <ImageButton
                 android:id="@+id/btnRefrescarLibrosAdmin"
                 android:layout_width="64dp"
                 android:layout_height="match_parent"
@@ -63,7 +89,7 @@
                 android:textColor="@color/blanco"
                 android:gravity="center_vertical"
                 android:textSize="18sp"
-                android:text="Actualizar" />
+                android:background="@drawable/drawer_shadow"/>
 
         </GridLayout>
 

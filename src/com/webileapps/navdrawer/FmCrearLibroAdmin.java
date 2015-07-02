@@ -31,6 +31,7 @@ import modelo.Libro;
 import modelo.Sede;
 import util.CargarSpinners;
 import util.Configuracion;
+import util.Utilidades;
 import util.VariablesGlobales;
 
 public class FmCrearLibroAdmin extends SherlockFragment {
@@ -162,6 +163,43 @@ public class FmCrearLibroAdmin extends SherlockFragment {
     }
 
     /**
+     * Metodo que carga los datos de un determinado libro previamente seleccionado.
+     */
+    public void cargarDatosLibroSeleccionado(){
+        if(variablesGlobales.getLibroSeleccionadoAdmin() != null) {
+
+            titulo.setText(variablesGlobales.getLibroSeleccionadoAdmin().getTitulo());
+            isbn.setText(variablesGlobales.getLibroSeleccionadoAdmin().getIsbn());
+            codTopografico.setText(variablesGlobales.getLibroSeleccionadoAdmin().getCodigoTopografico());
+            temas.setText(variablesGlobales.getLibroSeleccionadoAdmin().getTemas());
+            paginas.setText(String.valueOf(variablesGlobales.getLibroSeleccionadoAdmin().getPaginas()));
+            serie.setText(variablesGlobales.getLibroSeleccionadoAdmin().getSerie());
+
+            //Se cargan los spinners con su respectivo valor.
+            spinnerEstado.setSelection(Utilidades.getIndexSpinner(spinnerEstado, variablesGlobales.getLibroSeleccionadoAdmin().getEstado()));
+            spinnerAdquisicion.setSelection(Utilidades.getIndexSpinner(spinnerAdquisicion, variablesGlobales.getLibroSeleccionadoAdmin().getAdquisicion()));
+
+//            if(variablesGlobales.getLibroSeleccionadoAdmin().getEditorial() != null) {
+//                Log.e(">>>",">>>>>>>>>>>>>>>>>>>>>>>>>> "+variablesGlobales.getLibroSeleccionadoAdmin().getEditorial().getDescripcion());
+//                Log.e(">>>",">>>>>>>>>>>>>>>>>>>>>>>>>> "+spinnerEditorial.getCount());
+//
+//                spinnerEditorial.setSelection(Utilidades.getIndexSpinner(spinnerEditorial, variablesGlobales.getLibroSeleccionadoAdmin().getEditorial().getDescripcion()));
+//            }
+
+
+//            spinnerArea = (Spinner) view.findViewById(R.id.spinnerArea);
+//            spinnerSede = (Spinner) view.findViewById(R.id.spinnerSede);
+//            //Referncia a spinnerCiudad ciudad = (Spinner) view.findViewById(R.id.spinnerCiudad);
+
+            valor.setText(String.valueOf(variablesGlobales.getLibroSeleccionadoAdmin().getValor()));
+
+//             Referencia a spinnerAdquisicion adquisicion = (EditText) view.findViewById(R.id.editTextAdquisicion);
+
+            radicado.setText(variablesGlobales.getLibroSeleccionadoAdmin().getRadicado());
+        }
+    }
+
+    /**
      * Tarea encargada de guardar un libro
      */
     private class TareaWsGuardarLibro extends AsyncTask<String,Integer,Boolean> {
@@ -245,6 +283,8 @@ public class FmCrearLibroAdmin extends SherlockFragment {
             }else{
                 Toast.makeText(getActivity(), "Error almacenando el libro", Toast.LENGTH_LONG).show();
             }
+
+            variablesGlobales.setLibroSeleccionadoAdmin(null);
         }
     }
 
@@ -320,6 +360,21 @@ public class FmCrearLibroAdmin extends SherlockFragment {
         }
 
         return resultado;
+    }
+
+    /////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////
+    /**
+     * Sobreescritura del metodo onResume
+     * (se agrega la funcionalidad para recargar los datos generales de la clase)
+     */
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+
+        //Si existe un libro selecciondo previamente por el admin, se cargan los datos
+        cargarDatosLibroSeleccionado();
     }
 
 }

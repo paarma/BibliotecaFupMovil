@@ -28,6 +28,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.MenuItem;
@@ -198,6 +199,9 @@ public class MainActivity extends SherlockFragmentActivity {
         if(usuarioLogueado != null) {
             //Administrador
             if (usuarioLogueado.getRol().equalsIgnoreCase("ADMIN")) {
+
+                //Se inicializa el objeto libroSeleccionadoAdmin
+                variablesGlobales.setLibroSeleccionadoAdmin(null);
 
                 //Se inicializa el objeto libroBuscar
                 variablesGlobales.setLibroBuscar(new Libro());
@@ -373,7 +377,6 @@ public class MainActivity extends SherlockFragmentActivity {
      * @param view
      */
     public void verBuscarLibroAdmin(View view){
-
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 
         variablesGlobales.setOpcionMenu(2); //Buscar Libros
@@ -392,7 +395,6 @@ public class MainActivity extends SherlockFragmentActivity {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 
         variablesGlobales.setOpcionMenu(1); //Listado Libros
-
         fmLibrosAdmin = new FmLibrosAdmin();
 
         //Se capturan los parametros para la busqueda del libro
@@ -400,6 +402,25 @@ public class MainActivity extends SherlockFragmentActivity {
 
         ft.replace(R.id.content_frame, fmLibrosAdmin);
         ft.commit();
+    }
+
+    /**
+     * Funcion encargada de cargar los datos de un determinado libro para ser actualizado.
+     * @param view
+     */
+    public void actualizarLibroAdmin(View view){
+
+        if(variablesGlobales.getLibroSeleccionadoAdmin() != null) {
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+
+            variablesGlobales.setOpcionMenu(0); //Crear-Editar Libro
+            fmLibrosAdmin = new FmLibrosAdmin();
+
+            ft.replace(R.id.content_frame, fmLibrosAdmin);
+            ft.commit();
+        }else{
+            Toast.makeText(this, "Seleccione un libro", Toast.LENGTH_SHORT).show();
+        }
     }
 
 }

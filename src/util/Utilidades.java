@@ -1,6 +1,7 @@
 package util;
 
 import android.widget.DatePicker;
+import android.widget.Spinner;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -52,6 +53,25 @@ public class Utilidades {
         calendar.add(Calendar.DAY_OF_YEAR, dias);
 
         return calendar.getTime();
+    }
+
+    /**
+     * Metodo que recorre un spinner para buscar una cadena contenida en el.
+     * Utilidad especificada para seleccionar por defecto un valor determinado  del spinner
+     * @param spinner
+     * @param myString
+     * @return Devuelve el indice correspondiende a la cadena
+     */
+    public static int getIndexSpinner(Spinner spinner, String myString)
+    {
+        int index = 0;
+
+        for (int i = 0; i < spinner.getCount(); i++) {
+            if (spinner.getItemAtPosition(i).toString().equalsIgnoreCase(myString)) {
+                index = i;
+            }
+        }
+        return index;
     }
 
 }

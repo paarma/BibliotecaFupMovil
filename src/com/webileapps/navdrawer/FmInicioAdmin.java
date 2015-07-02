@@ -11,7 +11,12 @@ import android.widget.Button;
 
 import com.actionbarsherlock.app.SherlockFragment;
 
+import util.VariablesGlobales;
+
 public class FmInicioAdmin extends SherlockFragment {
+
+    VariablesGlobales variablesGlobales = VariablesGlobales.getInstance();
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -32,6 +37,10 @@ public class FmInicioAdmin extends SherlockFragment {
                                             // update the main content by replacing fragments
                                             SherlockFragment fragment = null;
                                             Log.i("Alex", "inicio - onclick boton");
+
+                                            //Se inicializa el objeto libroSeleccionadoAdmin
+                                            variablesGlobales.setLibroSeleccionadoAdmin(null);
+
                                             fragment = new FmLibrosAdmin();
 
                                             if (fragment != null) {

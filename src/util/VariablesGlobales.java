@@ -33,6 +33,11 @@ public class VariablesGlobales {
      */
     private Libro libroBuscar = new Libro();
 
+    /**
+     * Variable que contiene un libro seleccionado por el admin.
+     */
+    private Libro libroSeleccionadoAdmin;
+
     // Restrict the constructor from being instantiated
     private VariablesGlobales(){}
 
@@ -63,6 +68,14 @@ public class VariablesGlobales {
 
     public void setLibroBuscar(Libro libroBuscar) {
         this.libroBuscar = libroBuscar;
+    }
+
+    public Libro getLibroSeleccionadoAdmin() {
+        return libroSeleccionadoAdmin;
+    }
+
+    public void setLibroSeleccionadoAdmin(Libro libroSeleccionadoAdmin) {
+        this.libroSeleccionadoAdmin = libroSeleccionadoAdmin;
     }
 
     public static synchronized VariablesGlobales getInstance(){
