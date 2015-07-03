@@ -22,6 +22,8 @@ import modelo.Sede;
  */
 public class CargarSpinners {
 
+    static VariablesGlobales variablesGlobales = VariablesGlobales.getInstance();
+
     public static void loadDatos(FragmentActivity fActivity,
                                  String nombreClase ,
                                  Spinner spinner){
@@ -114,6 +116,15 @@ public class CargarSpinners {
                     spinner.setAdapter(new NothingSelectedSpinnerAdapter(
                             adapter, R.layout.contact_spinner_nothing_selected,
                             fActivity));
+
+                    //Se selecciona el valor por defecto en caso de cargar el spinner
+                    //con un libro seleccionado previamente. (Editar Libro)
+                    if(variablesGlobales.getLibroSeleccionadoAdmin() != null
+                            && variablesGlobales.getLibroSeleccionadoAdmin().getEditorial() != null){
+                        spinner.setSelection(Utilidades.getIndexSpinner(spinner,
+                                variablesGlobales.getLibroSeleccionadoAdmin().getEditorial().getDescripcion()));
+                    }
+
                 }
 
                 if(nombreClase.equals(Area.class.getSimpleName())) {
@@ -123,6 +134,14 @@ public class CargarSpinners {
                     spinner.setAdapter(new NothingSelectedSpinnerAdapter(
                             adapter, R.layout.contact_spinner_nothing_selected,
                             fActivity));
+
+                    //Se selecciona el valor por defecto en caso de cargar el spinner
+                    //con un libro seleccionado previamente. (Editar Libro)
+                    if(variablesGlobales.getLibroSeleccionadoAdmin() != null
+                            && variablesGlobales.getLibroSeleccionadoAdmin().getArea() != null){
+                        spinner.setSelection(Utilidades.getIndexSpinner(spinner,
+                                variablesGlobales.getLibroSeleccionadoAdmin().getArea().getDescripcion()));
+                    }
                 }
 
                 if(nombreClase.equals(Sede.class.getSimpleName())) {
@@ -132,6 +151,14 @@ public class CargarSpinners {
                     spinner.setAdapter(new NothingSelectedSpinnerAdapter(
                             adapter, R.layout.contact_spinner_nothing_selected,
                             fActivity));
+
+                    //Se selecciona el valor por defecto en caso de cargar el spinner
+                    //con un libro seleccionado previamente. (Editar Libro)
+                    if(variablesGlobales.getLibroSeleccionadoAdmin() != null
+                            && variablesGlobales.getLibroSeleccionadoAdmin().getSede() != null){
+                        spinner.setSelection(Utilidades.getIndexSpinner(spinner,
+                                variablesGlobales.getLibroSeleccionadoAdmin().getSede().getDescripcion()));
+                    }
                 }
 
             }else{

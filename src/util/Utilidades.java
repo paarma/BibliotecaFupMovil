@@ -1,5 +1,6 @@
 package util;
 
+import android.util.Log;
 import android.widget.DatePicker;
 import android.widget.Spinner;
 
@@ -67,9 +68,14 @@ public class Utilidades {
         int index = 0;
 
         for (int i = 0; i < spinner.getCount(); i++) {
-            if (spinner.getItemAtPosition(i).toString().equalsIgnoreCase(myString)) {
-                index = i;
+            Log.i("ValorDefectoSpinner",">>>>>>>>>>>>>>>>>>> spiner: "+spinner+" >>>>> valor: "+spinner.getItemAtPosition(i));
+
+            if(spinner.getItemAtPosition(i) != null) {
+                if (spinner.getItemAtPosition(i).toString().equalsIgnoreCase(myString)) {
+                    index = i;
+                }
             }
+
         }
         return index;
     }

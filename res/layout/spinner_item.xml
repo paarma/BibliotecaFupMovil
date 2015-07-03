@@ -5,4 +5,5 @@
     android:textColor="@color/counter_text_color"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:textSize="18sp"/>
+    android:textSize="18sp"
+    android:padding="4dip"/>

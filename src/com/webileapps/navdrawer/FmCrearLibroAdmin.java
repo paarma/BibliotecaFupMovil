@@ -36,7 +36,7 @@ import util.VariablesGlobales;
 
 public class FmCrearLibroAdmin extends SherlockFragment {
 
-    EditText titulo, isbn, codTopografico, temas, paginas, valor, adquisicion, radicado, serie;
+    EditText titulo, isbn, codTopografico, temas, paginas, valor, radicado, serie;
     Spinner spinnerEstado, spinnerAdquisicion, spinnerEditorial, spinnerArea, spinnerSede, ciudad;
 
     DatePicker dpickerAnioLibro;
@@ -106,17 +106,16 @@ public class FmCrearLibroAdmin extends SherlockFragment {
         spinnerSede = (Spinner) view.findViewById(R.id.spinnerSede);
         ciudad = (Spinner) view.findViewById(R.id.spinnerCiudad);
         valor = (EditText) view.findViewById(R.id.editTextValor);
-        adquisicion = (EditText) view.findViewById(R.id.editTextAdquisicion);
         radicado = (EditText) view.findViewById(R.id.editTextRadicado);
 
         cargarSpinners();
 
         //Se cargan algunos spinners con los datos del archivo arrays.xml
-        ArrayAdapter adapterEstado = ArrayAdapter.createFromResource(getActivity(), R.array.estados_crear_libro, android.R.layout.simple_spinner_item);
+        ArrayAdapter adapterEstado = ArrayAdapter.createFromResource(getActivity(), R.array.estados_crear_libro, R.layout.spinner_item);
         adapterEstado.setDropDownViewResource(R.layout.spinner_item);
         spinnerEstado.setAdapter(adapterEstado);
 
-        ArrayAdapter adapterAdquisicion = ArrayAdapter.createFromResource(getActivity(), R.array.adquisicion_crear_libro, android.R.layout.simple_spinner_item);
+        ArrayAdapter adapterAdquisicion = ArrayAdapter.createFromResource(getActivity(), R.array.adquisicion_crear_libro, R.layout.spinner_item);
         adapterAdquisicion.setDropDownViewResource(R.layout.spinner_item);
         spinnerAdquisicion.setAdapter(adapterAdquisicion);
 
@@ -124,7 +123,7 @@ public class FmCrearLibroAdmin extends SherlockFragment {
         Spinner spCiudad = (Spinner) view.findViewById(R.id.spinnerCiudad);
         spCiudad.setAdapter(adapterCiudad);
 
-        ////////////////Se referencia el datepicker
+        ////////////////Se referencia el datepicker (Año Libro)
         //y se ocultan los campos dia y mes para solo mostrar el año.
         dpickerAnioLibro = (DatePicker) view.findViewById(R.id.datePickerAnioLibro);
         try {
@@ -174,28 +173,25 @@ public class FmCrearLibroAdmin extends SherlockFragment {
             temas.setText(variablesGlobales.getLibroSeleccionadoAdmin().getTemas());
             paginas.setText(String.valueOf(variablesGlobales.getLibroSeleccionadoAdmin().getPaginas()));
             serie.setText(variablesGlobales.getLibroSeleccionadoAdmin().getSerie());
+            valor.setText(String.valueOf(variablesGlobales.getLibroSeleccionadoAdmin().getValor()));
+            radicado.setText(variablesGlobales.getLibroSeleccionadoAdmin().getRadicado());
+
 
             //Se cargan los spinners con su respectivo valor.
             spinnerEstado.setSelection(Utilidades.getIndexSpinner(spinnerEstado, variablesGlobales.getLibroSeleccionadoAdmin().getEstado()));
             spinnerAdquisicion.setSelection(Utilidades.getIndexSpinner(spinnerAdquisicion, variablesGlobales.getLibroSeleccionadoAdmin().getAdquisicion()));
 
-//            if(variablesGlobales.getLibroSeleccionadoAdmin().getEditorial() != null) {
-//                Log.e(">>>",">>>>>>>>>>>>>>>>>>>>>>>>>> "+variablesGlobales.getLibroSeleccionadoAdmin().getEditorial().getDescripcion());
-//                Log.e(">>>",">>>>>>>>>>>>>>>>>>>>>>>>>> "+spinnerEditorial.getCount());
-//
-//                spinnerEditorial.setSelection(Utilidades.getIndexSpinner(spinnerEditorial, variablesGlobales.getLibroSeleccionadoAdmin().getEditorial().getDescripcion()));
-//            }
+            //Para el caso de la editorial, area y sede...(Spinners con objetos) se valida y cargan en la funcion cargarSpinners().
+            //spinnerEditorial.setSelection(...);
 
+            //Pendiente cargar spinner ciudad
+            //Referncia a spinnerCiudad ciudad = (Spinner) view.findViewById(R.id.spinnerCiudad);
 
-//            spinnerArea = (Spinner) view.findViewById(R.id.spinnerArea);
-//            spinnerSede = (Spinner) view.findViewById(R.id.spinnerSede);
-//            //Referncia a spinnerCiudad ciudad = (Spinner) view.findViewById(R.id.spinnerCiudad);
-
-            valor.setText(String.valueOf(variablesGlobales.getLibroSeleccionadoAdmin().getValor()));
-
-//             Referencia a spinnerAdquisicion adquisicion = (EditText) view.findViewById(R.id.editTextAdquisicion);
-
-            radicado.setText(variablesGlobales.getLibroSeleccionadoAdmin().getRadicado());
+            //Se carga el año del libro.
+            // El dia y el mes se cargan por defecto con valores de 1 ya que solo nos interesa el año.
+            if(variablesGlobales.getLibroSeleccionadoAdmin().getAnio() != 0){
+                dpickerAnioLibro.updateDate(variablesGlobales.getLibroSeleccionadoAdmin().getAnio(),1,1);
+            }
         }
     }
 
@@ -236,12 +232,9 @@ public class FmCrearLibroAdmin extends SherlockFragment {
 
             lib.setRadicado(radicado.getText().toString());
             lib.setFechaIngreso(new Date());
-            //lib.setSerie("1");
-            //lib.setAnio(1);
             lib.setTemas(temas.getText().toString());
             //lib.setDisponibilidad("SI");
             lib.setIdUsuario(variablesGlobales.getUsuarioLogueado().getIdUsuario());
-            //lib.setIdCiudad(1);
 
             Editorial editorialSeleccionada = (Editorial) spinnerEditorial.getSelectedItem();
             if(editorialSeleccionada != null){
@@ -267,7 +260,18 @@ public class FmCrearLibroAdmin extends SherlockFragment {
             }
 
             try {
-                resultadoTarea = guardarLibro(lib);
+
+                /**
+                 * Se setea el idLibro en caso de ser edicion, de lo contrario este
+                 * quedara con valor de 0.
+                 * Funcionalidad especifica validar si se guarda un nuevo libro o se edita uno existente.
+                 */
+            if(variablesGlobales.getLibroSeleccionadoAdmin() != null){
+                lib.setIdLibro(variablesGlobales.getLibroSeleccionadoAdmin().getIdLibro());
+            }
+
+            resultadoTarea = guardarLibro(lib);
+
             }catch (Exception e){
                 resultadoTarea = false;
                 Log.e("FmCrearLibro ", "xxx Error TareaWsGuardarLibro: " + e.getMessage());
@@ -280,11 +284,10 @@ public class FmCrearLibroAdmin extends SherlockFragment {
             if(result){
                 Toast.makeText(getActivity(), "Libro almacenado con exito", Toast.LENGTH_LONG).show();
                 limpiarCampos();
+                variablesGlobales.setLibroSeleccionadoAdmin(null);
             }else{
                 Toast.makeText(getActivity(), "Error almacenando el libro", Toast.LENGTH_LONG).show();
             }
-
-            variablesGlobales.setLibroSeleccionadoAdmin(null);
         }
     }
 
@@ -303,6 +306,7 @@ public class FmCrearLibroAdmin extends SherlockFragment {
         boolean resultado = false;
 
         SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
+        request.addProperty("idLibro",libro.getIdLibro());
         request.addProperty("titulo",libro.getTitulo());
         request.addProperty("valor",libro.getValor());
         request.addProperty("adquisicion",libro.getAdquisicion());
