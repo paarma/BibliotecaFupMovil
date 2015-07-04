@@ -30,7 +30,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" >
 
-                <!-- EditText para el titulo del libro-->
+                <!-- EditText para cedula -->
 
                 <TextView
                     android:id="@+id/textViewCedula"
@@ -47,7 +47,7 @@
                     android:singleLine="true" >
                 </EditText>
 
-                <!-- EditText para ISBN-->
+                <!-- EditText para nombre-->
 
                 <TextView
                     android:id="@+id/textViewNombre"
@@ -64,7 +64,7 @@
                     >
                 </EditText>
 
-                <!-- EditText para codigo topografico -->
+                <!-- EditText para apellido -->
 
                 <TextView
                     android:id="@+id/textViewApellido"
@@ -80,7 +80,7 @@
                     android:layout_below="@+id/textViewApellido"
                     />
 
-                <!-- EditText para temas del libro-->
+                <!-- EditText para telefono-->
 
                 <TextView
                     android:id="@+id/textViewTelefono"
@@ -97,7 +97,7 @@
                     android:inputType="number"
                     />
 
-                <!-- EditText numero de paginas del libro-->
+                <!-- EditText direccion -->
 
                 <TextView
                     android:id="@+id/textViewDireccion"
@@ -113,7 +113,7 @@
                     android:layout_below="@+id/textViewDireccion"
                    />
 
-                <!-- EditText para el estado del libro-->
+                <!-- EditText email-->
 
                 <TextView
                     android:id="@+id/textViewEmail"
@@ -129,7 +129,7 @@
                     android:layout_below="@+id/textViewEmail"
                     />
 
-                <!-- EditText para el valor del libro -->
+                <!-- EditText codigo -->
 
                 <TextView
                     android:id="@+id/textViewCodigo"
@@ -146,7 +146,7 @@
                     android:inputType="number" />
 
 
-                <!-- EditText para el tipo de adquisicion del libro -->
+                <!-- EditText clave -->
 
                 <TextView
                     android:id="@+id/textViewClave"
@@ -164,7 +164,7 @@
 
 
 
-                <!-- EditText para el radicado del libro -->
+                <!-- EditText rol -->
 
                 <TextView
                     android:id="@+id/textViewRol"

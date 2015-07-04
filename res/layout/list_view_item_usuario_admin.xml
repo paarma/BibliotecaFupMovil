@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:id="@+id/imgUsuarioAdmin"
+        android:src="@drawable/ic_person_white_48dp"/>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Nombre"
+                android:id="@+id/tbxNombre"
+            android:textStyle="italic"
+            android:textSize="15dp"/>
+
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Codigo"
+                android:id="@+id/tbxCodigo"
+            android:textIsSelectable="false"
+            android:textSize="10dp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- Panel oculto-->
+    <LinearLayout
+        android:id="@+id/contenedorDetalleUsuarioAdmin"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:visibility="gone"
+        android:weightSum="1">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!-- EditText para cedula -->
+            <TextView
+                android:id="@+id/textViewCedula"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cedula:" />
+
+            <EditText
+                android:id="@+id/editTextCedula"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textViewCedula"
+                android:inputType="number"
+                android:singleLine="true"
+                android:enabled="false" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!-- EditText para nombre -->
+            <TextView
+                android:id="@+id/textViewNombre"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/editTextCedula"
+                android:text="Nombre:" />
+
+            <EditText
+                android:id="@+id/editTexNombre"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textViewNombre"
+                android:enabled="false" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!-- EditText apellido -->
+            <TextView
+                android:id="@+id/textViewApellido"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/editTexNombre"
+                android:text="Apellido:" />
+
+            <EditText
+                android:id="@+id/editTextApellido"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textViewApellido"
+                android:enabled="false" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!-- EditText telefono-->
+            <TextView
+                android:id="@+id/textViewTelefono"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/editTextApellido"
+                android:text="Telefono:" />
+
+            <EditText
+                android:id="@+id/editTextTelefono"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textViewTelefono"
+                android:inputType="number"
+                android:enabled="false" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!-- EditText direccion -->
+            <TextView
+                android:id="@+id/textViewDireccion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/editTextTelefono"
+                android:text="Dirección:" />
+
+            <EditText
+                android:id="@+id/editTextDireccion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textViewDireccion"
+                android:enabled="false" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!-- EditText email -->
+            <TextView
+                android:id="@+id/textViewEmail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/editTextDireccion"
+                android:text="Email:" />
+
+            <EditText
+                android:id="@+id/editTextEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textViewEmail"
+                android:enabled="false" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!-- EditText codigo -->
+            <TextView
+                android:id="@+id/textViewCodigo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/editTextEmail"
+                android:text="Codigo:" />
+
+            <EditText
+                android:id="@+id/editTextCodigo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textViewCodigo"
+                android:inputType="number"
+                android:enabled="false" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!-- EditText clave-->
+            <TextView
+                android:id="@+id/textViewClave"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/editTextCodigo"
+                android:text="Clave:" />
+
+            <EditText
+                android:id="@+id/editTextClave"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textViewClave"
+                android:enabled="false" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!-- EditText rol-->
+            <TextView
+                android:id="@+id/textViewRol"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/editTextClave"
+                android:text="Rol:" />
+
+            <EditText
+                android:id="@+id/editTextRol"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textViewRol"
+                android:enabled="false" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+    <!-- Fin panel oculto -->
+
+</LinearLayout>

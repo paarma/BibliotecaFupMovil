@@ -41,7 +41,7 @@ public class TareasGenerales {
      * @param libroBuscar objeto de la clase Libro el cual contiene los parametros
      *                    de busqueda ya sean fijados o por defecto. En el caso
      *                    de tenerlos por defecto (new Libro()) se listaran todos los libros
-     *                    precentes.
+     *                    presentes.
      * @return ListadoLibros
      */
     public List<Libro> buscarLibros(Libro libroBuscar){
@@ -344,6 +344,60 @@ public class TareasGenerales {
             Log.e("TareasGenerales.java ", "xxx Error listarSedes(): " + e.getMessage());
         }
         return listaDedes;
+    }
+
+    /**
+     * Metodo encargado de retornar el listado de usuarios segun busqueda
+     * @param usuarioBuscar objeto de la clase Usuario el cual contiene los parametros
+     *                    de busqueda ya sean fijados o por defecto. En el caso
+     *                    de tenerlos por defecto (new Usuario()) se listaran todos los libros
+     *                    presentes.
+     * @return ListadoLibros
+     */
+    public List<Usuario> buscarUsuarios(Usuario usuarioBuscar){
+
+        final String SOAP_ACTION = conf.getUrl()+"/listadoUsuarios";
+        final String METHOD_NAME = "listadoUsuarios";
+        final String NAMESPACE = conf.getNamespace();
+        final String URL = conf.getUrl();
+        List<Usuario> listaUsuario = new ArrayList<Usuario>();
+
+        SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
+        request.addProperty("cedula", usuarioBuscar.getCedula());
+
+
+        SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+        envelope.bodyOut = request;
+
+        HttpTransportSE transporte = new HttpTransportSE(URL);
+
+        try {
+            transporte.call(SOAP_ACTION, envelope);
+            java.util.Vector<SoapObject> rs = (java.util.Vector<SoapObject>) envelope.getResponse();
+
+            if (rs != null)
+            {
+                for (SoapObject user : rs)
+                {
+                    Usuario usuario = new Usuario();
+                    usuario.setIdUsuario(Integer.parseInt(user.getProperty("ID_USUARIO").toString()));
+                    usuario.setCedula(Integer.parseInt(user.getProperty("CEDULA").toString()));
+                    usuario.setNombre(user.getProperty("NOMBRE").toString());
+                    usuario.setApellido(user.getProperty("APELLIDO").toString());
+                    usuario.setTelefono(Integer.parseInt(user.getProperty("TELEFONO").toString()));
+                    usuario.setDireccion(user.getProperty("DIRECCION").toString());
+                    usuario.setEmail(user.getProperty("EMAIL").toString());
+                    usuario.setCodigo(user.getProperty("CODIGO").toString());
+                    usuario.setClave(user.getProperty("CLAVE").toString());
+                    usuario.setRol(user.getProperty("ROL").toString());
+
+                    listaUsuario.add(usuario);
+                }
+            }
+        }catch (Exception e){
+            Log.e("TareasGenerales.java ", "xxx Error buscarUsuarios(): " + e.getMessage());
+        }
+        return listaUsuario;
     }
 
 }

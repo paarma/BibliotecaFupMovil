@@ -117,10 +117,10 @@
             <Button
                 android:layout_width="165dp"
                 android:layout_height="wrap_content"
-                android:text="Salir"
-                android:id="@+id/buttonSalir"
+                android:text="Usuarios"
+                android:id="@+id/buttonUsuarios"
                 android:layout_marginLeft="10dp"
-                android:drawableLeft="@drawable/salir"
+                android:drawableLeft="@drawable/autor"
                 android:background="#fffcfaff"
                 android:textColor="@color/list_divider" />
 

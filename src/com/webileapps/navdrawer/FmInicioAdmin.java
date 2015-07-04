@@ -1,7 +1,6 @@
 package com.webileapps.navdrawer;
 
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -27,7 +26,7 @@ public class FmInicioAdmin extends SherlockFragment {
         Button btnEditorial = (Button) rootView.findViewById(R.id.buttonEditorial);
         Button btnSolicitudes = (Button) rootView.findViewById(R.id.buttonSolicitudes);
         Button btnReportes = (Button) rootView.findViewById(R.id.buttonReportes);
-        Button btnSalir = (Button) rootView.findViewById(R.id.buttonSalir);
+        Button btnUsuarios = (Button) rootView.findViewById(R.id.buttonUsuarios);
 
 
         btnLibro.setOnClickListener(new View.OnClickListener() {
@@ -154,11 +153,26 @@ public class FmInicioAdmin extends SherlockFragment {
         );
 
 
-        btnSalir.setOnClickListener(new View.OnClickListener() {
+        btnUsuarios.setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View v) {
 
-                                            Intent intent = new Intent(Intent.ACTION_MAIN);
+                                            // update the main content by replacing fragments
+                                            SherlockFragment fragment = null;
+
+                                            //Se inicializa el objeto libroSeleccionadoAdmin
+                                            variablesGlobales.setUsuarioSeleccionadoAdmin(null);
+
+                                            fragment = new FmUsuarioAdmin();
+
+                                            if (fragment != null) {
+                                                android.support.v4.app.FragmentManager fragmentManager = getFragmentManager();
+                                                fragmentManager.beginTransaction()
+                                                        .replace(R.id.content_frame, fragment).commit();
+                                            } else {
+                                                // error in creating fragment
+                                                Log.d("InicioAdmin", "XXX InicioAdmin - Error cuando se creo el fragment usuarios");
+                                            }
 
                                         }
                                     }
@@ -170,7 +184,6 @@ public class FmInicioAdmin extends SherlockFragment {
 
 
         return rootView;
-
 
     }
 

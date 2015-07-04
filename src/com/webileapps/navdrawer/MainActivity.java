@@ -87,7 +87,7 @@ public class MainActivity extends SherlockFragmentActivity {
             if(usuarioLogueado.getRol().equalsIgnoreCase("ADMIN")){
 
                 // Generate title
-                title = new String[] { "Inicio", "Libros", "Editorial","Autor","Solicitudes","Reportes","Crear Usuario", "Salir"};
+                title = new String[] { "Inicio", "Libros", "Editorial","Autor","Solicitudes","Reportes","Usuarios", "Salir"};
 
                 // Generate subtitle
                 subtitle = new String[] { "Inicio Admin", "Gestion Libros", "Gestion Editorial", "Gestión Autores", "Gestión Solicitudes", "Ver reportes","Acceder a App", "Cerrar sesión"};

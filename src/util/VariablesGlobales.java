@@ -38,6 +38,16 @@ public class VariablesGlobales {
      */
     private Libro libroSeleccionadoAdmin;
 
+    /**
+     * Variable qeu contiene un usuario seleccionado por el admin.
+     */
+    private Usuario usuarioSeleccionadoAdmin;
+
+    /**
+     * Variable que contiene un usuario con los parametros cargados para busqueda
+     */
+    private Usuario usuarioBuscar = new Usuario();
+
     // Restrict the constructor from being instantiated
     private VariablesGlobales(){}
 
@@ -76,6 +86,22 @@ public class VariablesGlobales {
 
     public void setLibroSeleccionadoAdmin(Libro libroSeleccionadoAdmin) {
         this.libroSeleccionadoAdmin = libroSeleccionadoAdmin;
+    }
+
+    public Usuario getUsuarioSeleccionadoAdmin() {
+        return usuarioSeleccionadoAdmin;
+    }
+
+    public void setUsuarioSeleccionadoAdmin(Usuario usuarioSeleccionadoAdmin) {
+        this.usuarioSeleccionadoAdmin = usuarioSeleccionadoAdmin;
+    }
+
+    public Usuario getUsuarioBuscar() {
+        return usuarioBuscar;
+    }
+
+    public void setUsuarioBuscar(Usuario usuarioBuscar) {
+        this.usuarioBuscar = usuarioBuscar;
     }
 
     public static synchronized VariablesGlobales getInstance(){
