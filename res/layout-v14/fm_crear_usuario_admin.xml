@@ -47,37 +47,66 @@
                     android:singleLine="true" >
                 </EditText>
 
-                <!-- EditText para nombre-->
-
+                <!-- EditText para primer nombre-->
                 <TextView
-                    android:id="@+id/textViewNombre"
+                    android:id="@+id/textViewPrimerNombre"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/editTextCedula"
-                    android:text="Nombre:" />
+                    android:text="Primer Nombre:" />
 
                 <EditText
-                    android:id="@+id/editTexNombre"
+                    android:id="@+id/editTextPrimerNombre"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/textViewNombre"
+                    android:layout_below="@+id/textViewPrimerNombre"
                     >
                 </EditText>
 
-                <!-- EditText para apellido -->
-
+                <!-- EditText para segundo nombre-->
                 <TextView
-                    android:id="@+id/textViewApellido"
+                    android:id="@+id/textViewSegundoNombre"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/editTexNombre"
-                    android:text="Apellido:" />
+                    android:layout_below="@+id/editTextPrimerNombre"
+                    android:text="Segundo Nombre:" />
 
                 <EditText
-                    android:id="@+id/editTextApellido"
+                    android:id="@+id/editTextSegundoNombre"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/textViewApellido"
+                    android:layout_below="@+id/textViewSegundoNombre"
+                    >
+                </EditText>
+
+                <!-- EditText para primer apellido -->
+                <TextView
+                    android:id="@+id/textViewPrimerApellido"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/editTextSegundoNombre"
+                    android:text="Primer Apellido:" />
+
+                <EditText
+                    android:id="@+id/editTextPrimerApellido"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/textViewPrimerApellido"
+                    />
+
+                <!-- EditText para segundo apellido -->
+                <TextView
+                    android:id="@+id/textViewSegundoApellido"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/editTextPrimerApellido"
+                    android:text="Segundo Apellido:" />
+
+                <EditText
+                    android:id="@+id/editTextSegundoApellido"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/textViewSegundoApellido"
                     />
 
                 <!-- EditText para telefono-->
@@ -86,7 +115,7 @@
                     android:id="@+id/textViewTelefono"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/editTextApellido"
+                    android:layout_below="@+id/editTextSegundoApellido"
                     android:text="Telefono:" />
 
                 <EditText

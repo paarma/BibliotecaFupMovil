@@ -382,8 +382,10 @@ public class TareasGenerales {
                     Usuario usuario = new Usuario();
                     usuario.setIdUsuario(Integer.parseInt(user.getProperty("ID_USUARIO").toString()));
                     usuario.setCedula(Integer.parseInt(user.getProperty("CEDULA").toString()));
-                    usuario.setNombre(user.getProperty("NOMBRE").toString());
-                    usuario.setApellido(user.getProperty("APELLIDO").toString());
+                    usuario.setPrimerNombre(user.getProperty("PRIMER_NOMBRE").toString());
+                    usuario.setSegundoNombre(user.getProperty("SEGUNDO_NOMBRE").toString());
+                    usuario.setPrimerApellido(user.getProperty("PRIMER_APELLIDO").toString());
+                    usuario.setSegundoApellido(user.getProperty("SEGUNDO_APELLIDO").toString());
                     usuario.setTelefono(Integer.parseInt(user.getProperty("TELEFONO").toString()));
                     usuario.setDireccion(user.getProperty("DIRECCION").toString());
                     usuario.setEmail(user.getProperty("EMAIL").toString());

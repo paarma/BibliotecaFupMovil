@@ -29,7 +29,8 @@ import util.VariablesGlobales;
  * Created by alex on 9/05/15.
  */
 public class FmCrearUsuarioAdmin extends SherlockFragment {
-    EditText nombre,apellido,cedula,telefono,direccion,email,codigo,clave;
+
+    EditText primerNombre, segundoNombre, primerApellido, segundoApellido, cedula, telefono, direccion, email, codigo, clave;
     Spinner spRol;
     VariablesGlobales variablesGlobales = VariablesGlobales.getInstance();
 
@@ -44,8 +45,10 @@ public class FmCrearUsuarioAdmin extends SherlockFragment {
         View view = inflater.inflate(R.layout.fm_crear_usuario_admin, container, false);
 
         cedula = (EditText) view.findViewById(R.id.editTextCedula);
-        nombre = (EditText) view.findViewById(R.id.editTexNombre);
-        apellido = (EditText) view.findViewById(R.id.editTextApellido);
+        primerNombre = (EditText) view.findViewById(R.id.editTextPrimerNombre);
+        segundoNombre = (EditText) view.findViewById(R.id.editTextSegundoNombre);
+        primerApellido = (EditText) view.findViewById(R.id.editTextPrimerApellido);
+        segundoApellido = (EditText) view.findViewById(R.id.editTextSegundoApellido);
         telefono = (EditText) view.findViewById(R.id.editTextTelefono);
         direccion = (EditText) view.findViewById(R.id.editTextDireccion);
         email = (EditText) view.findViewById(R.id.editTextEmail);
@@ -105,8 +108,11 @@ public class FmCrearUsuarioAdmin extends SherlockFragment {
             if(cedula.getText().toString().trim().length() > 0){
                 user.setCedula(Integer.parseInt(cedula.getText().toString()));
             }
-            user.setNombre(nombre.getText().toString());
-            user.setApellido(apellido.getText().toString());
+            user.setPrimerNombre(primerNombre.getText().toString());
+            user.setSegundoNombre(segundoNombre.getText().toString());
+            user.setPrimerApellido(primerApellido.getText().toString());
+            user.setSegundoApellido(segundoApellido.getText().toString());
+
             if(telefono.getText().toString().trim().length() > 0){
                 user.setTelefono(Integer.parseInt(telefono.getText().toString()));
             }
@@ -148,7 +154,8 @@ public class FmCrearUsuarioAdmin extends SherlockFragment {
     }
         //Metodo encardado de limpiar los campos del formulario
         public void limpiarCampos(){
-            nombre.getText().clear();
+            primerNombre.getText().clear();
+            segundoNombre.getText().clear();
         }
 
 
@@ -168,8 +175,10 @@ public class FmCrearUsuarioAdmin extends SherlockFragment {
 
         SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
         request.addProperty("cedula", usuario.getCedula());
-        request.addProperty("nombre", usuario.getNombre());
-        request.addProperty("apellido", usuario.getApellido());
+        request.addProperty("primerNombre", usuario.getPrimerNombre());
+        request.addProperty("segundoNombre", usuario.getSegundoNombre());
+        request.addProperty("primerApellido", usuario.getPrimerApellido());
+        request.addProperty("segundoApellido", usuario.getSegundoApellido());
         request.addProperty("telefono", usuario.getTelefono());
         request.addProperty("direccion", usuario.getDireccion());
         request.addProperty("email", usuario.getEmail());

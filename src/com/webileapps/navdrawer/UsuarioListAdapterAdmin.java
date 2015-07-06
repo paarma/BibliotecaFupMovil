@@ -38,7 +38,7 @@ public class UsuarioListAdapterAdmin extends ArrayAdapter<Usuario> {
     private void inicializarCamposTexto(View view, Usuario usuarioActual) {
 
         TextView textView = (TextView) view.findViewById(R.id.tbxNombre);
-        textView.setText(usuarioActual.getNombre());
+        textView.setText(usuarioActual.getPrimerNombre()+" "+usuarioActual.getPrimerApellido());
 
         textView = (TextView) view.findViewById(R.id.tbxCodigo);
         textView.setText(usuarioActual.getCodigo());
@@ -47,11 +47,17 @@ public class UsuarioListAdapterAdmin extends ArrayAdapter<Usuario> {
         EditText editText = (EditText) view.findViewById(R.id.editTextCedula);
         editText.setText(String.valueOf(usuarioActual.getCedula()));
 
-        editText = (EditText) view.findViewById(R.id.editTexNombre);
-        editText.setText(usuarioActual.getNombre());
+        editText = (EditText) view.findViewById(R.id.editTextPrimerNombre);
+        editText.setText(usuarioActual.getPrimerNombre());
 
-        editText = (EditText) view.findViewById(R.id.editTextApellido);
-        editText.setText(usuarioActual.getApellido());
+        editText = (EditText) view.findViewById(R.id.editTextSegundoNombre);
+        editText.setText(usuarioActual.getSegundoNombre());
+
+        editText = (EditText) view.findViewById(R.id.editTextPrimerApellido);
+        editText.setText(usuarioActual.getPrimerApellido());
+
+        editText = (EditText) view.findViewById(R.id.editTextSegundoApellido);
+        editText.setText(usuarioActual.getSegundoApellido());
 
         editText = (EditText) view.findViewById(R.id.editTextTelefono);
         editText.setText(String.valueOf(usuarioActual.getTelefono()));
