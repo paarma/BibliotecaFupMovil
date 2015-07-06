@@ -264,7 +264,7 @@ public class FmCrearLibroAdmin extends SherlockFragment {
                 /**
                  * Se setea el idLibro en caso de ser edicion, de lo contrario este
                  * quedara con valor de 0.
-                 * Funcionalidad especifica validar si se guarda un nuevo libro o se edita uno existente.
+                 * Funcionalidad especifica para validar si se guarda un nuevo libro o se edita uno existente.
                  */
             if(variablesGlobales.getLibroSeleccionadoAdmin() != null){
                 lib.setIdLibro(variablesGlobales.getLibroSeleccionadoAdmin().getIdLibro());

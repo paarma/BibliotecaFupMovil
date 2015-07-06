@@ -203,6 +203,9 @@ public class MainActivity extends SherlockFragmentActivity {
                 //Se inicializa el objeto libroSeleccionadoAdmin
                 variablesGlobales.setLibroSeleccionadoAdmin(null);
 
+                //Se inicializa el bojeto usuarioSeleccionadoAdmin
+                variablesGlobales.setUsuarioSeleccionadoAdmin(null);
+
                 //Se inicializa el objeto libroBuscar
                 variablesGlobales.setLibroBuscar(new Libro());
 
@@ -240,7 +243,7 @@ public class MainActivity extends SherlockFragmentActivity {
                         ft.replace(R.id.content_frame, fmUsuarioAdmin);
                         break;
                     case 7:
-                        //Autor Admin
+                        //Salir Admin
                         finish();
                         break;
                 }
@@ -456,6 +459,25 @@ public class MainActivity extends SherlockFragmentActivity {
 
         ft.replace(R.id.content_frame, fmUsuarioAdmin);
         ft.commit();
+    }
+
+    /**
+     * Funcion encargada de cargar los datos de un determinado usuario para ser actualizado.
+     * @param view
+     */
+    public void actualizarUsuarioAdmin(View view){
+
+        if(variablesGlobales.getUsuarioSeleccionadoAdmin() != null) {
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+
+            variablesGlobales.setOpcionMenu(0); //Crear-Editar Usuario
+            fmUsuarioAdmin = new FmUsuarioAdmin();
+
+            ft.replace(R.id.content_frame, fmUsuarioAdmin);
+            ft.commit();
+        }else{
+            Toast.makeText(this, "Seleccione un usuario", Toast.LENGTH_SHORT).show();
+        }
     }
 
 }
