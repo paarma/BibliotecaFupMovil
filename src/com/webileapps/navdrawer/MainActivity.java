@@ -55,7 +55,7 @@ public class MainActivity extends SherlockFragmentActivity {
     Fragment fmSolicitudesAdmin = new FmSolicitudesAdmin();
     Fragment fmUsuarioAdmin = new FmUsuarioAdmin();
 
-    //Estudiante
+    //Usuario
     Fragment fmInicioUsuario = new FmInicioUsuario();
     Fragment fmlibrosUsuario;
 
@@ -84,7 +84,7 @@ public class MainActivity extends SherlockFragmentActivity {
          */
         if(usuarioLogueado != null){
             //Administrador
-            if(usuarioLogueado.getRol().equalsIgnoreCase("ADMIN")){
+            if(usuarioLogueado.getRol().equalsIgnoreCase("ADMINISTRADOR")){
 
                 // Generate title
                 title = new String[] { "Inicio", "Libros", "Editorial","Autor","Solicitudes","Reportes","Usuarios", "Salir"};
@@ -96,8 +96,8 @@ public class MainActivity extends SherlockFragmentActivity {
                 icon = new int[] { R.drawable.ic_home_white_48dp, R.drawable.ic_style_white_48dp, R.drawable.ic_attach_file_white_48dp,R.drawable.ic_group_white_48dp, R.drawable.ic_book_white_48dp, R.drawable.ic_assessment_white_48dp,R.drawable.ic_person_add_white_48dp, R.drawable.ic_exit_to_app_white_48dp };
             }
 
-            //Estudiante
-            if(usuarioLogueado.getRol().equalsIgnoreCase("EST")){
+            //Usuario
+            if(usuarioLogueado.getRol().equalsIgnoreCase("USUARIO")){
 
                 // Generate title
                 title = new String[]{"Inicio", "Reservar", "Mis Libros", "Buscar", "Salir"};
@@ -198,13 +198,16 @@ public class MainActivity extends SherlockFragmentActivity {
          */
         if(usuarioLogueado != null) {
             //Administrador
-            if (usuarioLogueado.getRol().equalsIgnoreCase("ADMIN")) {
+            if (usuarioLogueado.getRol().equalsIgnoreCase("ADMINISTRADOR")) {
 
                 //Se inicializa el objeto libroSeleccionadoAdmin
                 variablesGlobales.setLibroSeleccionadoAdmin(null);
 
                 //Se inicializa el objeto libroBuscar
                 variablesGlobales.setLibroBuscar(new Libro());
+
+                //Se inicializa el objeto usuarioBuscar
+                variablesGlobales.setUsuarioBuscar(new Usuario());
 
                 // Locate Position
                 switch (position) {
@@ -225,15 +228,15 @@ public class MainActivity extends SherlockFragmentActivity {
                         ft.replace(R.id.content_frame, fmAutorAdmin);
                         break;
                     case 4:
-                        //Autor Admin
+                        //Reservas Admin
                         ft.replace(R.id.content_frame, fmSolicitudesAdmin);
                         break;
                     case 5:
-                        //Autor Admin
+                        //Reportes Admin
                         ft.replace(R.id.content_frame, fmReportesAdmin);
                         break;
                     case 6:
-                        //Autor Admin
+                        //Usuarios Admin
                         ft.replace(R.id.content_frame, fmUsuarioAdmin);
                         break;
                     case 7:
@@ -244,8 +247,8 @@ public class MainActivity extends SherlockFragmentActivity {
 
             }
 
-            //ESTUDIANTE
-            if (usuarioLogueado.getRol().equalsIgnoreCase("EST")) {
+            //USUARIO
+            if (usuarioLogueado.getRol().equalsIgnoreCase("USUARIO")) {
 
                 fmlibrosUsuario= new FmLibrosUsuario();
                 //Se inicializa el objeto libroBuscar
@@ -326,7 +329,7 @@ public class MainActivity extends SherlockFragmentActivity {
 
     //Botones al pie de la pantalla (Usuario)
     /**
-     * Boton Buscar Libro ubicado al pie de las pantallas reessrvar y misLibros del rol Estudiante
+     * Boton Buscar Libro ubicado al pie de las pantallas reessrvar y misLibros del rol Usuario
      * y permite dirigir a la pantalla de buscar
      * @param view
      */
@@ -421,6 +424,38 @@ public class MainActivity extends SherlockFragmentActivity {
         }else{
             Toast.makeText(this, "Seleccione un libro", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    /**
+     * Boton buscar Usuario, ubicado al pie de las pantallas listadoUsuarios Admin
+     * y permite dirigir a la pantalla de buscar
+     * @param view
+     */
+    public void verBuscarUsuarioAdmin(View view){
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+
+        variablesGlobales.setOpcionMenu(2); //Buscar Libros
+        fmUsuarioAdmin = new FmUsuarioAdmin();
+
+        ft.replace(R.id.content_frame, fmUsuarioAdmin);
+        ft.commit();
+    }
+
+    /**
+     * Funcion encargada de buscar usuario y direccionar a la pagina lista usuarios
+     * @param view
+     */
+    public void buscarUsuarioAdmin(View view){
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+
+        variablesGlobales.setOpcionMenu(1); //Listado Usuarios
+        fmUsuarioAdmin = new FmUsuarioAdmin();
+
+        //Se capturan los parametros para la busqueda del usuario
+        FmBuscarUsuarioAdmin.capturarObjetoBusqueda();
+
+        ft.replace(R.id.content_frame, fmUsuarioAdmin);
+        ft.commit();
     }
 
 }

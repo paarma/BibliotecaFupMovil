@@ -13,4 +13,10 @@
         <item>DONADO</item>
     </string-array>
 
+    <string-array name="roles">
+        <item>Seleccione...</item>
+        <item>ADMINISTRADOR</item>
+        <item>USUARIO</item>
+    </string-array>
+
 </resources>

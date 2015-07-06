@@ -34,33 +34,16 @@ public class FmCrearUsuarioAdmin extends SherlockFragment {
     Spinner spRol;
     VariablesGlobales variablesGlobales = VariablesGlobales.getInstance();
 
-
-    private final static String[] rol = { "Seleccione..", "Administrador", "Usuario"};
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Get the view from fm_crear_Autor_admin.xml
         View view = inflater.inflate(R.layout.fm_crear_usuario_admin, container, false);
 
-        cedula = (EditText) view.findViewById(R.id.editTextCedula);
-        primerNombre = (EditText) view.findViewById(R.id.editTextPrimerNombre);
-        segundoNombre = (EditText) view.findViewById(R.id.editTextSegundoNombre);
-        primerApellido = (EditText) view.findViewById(R.id.editTextPrimerApellido);
-        segundoApellido = (EditText) view.findViewById(R.id.editTextSegundoApellido);
-        telefono = (EditText) view.findViewById(R.id.editTextTelefono);
-        direccion = (EditText) view.findViewById(R.id.editTextDireccion);
-        email = (EditText) view.findViewById(R.id.editTextEmail);
-        codigo = (EditText) view.findViewById(R.id.editTextCodigo);
-        clave = (EditText) view.findViewById(R.id.editTextClave);
-        spRol = (Spinner) view.findViewById(R.id.spinnerRol);
-
+        inicializarComponentes(view);
 
         ImageButton btnCrearUsuario = (ImageButton) view.findViewById(R.id.btnGuardarUsuarioAdmin);
         ImageButton btnCancelar = (ImageButton) view.findViewById(R.id.btnCancelarUsuarioAdmin);
-
-        inicializarComponentes(view);
 
         btnCrearUsuario.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,16 +62,27 @@ public class FmCrearUsuarioAdmin extends SherlockFragment {
             }
         });
 
-
         return view;
-
-
     }
 
     public void inicializarComponentes(View view){
-        ArrayAdapter adapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_spinner_dropdown_item, rol);
-        Spinner spRol = (Spinner) view.findViewById(R.id.spinnerRol);
-        spRol.setAdapter(adapter);
+
+        cedula = (EditText) view.findViewById(R.id.editTextCedula);
+        primerNombre = (EditText) view.findViewById(R.id.editTextPrimerNombre);
+        segundoNombre = (EditText) view.findViewById(R.id.editTextSegundoNombre);
+        primerApellido = (EditText) view.findViewById(R.id.editTextPrimerApellido);
+        segundoApellido = (EditText) view.findViewById(R.id.editTextSegundoApellido);
+        telefono = (EditText) view.findViewById(R.id.editTextTelefono);
+        direccion = (EditText) view.findViewById(R.id.editTextDireccion);
+        email = (EditText) view.findViewById(R.id.editTextEmail);
+        codigo = (EditText) view.findViewById(R.id.editTextCodigo);
+        clave = (EditText) view.findViewById(R.id.editTextClave);
+        spRol = (Spinner) view.findViewById(R.id.spinnerRol);
+
+        //Se carga el spinner rol con los datos del archivo arrays.xml
+        ArrayAdapter adapterRol = ArrayAdapter.createFromResource(getActivity(), R.array.roles, R.layout.spinner_item);
+        adapterRol.setDropDownViewResource(R.layout.spinner_item);
+        spRol.setAdapter(adapterRol);
     }
 
 
@@ -121,13 +115,8 @@ public class FmCrearUsuarioAdmin extends SherlockFragment {
             user.setCodigo(codigo.getText().toString());
             user.setClave(clave.getText().toString());
 
-
-            if (spRol.getSelectedItem().toString().equals("Administrador")) {
-                user.setRol("ADMIN");
-            }
-
-            if (spRol.getSelectedItem().toString().equals("Usuario")) {
-                user.setRol("EST");
+            if (!spRol.getSelectedItem().toString().equals("Seleccione...")) {
+                user.setRol(spRol.getSelectedItem().toString());
             }
 
             try {
@@ -184,7 +173,6 @@ public class FmCrearUsuarioAdmin extends SherlockFragment {
         request.addProperty("email", usuario.getEmail());
         request.addProperty("codigo", usuario.getCodigo());
         request.addProperty("clave", usuario.getClave());
-
         request.addProperty("rol",usuario.getRol());
 
         SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);

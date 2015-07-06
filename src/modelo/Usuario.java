@@ -33,7 +33,7 @@ public class Usuario implements Serializable {
         this.email = "";
         this.codigo = "";
         this.clave = "";
-        this.rol = null;
+        this.rol = "";
     }
 
     public Usuario(int idUsuario, int cedula, String primerNombre, String segundoNombre,
