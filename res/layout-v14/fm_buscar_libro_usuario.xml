@@ -30,9 +30,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/textViewTitulo"
-
-            android:singleLine="true" >
-        </EditText>
+            android:singleLine="true"
+            android:inputType="textCapCharacters" />
 
         <!-- EditText para ISBN-->
 
@@ -48,8 +47,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/textViewIsbn"
-            >
-        </EditText>
+            android:inputType="textCapCharacters" />
 
         <!-- EditText para codigo topografico -->
 
@@ -65,7 +63,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/textViewCodTopo"
-            />
+            android:inputType="textCapCharacters" />
 
         <!-- EditText para temas del libro-->
 
@@ -81,7 +79,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/textViewTemas"
-            />
+            android:inputType="textCapCharacters" />
 
       <TextView
             android:id="@+id/textViewEditorial"
@@ -89,7 +87,6 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/editTextTemas"
             android:text="Editorial:" />
-
 
         <Spinner
             android:layout_width="fill_parent"
@@ -100,7 +97,6 @@
             android:layout_marginBottom="12dp"
             android:dropDownSelector="@color/list_divider"
             android:background="@color/list_divider" />
-
 
     </RelativeLayout>
 

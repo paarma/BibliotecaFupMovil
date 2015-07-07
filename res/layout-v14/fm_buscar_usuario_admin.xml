@@ -59,7 +59,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/textViewPrimerNombre"
-            >
+            android:inputType="textCapCharacters" >
         </EditText>
 
         <!-- EditText para segundo nombre-->
@@ -75,7 +75,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/textViewSegundoNombre"
-            >
+            android:inputType="textCapCharacters" >
         </EditText>
 
         <!-- EditText para primer apellido -->
@@ -91,7 +91,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/textViewPrimerApellido"
-            />
+            android:inputType="textCapCharacters" />
 
         <!-- EditText para segundo apellido -->
         <TextView
@@ -106,7 +106,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/textViewSegundoApellido"
-            />
+            android:inputType="textCapCharacters" />
 
         <!-- EditText codigo -->
 
