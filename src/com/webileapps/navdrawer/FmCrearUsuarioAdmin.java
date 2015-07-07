@@ -174,11 +174,22 @@ public class FmCrearUsuarioAdmin extends SherlockFragment {
 
 
     }
-        //Metodo encardado de limpiar los campos del formulario
-        public void limpiarCampos(){
-            primerNombre.getText().clear();
-            segundoNombre.getText().clear();
-        }
+
+    /**
+     * Metodo encardado de limpiar los campos del formulario
+     */
+    public void limpiarCampos(){
+        cedula.getText().clear();
+        primerNombre.getText().clear();
+        segundoNombre.getText().clear();
+        primerApellido.getText().clear();
+        segundoApellido.getText().clear();
+        telefono.getText().clear();
+        direccion.getText().clear();
+        email.getText().clear();
+        codigo.getText().clear();
+        clave.getText().clear();
+    }
 
 
     /**

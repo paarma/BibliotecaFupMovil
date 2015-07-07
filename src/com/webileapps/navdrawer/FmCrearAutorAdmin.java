@@ -152,6 +152,9 @@ public class FmCrearAutorAdmin extends SherlockFragment {
         //Metodo encardado de limpiar los campos del formulario
         public void limpiarCampos(){
             primerNombre.getText().clear();
+            segundoNombre.getText().clear();
+            primerApellido.getText().clear();
+            segundoApellido.getText().clear();
         }
 
 }

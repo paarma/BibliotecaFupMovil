@@ -70,26 +70,12 @@ public class FmCrearLibroAdmin extends SherlockFragment {
             @Override
             public void onClick(View view) {
                 limpiarCampos();
+                variablesGlobales.setLibroSeleccionadoAdmin(null);
             }
         });
 
 		return view;
 	}
-
-    /**
-     * Metodo encardado de limpiar los campos del formulario
-     */
-    public void limpiarCampos(){
-
-        titulo.getText().clear();
-        isbn.getText().clear();
-        codTopografico.getText().clear();
-        temas.getText().clear();
-        paginas.getText().clear();
-
-        valor.getText().clear();
-        radicado.getText().clear();
-    }
 
     public void inicializarComponentes(View view){
 
@@ -193,6 +179,22 @@ public class FmCrearLibroAdmin extends SherlockFragment {
                 dpickerAnioLibro.updateDate(variablesGlobales.getLibroSeleccionadoAdmin().getAnio(),1,1);
             }
         }
+    }
+
+    /**
+     * Metodo encardado de limpiar los campos del formulario
+     */
+    public void limpiarCampos(){
+
+        titulo.getText().clear();
+        isbn.getText().clear();
+        codTopografico.getText().clear();
+        temas.getText().clear();
+        paginas.getText().clear();
+        serie.getText().clear();
+
+        valor.getText().clear();
+        radicado.getText().clear();
     }
 
     /**
