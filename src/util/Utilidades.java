@@ -1,5 +1,8 @@
 package util;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.util.Log;
 import android.widget.DatePicker;
 import android.widget.Spinner;
@@ -28,8 +31,10 @@ public class Utilidades {
      */
     public final static int diasTotalesPrestamo = 2;
 
-    //Metodo encargado de retornar una fecha de un datepicker
-    public static Date getDateFromDatePicker(DatePicker datePicker){
+    /**
+     * Metodo encargado de retornar una fecha de un datepicker
+     */
+     public static Date getDateFromDatePicker(DatePicker datePicker){
 
         int day = datePicker.getDayOfMonth();
         int month = datePicker.getMonth();
@@ -78,6 +83,30 @@ public class Utilidades {
 
         }
         return index;
+    }
+
+    /**
+     * Metodo encargado de validar si el sistema está conectado a una determinada red. internet.
+     * @param ctx
+     * @return
+     */
+    public static boolean verificarConexionInternet(Context ctx){
+
+        boolean conectado = false;
+
+        ConnectivityManager connec = (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        // No sólo wifi, también GPRS
+        NetworkInfo[] redes = connec.getAllNetworkInfo();
+
+        for(int i = 0; i < redes.length; i++){
+            //Se verifica si hay conexion:
+            if(redes[i].getState() == NetworkInfo.State.CONNECTED){
+                conectado = true;
+            }
+        }
+
+        return conectado;
     }
 
 }

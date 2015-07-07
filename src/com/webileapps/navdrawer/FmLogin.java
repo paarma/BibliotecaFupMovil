@@ -17,6 +17,7 @@ import org.ksoap2.transport.HttpTransportSE;
 
 import modelo.Usuario;
 import util.Configuracion;
+import util.Utilidades;
 import util.UtilidadesBuscarPorId;
 import util.VariablesGlobales;
 
@@ -46,8 +47,13 @@ public class FmLogin extends Activity {
 
     public void login(View view){
         usuario = null;
-        TareaWSLogin tareaLogin = new TareaWSLogin();
-        tareaLogin.execute();
+
+        if(Utilidades.verificarConexionInternet(this)) {
+            TareaWSLogin tareaLogin = new TareaWSLogin();
+            tareaLogin.execute();
+        }else{
+            Toast.makeText(FmLogin.this, "Verificar conexión a Internet", Toast.LENGTH_LONG).show();
+        }
     }
 
     private void limpiar() {
