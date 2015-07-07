@@ -9,7 +9,7 @@ public class Autor implements Serializable {
 
     private int idAutor;
     private String descripcion;
-    private int tipoAutor;
+    private String tipoAutor;
 
 
 
@@ -17,11 +17,11 @@ public class Autor implements Serializable {
 
         this.idAutor = 0;
         this.descripcion = "";
-        this.tipoAutor = 0;
+        this.tipoAutor = "";
 
     }
 
-    public Autor(int idAutor, String descripcion, int tipoAutor) {
+    public Autor(int idAutor, String descripcion, String tipoAutor) {
 
         this.idAutor = idAutor;
         this.descripcion = descripcion;
@@ -45,11 +45,11 @@ public class Autor implements Serializable {
         this.descripcion = descripcion;
     }
 
-    public int getTipoAutor() {
+    public String getTipoAutor() {
         return tipoAutor;
     }
 
-    public void setTipoAutor(int tipoAutor) {
+    public void setTipoAutor(String tipoAutor) {
         this.tipoAutor = tipoAutor;
     }
 }

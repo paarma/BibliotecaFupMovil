@@ -30,32 +30,72 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" >
 
-            <!-- EditText para el titulo del libro-->
-
+            <!-- EditText para primer nombre-->
             <TextView
-                android:id="@+id/textViewAutor"
+                android:id="@+id/textViewPrimerNombre"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="Autor:"
-                android:layout_marginTop="40dp" />
+                android:text="Primer Nombre:" />
 
             <EditText
-                android:id="@+id/editTextAutor"
+                android:id="@+id/editTextPrimerNombre"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/textViewAutor"
-
-                android:singleLine="true" >
-
-
+                android:layout_below="@+id/textViewPrimerNombre"
+                >
             </EditText>
+
+            <!-- EditText para segundo nombre-->
+            <TextView
+                android:id="@+id/textViewSegundoNombre"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/editTextPrimerNombre"
+                android:text="Segundo Nombre:" />
+
+            <EditText
+                android:id="@+id/editTextSegundoNombre"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textViewSegundoNombre"
+                >
+            </EditText>
+
+            <!-- EditText para primer apellido -->
+            <TextView
+                android:id="@+id/textViewPrimerApellido"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/editTextSegundoNombre"
+                android:text="Primer Apellido:" />
+
+            <EditText
+                android:id="@+id/editTextPrimerApellido"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textViewPrimerApellido"
+                />
+
+            <!-- EditText para segundo apellido -->
+            <TextView
+                android:id="@+id/textViewSegundoApellido"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/editTextPrimerApellido"
+                android:text="Segundo Apellido:" />
+
+            <EditText
+                android:id="@+id/editTextSegundoApellido"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textViewSegundoApellido"/>
 
             <TextView
                 android:id="@+id/textViewTipoAutor"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="Tipo Autor:"
-                android:layout_below="@+id/editTextAutor"
+                android:layout_below="@+id/editTextSegundoApellido"
                 android:layout_marginTop="15dp" />
 
             <Spinner

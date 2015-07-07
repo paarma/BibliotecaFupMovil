@@ -28,12 +28,11 @@ import util.VariablesGlobales;
  * Created by alex on 9/05/15.
  */
 public class FmCrearAutorAdmin extends SherlockFragment {
-    EditText descripcion;
-    Spinner select;
-    VariablesGlobales variablesGlobales = VariablesGlobales.getInstance();
 
-    private final static String[] tipoAutor = { "Seleccione..", "Personal", "Institucional",
-            "Corporativo"};
+    EditText primerNombre, segundoNombre, primerApellido, segundoApellido;
+    Spinner spinnerTipoAutor;
+
+    VariablesGlobales variablesGlobales = VariablesGlobales.getInstance();
 
 
     @Override
@@ -41,10 +40,6 @@ public class FmCrearAutorAdmin extends SherlockFragment {
                              Bundle savedInstanceState) {
         // Get the view from fm_crear_Autor_admin.xml
         View view = inflater.inflate(R.layout.fm_crear_autor_admin, container, false);
-
-        descripcion = (EditText) view.findViewById(R.id.editTextAutor);
-        select = (Spinner) view.findViewById(R.id.spinnerTipoAutor);
-
 
         ImageButton btnCrearAutor = (ImageButton) view.findViewById(R.id.btnGuardarAutAdmin);
         ImageButton btnCancelar = (ImageButton) view.findViewById(R.id.btnCancelarAutAdmin);
@@ -75,9 +70,19 @@ public class FmCrearAutorAdmin extends SherlockFragment {
     }
 
     public void inicializarComponentes(View view){
-        ArrayAdapter adapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_spinner_dropdown_item, tipoAutor);
-        Spinner spTipoAutor = (Spinner) view.findViewById(R.id.spinnerTipoAutor);
-        spTipoAutor.setAdapter(adapter);
+
+        primerNombre = (EditText) view.findViewById(R.id.editTextPrimerNombre);
+        segundoNombre = (EditText) view.findViewById(R.id.editTextSegundoNombre);
+        primerApellido = (EditText) view.findViewById(R.id.editTextPrimerApellido);
+        segundoApellido = (EditText) view.findViewById(R.id.editTextSegundoApellido);
+
+        spinnerTipoAutor = (Spinner) view.findViewById(R.id.spinnerTipoAutor);
+
+        //Se cargan algunos spinners con los datos del archivo arrays.xml
+        ArrayAdapter adapterTipoAutor = ArrayAdapter.createFromResource(getActivity(), R.array.tipoAutor, R.layout.spinner_item);
+        adapterTipoAutor.setDropDownViewResource(R.layout.spinner_item);
+        spinnerTipoAutor.setAdapter(adapterTipoAutor);
+
     }
 
 
@@ -99,17 +104,16 @@ public class FmCrearAutorAdmin extends SherlockFragment {
         protected Boolean doInBackground(String... params) {
 
             SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
-            request.addProperty("descripcion", descripcion.getText().toString());
 
-            if (select.getSelectedItem().toString().equals("Personal")) {
-                request.addProperty("tipo",1);
-            }
+            request.addProperty("primerNombre", primerNombre.getText().toString());
+            request.addProperty("segundoNombre", segundoNombre.getText().toString());
+            request.addProperty("primerApellido", primerApellido.getText().toString());
+            request.addProperty("segundoApellido", segundoApellido.getText().toString());
 
-            if (select.getSelectedItem().toString().equals("Institucional")) {
-                request.addProperty("tipo",2);
-            }
-            if (select.getSelectedItem().toString().equals("Corporativo")) {
-                request.addProperty("tipo",3);
+            if(!spinnerTipoAutor.getSelectedItem().toString().equals("Seleccione...")){
+                request.addProperty("tipo", spinnerTipoAutor.getSelectedItem().toString());
+            }else{
+                request.addProperty("tipo", "");
             }
 
             SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
@@ -147,10 +151,7 @@ public class FmCrearAutorAdmin extends SherlockFragment {
     }
         //Metodo encardado de limpiar los campos del formulario
         public void limpiarCampos(){
-            descripcion.getText().clear();
-
-
-
+            primerNombre.getText().clear();
         }
 
 }
