@@ -385,53 +385,7 @@ public class TareasGenerales {
             {
                 for (SoapObject user : rs)
                 {
-                    Usuario usuario = new Usuario();
-                    usuario.setIdUsuario(Integer.parseInt(user.getProperty("ID_USUARIO").toString()));
-
-                    if(user.getProperty("CEDULA") != null){
-                        usuario.setCedula(Integer.parseInt(user.getProperty("CEDULA").toString()));
-                    }
-
-                    if(user.getProperty("PRIMER_NOMBRE") != null){
-                        usuario.setPrimerNombre(user.getProperty("PRIMER_NOMBRE").toString());
-                    }
-
-                    if(user.getProperty("SEGUNDO_NOMBRE") != null){
-                        usuario.setSegundoNombre(user.getProperty("SEGUNDO_NOMBRE").toString());
-                    }
-
-                    if(user.getProperty("PRIMER_APELLIDO") != null){
-                        usuario.setPrimerApellido(user.getProperty("PRIMER_APELLIDO").toString());
-                    }
-
-                    if(user.getProperty("SEGUNDO_APELLIDO") != null){
-                        usuario.setSegundoApellido(user.getProperty("SEGUNDO_APELLIDO").toString());
-                    }
-
-                    if(user.getProperty("TELEFONO") != null){
-                        usuario.setTelefono(Integer.parseInt(user.getProperty("TELEFONO").toString()));
-                    }
-
-                    if(user.getProperty("DIRECCION") != null){
-                        usuario.setDireccion(user.getProperty("DIRECCION").toString());
-                    }
-
-                    if(user.getProperty("EMAIL") != null) {
-                        usuario.setEmail(user.getProperty("EMAIL").toString());
-                    }
-
-                    if(user.getProperty("CODIGO") != null){
-                        usuario.setCodigo(user.getProperty("CODIGO").toString());
-                    }
-
-                    if(user.getProperty("CLAVE") != null){
-                        usuario.setClave(user.getProperty("CLAVE").toString());
-                    }
-
-                    if(user.getProperty("ROL") != null){
-                        usuario.setRol(user.getProperty("ROL").toString());
-                    }
-
+                    Usuario usuario = UtilidadesBuscarPorId.obtenerUsuarioSoap(user);
                     listaUsuario.add(usuario);
                 }
             }

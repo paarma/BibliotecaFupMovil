@@ -17,6 +17,7 @@ import org.ksoap2.transport.HttpTransportSE;
 
 import modelo.Usuario;
 import util.Configuracion;
+import util.UtilidadesBuscarPorId;
 import util.VariablesGlobales;
 
 /**
@@ -99,20 +100,7 @@ public class FmLogin extends Activity {
                 {
                     for (SoapObject user : rs)
                     {
-                        usuario = new Usuario();
-                        usuario.setIdUsuario(Integer.parseInt(user.getProperty("ID_USUARIO").toString()));
-                        usuario.setCedula(Integer.parseInt(user.getProperty("CEDULA").toString()));
-                        usuario.setPrimerNombre(user.getProperty("PRIMER_NOMBRE").toString());
-                        usuario.setSegundoNombre(user.getProperty("SEGUNDO_NOMBRE").toString());
-                        usuario.setPrimerApellido(user.getProperty("PRIMER_APELLIDO").toString());
-                        usuario.setSegundoApellido(user.getProperty("SEGUNDO_APELLIDO").toString());
-                        usuario.setTelefono(Integer.parseInt(user.getProperty("TELEFONO").toString()));
-                        usuario.setDireccion(user.getProperty("DIRECCION").toString());
-                        usuario.setEmail(user.getProperty("EMAIL").toString());
-                        usuario.setCodigo(user.getProperty("CODIGO").toString());
-                        usuario.setClave(user.getProperty("CLAVE").toString());
-                        usuario.setRol(user.getProperty("ROL").toString());
-
+                        usuario = UtilidadesBuscarPorId.obtenerUsuarioSoap(user);
                         Log.i("FmLogin.java",">>>>>>>>>>>> idUsuario: "+usuario.getIdUsuario());
                         break;
                     }
