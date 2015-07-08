@@ -19,10 +19,13 @@ import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
 import util.Configuracion;
+import util.VariablesGlobales;
 
 public class FmCrearEditorialAdmin extends SherlockFragment {
 
 	EditText descripcion;
+
+    VariablesGlobales variablesGlobales = VariablesGlobales.getInstance();
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -50,6 +53,7 @@ public class FmCrearEditorialAdmin extends SherlockFragment {
 			@Override
 			public void onClick(View view) {
 				limpiarCampos();
+                variablesGlobales.setEditorialSeleccionadaAdmin(null);
 			}
 		});
 
@@ -102,6 +106,7 @@ public class FmCrearEditorialAdmin extends SherlockFragment {
 			if(result){
 				Toast.makeText(getActivity(), "Editorial almacenada con exito", Toast.LENGTH_LONG).show();
 				limpiarCampos();
+                variablesGlobales.setEditorialSeleccionadaAdmin(null);
 			}else{
 				Toast.makeText(getActivity(), "Error almacenando editorial", Toast.LENGTH_LONG).show();
 			}

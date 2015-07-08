@@ -79,7 +79,7 @@ public class CargarSpinners {
 
                 //Se cargan los datos de Editorial
                 if(nombreClase.equals(Editorial.class.getSimpleName())){
-                    listaEditoriales = tareasGenerales.listarEditoriales();
+                    listaEditoriales = tareasGenerales.listarEditoriales(new Editorial());
                     Log.i("cargaSpinner", ">>>>>>>>>>> Tamaño lista editoriales: " + listaEditoriales.size());
                 }
 

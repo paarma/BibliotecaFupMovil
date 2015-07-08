@@ -33,6 +33,7 @@ import android.widget.Toast;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.MenuItem;
 
+import modelo.Editorial;
 import modelo.Libro;
 import modelo.Usuario;
 import util.VariablesGlobales;
@@ -203,14 +204,20 @@ public class MainActivity extends SherlockFragmentActivity {
                 //Se inicializa el objeto libroSeleccionadoAdmin
                 variablesGlobales.setLibroSeleccionadoAdmin(null);
 
-                //Se inicializa el bojeto usuarioSeleccionadoAdmin
+                //Se inicializa el objeto usuarioSeleccionadoAdmin
                 variablesGlobales.setUsuarioSeleccionadoAdmin(null);
+
+                //Se inicializa el objeto editorialSeleccionadaAdmin
+                variablesGlobales.setEditorialSeleccionadaAdmin(null);
 
                 //Se inicializa el objeto libroBuscar
                 variablesGlobales.setLibroBuscar(new Libro());
 
                 //Se inicializa el objeto usuarioBuscar
                 variablesGlobales.setUsuarioBuscar(new Usuario());
+
+                //Se inicializa el objeto editorialBuscar
+                variablesGlobales.setEditorialBuscar(new Editorial());
 
                 // Locate Position
                 switch (position) {

@@ -117,7 +117,7 @@ public class FmBuscarLibroUsuario extends SherlockFragment {
 
             try {
                 TareasGenerales tareasGenerales = new TareasGenerales();
-                listaEditoriales = tareasGenerales.listarEditoriales();
+                listaEditoriales = tareasGenerales.listarEditoriales(new Editorial());
                 Log.i("Buscar",">>>>>>>>>>> Tamaño lista editoriales: "+listaEditoriales.size());
 
             }catch (Exception e){

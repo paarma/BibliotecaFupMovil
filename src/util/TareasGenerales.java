@@ -231,9 +231,11 @@ public class TareasGenerales {
 
     /**
      * Metodo encargado de listar las editoriales de la BD.
+     * @param editorialBuscar Objeto que contiene los parametros de busqueda
+     *                        en caso de ser (new Editorial) se listaran todas las editoriales.
      * @return
      */
-    public List<Editorial> listarEditoriales(){
+    public List<Editorial> listarEditoriales(Editorial editorialBuscar){
 
         final String SOAP_ACTION = conf.getUrl()+"/listadoEditoriales";
         final String METHOD_NAME = "listadoEditoriales";
@@ -242,6 +244,7 @@ public class TareasGenerales {
         List<Editorial> listaEditoriales = new ArrayList<Editorial>();
 
         SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
+        request.addProperty("descripcion",editorialBuscar.getDescripcion());
 
         SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
         envelope.bodyOut = request;
