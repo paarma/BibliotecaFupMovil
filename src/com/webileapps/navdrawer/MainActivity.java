@@ -487,4 +487,55 @@ public class MainActivity extends SherlockFragmentActivity {
         }
     }
 
+    /**
+     * Boton buscar Editorial, ubicado al pie de las pantallas listadoEditoriales Admin
+     * y permite dirigir a la pantalla de buscar
+     * @param view
+     */
+    public void verBuscarEditorialAdmin(View view){
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+
+        variablesGlobales.setOpcionMenu(2); //Buscar Editoriales
+        fmEditorialAdmin = new FmEditorialAdmin();
+
+        ft.replace(R.id.content_frame, fmEditorialAdmin);
+        ft.commit();
+    }
+
+    /**
+     * Funcion encargada de buscar editoriales y direccionar a la pagina lista editoriales
+     * @param view
+     */
+    public void buscarEditorialAdmin(View view){
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+
+        variablesGlobales.setOpcionMenu(1); //Listado Editoriales
+        fmEditorialAdmin = new FmEditorialAdmin();
+
+        //Se capturan los parametros para la busqueda de la editorial
+        FmBuscarEditorialAdmin.capturarObjetoBusqueda();
+
+        ft.replace(R.id.content_frame, fmEditorialAdmin);
+        ft.commit();
+    }
+
+    /**
+     * Funcion encargada de cargar los datos de una editorial para ser actualizada
+     * @param view
+     */
+    public void actualizarEditorialAdmin(View view){
+
+        if(variablesGlobales.getEditorialSeleccionadaAdmin() != null) {
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+
+            variablesGlobales.setOpcionMenu(0); //Crear-Editar Editorial
+            fmEditorialAdmin = new FmEditorialAdmin();
+
+            ft.replace(R.id.content_frame, fmEditorialAdmin);
+            ft.commit();
+        }else{
+            Toast.makeText(this, "Seleccione una editorial", Toast.LENGTH_SHORT).show();
+        }
+    }
+
 }

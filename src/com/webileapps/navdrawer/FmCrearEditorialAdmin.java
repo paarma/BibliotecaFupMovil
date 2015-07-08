@@ -60,6 +60,16 @@ public class FmCrearEditorialAdmin extends SherlockFragment {
 		return view;
 	}
 
+    /**
+     * Metodo que carga los datos de un determinado libro previamente seleccionado.
+     */
+    public void cargarDatosEditorialSeleccionada(){
+        if(variablesGlobales.getEditorialSeleccionadaAdmin() != null) {
+
+            descripcion.setText(variablesGlobales.getEditorialSeleccionadaAdmin().getDescripcion());
+        }
+    }
+
 	/**
 	 * Tarea encargada de guardar una editorial
 	 */
@@ -77,6 +87,13 @@ public class FmCrearEditorialAdmin extends SherlockFragment {
 		protected Boolean doInBackground(String... params) {
 
             SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
+
+            if(variablesGlobales.getEditorialSeleccionadaAdmin() != null){
+                request.addProperty("idEditorial", variablesGlobales.getEditorialSeleccionadaAdmin().getIdEditorial());
+            }else{
+                request.addProperty("idEditorial", 0);
+            }
+
             request.addProperty("descripcion", descripcion.getText().toString());
 
             SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
@@ -117,4 +134,19 @@ public class FmCrearEditorialAdmin extends SherlockFragment {
 	public void limpiarCampos(){
 		descripcion.getText().clear();
 	}
+
+    /////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////
+    /**
+     * Sobreescritura del metodo onResume
+     * (se agrega la funcionalidad para recargar los datos generales de la clase)
+     */
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+
+        //Si existe una Editorial seleccionda previamente por el admin, se cargan los datos
+        cargarDatosEditorialSeleccionada();
+    }
 }
