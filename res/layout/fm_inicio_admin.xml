@@ -58,7 +58,7 @@
                 android:layout_marginLeft="10dp"
 
                 android:drawableLeft="@drawable/autor"
-                android:background="#fffcfaff"
+                android:background="@drawable/btn_default_inicio"
                 android:textColor="@color/list_divider" />
 
             <TableRow
@@ -79,7 +79,7 @@
                 android:text="Editorial"
                 android:id="@+id/buttonEditorial"
                 android:drawableLeft="@drawable/editorial"
-                android:background="#fffcfaff"
+                android:background="@drawable/btn_default_inicio"
                 android:textColor="@color/list_divider" />
 
             <Button
@@ -90,7 +90,7 @@
                 android:layout_marginLeft="10dp"
 
                 android:drawableLeft="@drawable/solicitudes"
-                android:background="#fffcfaff"
+                android:background="@drawable/btn_default_inicio"
                 android:textColor="@color/list_divider" />
 
 
@@ -111,7 +111,7 @@
                 android:text="Reportes"
                 android:id="@+id/buttonReportes"
                 android:drawableLeft="@drawable/reportes"
-                android:background="#fffcfaff"
+                android:background="@drawable/btn_default_inicio"
                 android:textColor="@color/list_divider" />
 
             <Button
@@ -121,7 +121,7 @@
                 android:id="@+id/buttonUsuarios"
                 android:layout_marginLeft="10dp"
                 android:drawableLeft="@drawable/autor"
-                android:background="#fffcfaff"
+                android:background="@drawable/btn_default_inicio"
                 android:textColor="@color/list_divider" />
 
             <TableRow

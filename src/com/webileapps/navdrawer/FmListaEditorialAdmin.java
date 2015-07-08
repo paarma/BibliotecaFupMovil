@@ -133,7 +133,7 @@ public class FmListaEditorialAdmin extends SherlockFragment {
                         nombresEditoriales[i] = listaEditoriales.get(i).getDescripcion();
                     }
 
-                    adapterEditorial = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, nombresEditoriales);
+                    adapterEditorial = new ArrayAdapter<String>(getActivity(), R.layout.spinner_item, nombresEditoriales);
                     editorialListView.setAdapter(adapterEditorial);
                 }
             }else{

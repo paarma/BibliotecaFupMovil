@@ -45,7 +45,7 @@
                 android:text="Reservar Libro"
                 android:id="@+id/btnReservarLibroUser"
                 android:drawableLeft="@drawable/editorial"
-                android:background="#fffcfaff"
+                android:background="@drawable/btn_default_inicio"
                 android:textColor="@color/list_divider"/>
                 />
             <Button
@@ -55,7 +55,7 @@
                 android:id="@+id/btnMisLibrosUser"
                 android:layout_marginLeft="10dp"
                 android:drawableLeft="@drawable/libro"
-                android:background="#fffcfaff"
+                android:background="@drawable/btn_default_inicio"
                 android:textColor="@color/list_divider"/>
 
         </TableRow>
