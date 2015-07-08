@@ -1,5 +1,6 @@
 package util;
 
+import modelo.Autor;
 import modelo.Editorial;
 import modelo.Libro;
 import modelo.Usuario;
@@ -58,6 +59,16 @@ public class VariablesGlobales {
      * Variable qeu contiene una editorial seleccionada por el admin.
      */
     private Editorial editorialSeleccionadaAdmin;
+
+    /**
+     * Variable que contiene un autor con los parametros cargados para busqueda
+     */
+    private Autor autorBuscar = new Autor();
+
+    /**
+     * Variable qeu contiene un autor seleccionado por el admin.
+     */
+    private Autor autorSeleccionadoAdmin;
 
     // Restrict the constructor from being instantiated
     private VariablesGlobales(){}
@@ -130,6 +141,22 @@ public class VariablesGlobales {
 
     public void setEditorialSeleccionadaAdmin(Editorial editorialSeleccionadaAdmin) {
         this.editorialSeleccionadaAdmin = editorialSeleccionadaAdmin;
+    }
+
+    public Autor getAutorBuscar() {
+        return autorBuscar;
+    }
+
+    public void setAutorBuscar(Autor autorBuscar) {
+        this.autorBuscar = autorBuscar;
+    }
+
+    public Autor getAutorSeleccionadoAdmin() {
+        return autorSeleccionadoAdmin;
+    }
+
+    public void setAutorSeleccionadoAdmin(Autor autorSeleccionadoAdmin) {
+        this.autorSeleccionadoAdmin = autorSeleccionadoAdmin;
     }
 
     public static synchronized VariablesGlobales getInstance(){

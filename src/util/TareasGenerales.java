@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.List;
 
 import modelo.Area;
+import modelo.Autor;
 import modelo.Editorial;
 import modelo.Libro;
 import modelo.Sede;
@@ -269,6 +270,72 @@ public class TareasGenerales {
             Log.e("TareasGenerales.java ", "xxx Error listarEditoriales(): " + e.getMessage());
         }
         return listaEditoriales;
+    }
+
+    /**
+     * Metodo encargado de listar los autores de la BD.
+     * @param autorBuscar Objeto que contiene los parametros de busqueda
+     *                        en caso de ser (new Autor) se listaran todos los auatores.
+     * @return
+     */
+    public List<Autor> listarAutores(Autor autorBuscar){
+
+        final String SOAP_ACTION = conf.getUrl()+"/listadoAutores";
+        final String METHOD_NAME = "listadoAutores";
+        final String NAMESPACE = conf.getNamespace();
+        final String URL = conf.getUrl();
+        List<Autor> listaAutores = new ArrayList<Autor>();
+
+        SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
+        request.addProperty("primerNombre",autorBuscar.getPrimerNombre());
+        request.addProperty("segundoNombre",autorBuscar.getSegundoNombre());
+        request.addProperty("primerApellido",autorBuscar.getPrimerApellido());
+        request.addProperty("segundoApellido",autorBuscar.getSegundoApellido());
+        request.addProperty("tipo",autorBuscar.getIdAutor());
+
+        SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+        envelope.bodyOut = request;
+
+        HttpTransportSE transporte = new HttpTransportSE(URL);
+
+        try {
+
+            transporte.call(SOAP_ACTION, envelope);
+            java.util.Vector<SoapObject> rs = (java.util.Vector<SoapObject>) envelope.getResponse();
+
+            if (rs != null) {
+                for (SoapObject autorSoap : rs) {
+
+                    Autor autor = new Autor();
+                    autor.setIdAutor(Integer.parseInt(autorSoap.getProperty("ID_AUTOR").toString()));
+
+                    if(autorSoap.getProperty("PRIMER_NOMBRE") != null) {
+                        autor.setPrimerNombre(autorSoap.getProperty("PRIMER_NOMBRE").toString());
+                    }
+
+                    if(autorSoap.getProperty("SEGUNDO_NOMBRE") != null) {
+                        autor.setSegundoNombre(autorSoap.getProperty("SEGUNDO_NOMBRE").toString());
+                    }
+
+                    if(autorSoap.getProperty("PRIMER_APELLIDO") != null) {
+                        autor.setPrimerApellido(autorSoap.getProperty("PRIMER_APELLIDO").toString());
+                    }
+
+                    if(autorSoap.getProperty("SEGUNDO_APELLIDO") != null) {
+                        autor.setSegundoApellido(autorSoap.getProperty("SEGUNDO_APELLIDO").toString());
+                    }
+
+                    if(autorSoap.getProperty("TIPO_AUTOR") != null) {
+                        autor.setTipoAutor(autorSoap.getProperty("TIPO_AUTOR").toString());
+                    }
+
+                    listaAutores.add(autor);
+                }
+            }
+        }catch (Exception e){
+            Log.e("TareasGenerales.java ", "xxx Error listarAutores(): " + e.getMessage());
+        }
+        return listaAutores;
     }
 
     /**

@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:id="@+id/imgAutorAdmin"
+        android:src="@drawable/ic_person_white_48dp"/>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Nombre"
+                android:id="@+id/tbxNombre"
+            android:textStyle="italic"
+            android:textSize="15dp"/>
+
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Tipo"
+                android:id="@+id/tbxTipo"
+            android:textIsSelectable="false"
+            android:textSize="10dp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- Panel oculto-->
+    <LinearLayout
+        android:id="@+id/contenedorDetalleAutorAdmin"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:visibility="gone"
+        android:weightSum="1">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!-- EditText para primer nombre-->
+            <TextView
+                android:id="@+id/textViewPrimerNombre"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Primer Nombre:" />
+
+            <EditText
+                android:id="@+id/editTextPrimerNombre"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textViewPrimerNombre"
+                android:inputType="textCapCharacters"
+                android:enabled="false">
+            </EditText>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!-- EditText para segundo nombre-->
+            <TextView
+                android:id="@+id/textViewSegundoNombre"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/editTextPrimerNombre"
+                android:text="Segundo Nombre:" />
+
+            <EditText
+                android:id="@+id/editTextSegundoNombre"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textViewSegundoNombre"
+                android:inputType="textCapCharacters"
+                android:enabled="false" >
+            </EditText>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!-- EditText para primer apellido -->
+            <TextView
+                android:id="@+id/textViewPrimerApellido"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/editTextSegundoNombre"
+                android:text="Primer Apellido:" />
+
+            <EditText
+                android:id="@+id/editTextPrimerApellido"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textViewPrimerApellido"
+                android:inputType="textCapCharacters"
+                android:enabled="false" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!-- EditText para segundo apellido -->
+            <TextView
+                android:id="@+id/textViewSegundoApellido"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/editTextPrimerApellido"
+                android:text="Segundo Apellido:" />
+
+            <EditText
+                android:id="@+id/editTextSegundoApellido"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textViewSegundoApellido"
+                android:inputType="textCapCharacters"
+                android:enabled="false" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/textViewTipoAutor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tipo Autor:"
+                android:layout_below="@+id/editTextSegundoApellido"/>
+
+            <EditText
+                android:id="@+id/editTextTipoAutor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textViewTipoAutor"
+                android:inputType="textCapCharacters"
+                android:enabled="false" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+    <!-- Fin panel oculto -->
+
+</LinearLayout>

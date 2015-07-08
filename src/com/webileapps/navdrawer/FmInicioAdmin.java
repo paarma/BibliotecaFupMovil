@@ -65,7 +65,10 @@ public class FmInicioAdmin extends SherlockFragment {
 
                                             // update the main content by replacing fragments
                                             SherlockFragment fragment = null;
-                                            Log.i("Alex", "inicio - onclick boton");
+
+                                            //Se inicializa el objeto autorSeleccionadoAdmin
+                                            variablesGlobales.setAutorSeleccionadoAdmin(null);
+
                                             fragment = new FmAutorAdmin();
 
                                             if (fragment != null) {
