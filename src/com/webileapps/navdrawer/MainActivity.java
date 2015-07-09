@@ -36,6 +36,7 @@ import com.actionbarsherlock.view.MenuItem;
 import modelo.Autor;
 import modelo.Editorial;
 import modelo.Libro;
+import modelo.Solicitud;
 import modelo.Usuario;
 import util.VariablesGlobales;
 
@@ -211,6 +212,9 @@ public class MainActivity extends SherlockFragmentActivity {
                 //Se inicializa el objeto editorialSeleccionadaAdmin
                 variablesGlobales.setEditorialSeleccionadaAdmin(null);
 
+                //Se inicializa el objeto autorSeleccionadoAdmin
+                variablesGlobales.setAutorSeleccionadoAdmin(null);
+
                 //Se inicializa el objeto libroBuscar
                 variablesGlobales.setLibroBuscar(new Libro());
 
@@ -223,8 +227,8 @@ public class MainActivity extends SherlockFragmentActivity {
                 //Se inicializa el objeto autorBuscar
                 variablesGlobales.setAutorBuscar(new Autor());
 
-                //Se inicializa el objeto autorSeleccionadoAdmin
-                variablesGlobales.setAutorSeleccionadoAdmin(null);
+                //Se inicializa el objeto solicitudBuscar
+                variablesGlobales.setSolicitudBuscar(new Solicitud());
 
                 // Locate Position
                 switch (position) {
@@ -270,6 +274,9 @@ public class MainActivity extends SherlockFragmentActivity {
                 fmlibrosUsuario= new FmLibrosUsuario();
                 //Se inicializa el objeto libroBuscar
                 variablesGlobales.setLibroBuscar(new Libro());
+
+                //Se inicializa el objeto solicitudBuscar
+                variablesGlobales.setSolicitudBuscar(new Solicitud());
 
                 // Locate Position
                 switch (position) {

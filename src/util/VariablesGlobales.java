@@ -3,6 +3,7 @@ package util;
 import modelo.Autor;
 import modelo.Editorial;
 import modelo.Libro;
+import modelo.Solicitud;
 import modelo.Usuario;
 
 /**
@@ -66,9 +67,14 @@ public class VariablesGlobales {
     private Autor autorBuscar = new Autor();
 
     /**
-     * Variable qeu contiene un autor seleccionado por el admin.
+     * Variable que contiene un autor seleccionado por el admin.
      */
     private Autor autorSeleccionadoAdmin;
+
+    /**
+     * Variable que contiene una solicitud con los parametros cargados para busqueda.
+     */
+    private Solicitud solicitudBuscar = new Solicitud();
 
     // Restrict the constructor from being instantiated
     private VariablesGlobales(){}
@@ -157,6 +163,14 @@ public class VariablesGlobales {
 
     public void setAutorSeleccionadoAdmin(Autor autorSeleccionadoAdmin) {
         this.autorSeleccionadoAdmin = autorSeleccionadoAdmin;
+    }
+
+    public Solicitud getSolicitudBuscar() {
+        return solicitudBuscar;
+    }
+
+    public void setSolicitudBuscar(Solicitud solicitudBuscar) {
+        this.solicitudBuscar = solicitudBuscar;
     }
 
     public static synchronized VariablesGlobales getInstance(){
