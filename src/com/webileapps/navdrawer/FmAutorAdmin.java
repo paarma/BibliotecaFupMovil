@@ -53,6 +53,9 @@ public class FmAutorAdmin extends SherlockFragment {
                     //Se inicializa el objeto autorBuscar
                     variablesGlobales.setAutorBuscar(new Autor());
 
+                    //Se inicializa el objeto autorSeleccionadoAdmin
+                    variablesGlobales.setAutorSeleccionadoAdmin(null);
+
                     switch (position) {
                         case 0:
                             Log.i("pagina0", ">>>>>>>>>>>>>>>>> Crear/Editar");

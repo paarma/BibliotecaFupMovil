@@ -50,6 +50,9 @@ public class FmEditorialAdmin extends SherlockFragment {
                     //Se inicializa el objeto libroBuscar
                     variablesGlobales.setEditorialBuscar(new Editorial());
 
+                    //Se inicializa el objeto editorialSeleccionadaAdmin
+                    variablesGlobales.setEditorialSeleccionadaAdmin(null);
+
                     switch (position) {
                         case 0:
                             Log.i("pagina0", ">>>>>>>>>>>>>>>>> Crear/Editar");

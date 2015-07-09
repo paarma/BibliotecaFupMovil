@@ -399,6 +399,9 @@ public class MainActivity extends SherlockFragmentActivity {
     public void verBuscarLibroAdmin(View view){
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 
+        //Se inicializa el objeto libroSeleccionadoAdmin
+        variablesGlobales.setLibroSeleccionadoAdmin(null);
+
         variablesGlobales.setOpcionMenu(2); //Buscar Libros
         fmLibrosAdmin = new FmLibrosAdmin();
 
@@ -451,6 +454,9 @@ public class MainActivity extends SherlockFragmentActivity {
     public void verBuscarUsuarioAdmin(View view){
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 
+        //Se inicializa el objeto usuarioSeleccionadoAdmin
+        variablesGlobales.setUsuarioSeleccionadoAdmin(null);
+
         variablesGlobales.setOpcionMenu(2); //Buscar Libros
         fmUsuarioAdmin = new FmUsuarioAdmin();
 
@@ -502,6 +508,9 @@ public class MainActivity extends SherlockFragmentActivity {
     public void verBuscarEditorialAdmin(View view){
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 
+        //Se inicializa el objeto editorialSeleccionadaAdmin
+        variablesGlobales.setEditorialSeleccionadaAdmin(null);
+
         variablesGlobales.setOpcionMenu(2); //Buscar Editoriales
         fmEditorialAdmin = new FmEditorialAdmin();
 
@@ -552,6 +561,9 @@ public class MainActivity extends SherlockFragmentActivity {
      */
     public void verBuscarAutorAdmin(View view){
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+
+        //Se inicializa el objeto autorSeleccionadoAdmin
+        variablesGlobales.setAutorSeleccionadoAdmin(null);
 
         variablesGlobales.setOpcionMenu(2); //Buscar Autor
         fmAutorAdmin = new FmAutorAdmin();

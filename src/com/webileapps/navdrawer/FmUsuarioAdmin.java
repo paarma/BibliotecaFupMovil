@@ -52,6 +52,9 @@ public class FmUsuarioAdmin extends SherlockFragment {
                     //Se inicializa el objeto usuarioBuscar
                     variablesGlobales.setUsuarioBuscar(new Usuario());
 
+                    //Se inicializa el objeto usuarioSeleccionadoAdmin
+                    variablesGlobales.setUsuarioSeleccionadoAdmin(null);
+
                     switch (position) {
                         case 0:
                             Log.i("pagina0", ">>>>>>>>>>>>>>>>> Crear/Editar");
