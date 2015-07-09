@@ -196,9 +196,7 @@
                 android:id="@+id/spinnerEditorial"
                 android:layout_below="@+id/textViewEditorial"
                 android:layout_centerHorizontal="true"
-                android:layout_marginBottom="12dp"
-                android:dropDownSelector="@color/list_divider"
-                android:background="@color/list_divider" />
+                android:layout_marginBottom="12dp" />
 
 
             <!-- EditText para Area del libro-->
@@ -215,9 +213,7 @@
                 android:id="@+id/spinnerArea"
                 android:layout_below="@+id/textViewArea"
                 android:layout_centerHorizontal="true"
-                android:layout_marginBottom="12dp"
-                android:dropDownSelector="@color/list_divider"
-                android:background="@color/list_divider" />
+                android:layout_marginBottom="12dp" />
 
 
             <!-- EditText para el Sede del libro-->
@@ -234,9 +230,7 @@
                 android:id="@+id/spinnerSede"
                 android:layout_below="@+id/textViewSede"
                 android:layout_centerHorizontal="true"
-                android:layout_marginBottom="12dp"
-                android:dropDownSelector="@color/list_divider"
-                android:background="@color/list_divider" />
+                android:layout_marginBottom="12dp" />
 
 
             <!-- EditText para Ciudad del libro-->
@@ -253,9 +247,7 @@
                 android:id="@+id/spinnerCiudad"
                 android:layout_below="@+id/textViewCiudad"
                 android:layout_centerHorizontal="true"
-                android:layout_marginBottom="12dp"
-                android:dropDownSelector="@color/list_divider"
-                android:background="@color/list_divider" />
+                android:layout_marginBottom="12dp" />
 
 
             <!-- EditText para el tipo de adquisicion del libro -->
@@ -272,9 +264,7 @@
                 android:id="@+id/spinnerAdquisicion"
                 android:layout_below="@+id/textViewAdquisicion"
                 android:layout_centerHorizontal="true"
-                android:layout_marginBottom="12dp"
-                android:dropDownSelector="@color/list_divider"
-                android:background="@color/list_divider" />
+                android:layout_marginBottom="12dp" />
 
 
             <!-- EditText para el estado del libro-->
@@ -291,9 +281,7 @@
                 android:id="@+id/spinnerEstado"
                 android:layout_below="@+id/textViewEstado"
                 android:layout_centerHorizontal="true"
-                android:layout_marginBottom="12dp"
-                android:dropDownSelector="@color/list_divider"
-                android:background="@color/list_divider" />
+                android:layout_marginBottom="12dp" />
 
         </RelativeLayout>
     </ScrollView>

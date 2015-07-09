@@ -65,7 +65,7 @@
                 android:textColor="@color/blanco"
                 android:gravity="center_vertical"
                 android:textSize="18sp"
-                android:text="Actualizar" />
+                android:background="@drawable/drawer_shadow"/>
 
         </GridLayout>
 

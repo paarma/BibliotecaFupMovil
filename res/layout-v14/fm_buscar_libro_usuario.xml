@@ -94,9 +94,7 @@
             android:id="@+id/spinnerEditorial"
             android:layout_below="@+id/textViewEditorial"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="12dp"
-            android:dropDownSelector="@color/list_divider"
-            android:background="@color/list_divider" />
+            android:layout_marginBottom="12dp" />
 
     </RelativeLayout>
 
@@ -129,14 +127,6 @@
                 android:scaleType="fitCenter"
                 android:background="@android:color/transparent"
                 android:onClick="buscarLibroUser"/>
-
-            <TextView
-                android:text="@string/buscar"
-                android:layout_height="match_parent"
-                android:textAlignment="gravity"
-                android:textColor="@color/blanco"
-                android:gravity="center_vertical"
-                android:textSize="18sp" />
 
             <TextView
                 android:layout_height="match_parent"

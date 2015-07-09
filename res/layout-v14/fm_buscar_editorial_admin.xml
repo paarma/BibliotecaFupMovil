@@ -85,14 +85,6 @@
                 android:onClick="buscarEditorialAdmin"/>
 
             <TextView
-                android:text="@string/buscar"
-                android:layout_height="match_parent"
-                android:textAlignment="gravity"
-                android:textColor="@color/blanco"
-                android:gravity="center_vertical"
-                android:textSize="18sp" />
-
-            <TextView
                 android:layout_height="match_parent"
                 android:textAlignment="gravity"
                 android:textColor="@color/blanco"
