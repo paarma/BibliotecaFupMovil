@@ -30,7 +30,7 @@
                 android:src="@drawable/abs__ic_search"
                 android:scaleType="fitCenter"
                 android:background="@android:color/transparent"
-                android:onClick="verBuscarLibroAdmin_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"/>
+                android:onClick="verBuscarAutorAdmin"/>
 
             <TextView
                 android:layout_height="match_parent"
@@ -56,7 +56,7 @@
                 android:src="@drawable/ic_mode_edit_white_48dp"
                 android:scaleType="fitCenter"
                 android:background="@android:color/transparent"
-                android:onClick="actualizarLibroAdmin_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"/>
+                android:onClick="actualizarAutorAdmin"/>
 
             <TextView
                 android:layout_height="match_parent"

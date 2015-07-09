@@ -545,4 +545,55 @@ public class MainActivity extends SherlockFragmentActivity {
         }
     }
 
+    /**
+     * Boton buscar Autor, ubicado al pie de las pantallas listadoAutores Admin
+     * y permite dirigir a la pantalla de buscar
+     * @param view
+     */
+    public void verBuscarAutorAdmin(View view){
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+
+        variablesGlobales.setOpcionMenu(2); //Buscar Autor
+        fmAutorAdmin = new FmAutorAdmin();
+
+        ft.replace(R.id.content_frame, fmAutorAdmin);
+        ft.commit();
+    }
+
+    /**
+     * Funcion encargada de buscar autores y direccionar a la pagina lista autores
+     * @param view
+     */
+    public void buscarAutorAdmin(View view){
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+
+        variablesGlobales.setOpcionMenu(1); //Listado Autores
+        fmAutorAdmin = new FmAutorAdmin();
+
+        //Se capturan los parametros para la busqueda del autor
+        FmBuscarAutorAdmin.capturarObjetoBusqueda();
+
+        ft.replace(R.id.content_frame, fmAutorAdmin);
+        ft.commit();
+    }
+
+    /**
+     * Funcion encargada de cargar los datos de un autor para ser actualizado
+     * @param view
+     */
+    public void actualizarAutorAdmin(View view){
+
+        if(variablesGlobales.getAutorSeleccionadoAdmin() != null) {
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+
+            variablesGlobales.setOpcionMenu(0); //Crear-Editar Autor
+            fmAutorAdmin = new FmAutorAdmin();
+
+            ft.replace(R.id.content_frame, fmAutorAdmin);
+            ft.commit();
+        }else{
+            Toast.makeText(this, "Seleccione un autor", Toast.LENGTH_SHORT).show();
+        }
+    }
+
 }

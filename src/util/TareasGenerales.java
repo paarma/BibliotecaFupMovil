@@ -291,7 +291,7 @@ public class TareasGenerales {
         request.addProperty("segundoNombre",autorBuscar.getSegundoNombre());
         request.addProperty("primerApellido",autorBuscar.getPrimerApellido());
         request.addProperty("segundoApellido",autorBuscar.getSegundoApellido());
-        request.addProperty("tipo",autorBuscar.getIdAutor());
+        request.addProperty("tipo",autorBuscar.getTipoAutor());
 
         SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
         envelope.bodyOut = request;

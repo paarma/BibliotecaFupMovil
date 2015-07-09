@@ -21,6 +21,7 @@ import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
 import util.Configuracion;
+import util.Utilidades;
 import util.VariablesGlobales;
 
 
@@ -60,6 +61,7 @@ public class FmCrearAutorAdmin extends SherlockFragment {
             @Override
             public void onClick(View view) {
                 limpiarCampos();
+                variablesGlobales.setAutorSeleccionadoAdmin(null);
             }
         });
 
@@ -87,6 +89,23 @@ public class FmCrearAutorAdmin extends SherlockFragment {
 
 
     /**
+     * Metodo que carga los datos de un determinado autor previamente seleccionado.
+     */
+    public void cargarDatosUsuarioSeleccionado(){
+        if(variablesGlobales.getAutorSeleccionadoAdmin() != null) {
+
+            primerNombre.setText(variablesGlobales.getAutorSeleccionadoAdmin().getPrimerNombre());
+            segundoNombre.setText(variablesGlobales.getAutorSeleccionadoAdmin().getSegundoNombre());
+            primerApellido.setText(variablesGlobales.getAutorSeleccionadoAdmin().getPrimerApellido());
+            segundoApellido.setText(variablesGlobales.getAutorSeleccionadoAdmin().getSegundoApellido());
+
+            //Se cargan los spinners con su respectivo valor.
+            spinnerTipoAutor.setSelection(Utilidades.getIndexSpinner(spinnerTipoAutor,
+                    variablesGlobales.getAutorSeleccionadoAdmin().getTipoAutor()));
+        }
+    }
+
+    /**
      * Tarea encargada de guardar un autor
      */
     private class TareaWsGuardarAutor extends AsyncTask<String,Integer,Boolean> {
@@ -104,6 +123,12 @@ public class FmCrearAutorAdmin extends SherlockFragment {
         protected Boolean doInBackground(String... params) {
 
             SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
+
+            if(variablesGlobales.getAutorSeleccionadoAdmin() != null){
+                request.addProperty("idAutor", variablesGlobales.getAutorSeleccionadoAdmin().getIdAutor());
+            }else{
+                request.addProperty("idAutor", 0);
+            }
 
             request.addProperty("primerNombre", primerNombre.getText().toString());
             request.addProperty("segundoNombre", segundoNombre.getText().toString());
@@ -142,6 +167,7 @@ public class FmCrearAutorAdmin extends SherlockFragment {
             if(result){
                 Toast.makeText(getActivity(), "Autor almacenado con exito", Toast.LENGTH_LONG).show();
                 limpiarCampos();
+                variablesGlobales.setAutorSeleccionadoAdmin(null);
             }else{
                 Toast.makeText(getActivity(), "Error almacenando el Autor", Toast.LENGTH_LONG).show();
             }
@@ -149,13 +175,29 @@ public class FmCrearAutorAdmin extends SherlockFragment {
 
 
     }
-        //Metodo encardado de limpiar los campos del formulario
-        public void limpiarCampos(){
-            primerNombre.getText().clear();
-            segundoNombre.getText().clear();
-            primerApellido.getText().clear();
-            segundoApellido.getText().clear();
-        }
+
+    //Metodo encardado de limpiar los campos del formulario
+    public void limpiarCampos(){
+        primerNombre.getText().clear();
+        segundoNombre.getText().clear();
+        primerApellido.getText().clear();
+        segundoApellido.getText().clear();
+    }
+
+    /////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////
+    /**
+     * Sobreescritura del metodo onResume
+     * (se agrega la funcionalidad para recargar los datos generales de la clase)
+     */
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+
+        //Si existe un libro selecciondo previamente por el admin, se cargan los datos
+        cargarDatosUsuarioSeleccionado();
+    }
 
 }
 
