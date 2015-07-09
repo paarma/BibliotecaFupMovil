@@ -12,7 +12,9 @@ import com.actionbarsherlock.app.SherlockFragment;
 
 import java.lang.reflect.Field;
 
+import modelo.Libro;
 import modelo.Solicitud;
+import modelo.Usuario;
 import util.VariablesGlobales;
 
 /**
@@ -52,6 +54,8 @@ public class FmSolicitudesAdmin extends SherlockFragment {
 
                     //Se inicializa el objeto solicitudBuscar
                     variablesGlobales.setSolicitudBuscar(new Solicitud());
+                    variablesGlobales.getSolicitudBuscar().setUsuario(new Usuario());
+                    variablesGlobales.getSolicitudBuscar().setLibro(new Libro());
 
                     switch (position) {
                         case 0:

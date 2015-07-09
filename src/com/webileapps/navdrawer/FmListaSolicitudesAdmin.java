@@ -111,8 +111,7 @@ public class FmListaSolicitudesAdmin extends SherlockFragment {
 
             try {
                 TareasGenerales tareasGenerales = new TareasGenerales();
-                listaSolicitudes = tareasGenerales.buscarSolicitudes(variablesGlobales.getLibroBuscar(),
-                        0, "");
+                listaSolicitudes = tareasGenerales.buscarSolicitudes(variablesGlobales.getSolicitudBuscar());
                 Log.i("SolAdmin",">>>>>>>>>>> Tamaño lista solicitud buscada: "+listaSolicitudes.size());
             }catch (Exception e){
                 resultadoTarea = false;

@@ -137,16 +137,12 @@ public class TareasGenerales {
 
     /**
      * Metodo encargado de retornar el listado de solicitudes (reservas)
-     * @param libroBuscar objeto de la clase Libro el cual contiene los parametros
+     * @param solicitudBuscar objeto de la clase Solicitud el cual contiene los parametros
      *                    de busqueda ya sean fijados o por defecto. En el caso
-     *                    de tenerlos por defecto (new Libro()) se listaran todas las reservas.
-     * @param idUsuarioReserva ID del usuario que reservo los libros.
-     *                         asignal el valor de 0 en caso de no filtrar por usuario.
-     * @param  estadoReserva Estado de la reserva. En caso de null, no se toma en cuenta
-     *                       este filtro.
+     *                    de tenerlos por defecto (new Solicitud()) se listaran todas las reservas.
      * @return ListadoSolictudes
      */
-    public List<Solicitud> buscarSolicitudes(Libro libroBuscar, int idUsuarioReserva, String estadoReserva){
+    public List<Solicitud> buscarSolicitudes(Solicitud solicitudBuscar){
 
         final String SOAP_ACTION = conf.getUrl()+"/listadoReservas";
         final String METHOD_NAME = "listadoReservas";
@@ -155,20 +151,21 @@ public class TareasGenerales {
         List<Solicitud> listaSolicitudes = new ArrayList<Solicitud>();
 
         SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
-        request.addProperty("titulo",libroBuscar.getTitulo());
-        request.addProperty("isbn",libroBuscar.getIsbn());
-        request.addProperty("codTopografico",libroBuscar.getCodigoTopografico());
-        request.addProperty("temas",libroBuscar.getTemas());
+
+        request.addProperty("titulo",solicitudBuscar.getLibro().getTitulo());
+        request.addProperty("isbn",solicitudBuscar.getLibro().getIsbn());
+        request.addProperty("codTopografico",solicitudBuscar.getLibro().getCodigoTopografico());
+        request.addProperty("temas",solicitudBuscar.getLibro().getTemas());
 
         //Busqueda por editorial
-        if(libroBuscar.getEditorial() != null){
-            request.addProperty("editorial",libroBuscar.getEditorial().getIdEditorial());
+        if(solicitudBuscar.getLibro().getEditorial() != null){
+            request.addProperty("editorial",solicitudBuscar.getLibro().getEditorial().getIdEditorial());
         }else{
             request.addProperty("editorial","");
         }
 
-        request.addProperty("idUsuarioReserva",idUsuarioReserva);
-        request.addProperty("estadoReserva",estadoReserva);
+        request.addProperty("idUsuarioReserva",solicitudBuscar.getUsuario().getIdUsuario());
+        request.addProperty("estadoReserva",solicitudBuscar.getEstado());
 
         SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
         envelope.bodyOut = request;

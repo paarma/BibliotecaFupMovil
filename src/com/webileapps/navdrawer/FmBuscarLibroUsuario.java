@@ -96,6 +96,11 @@ public class FmBuscarLibroUsuario extends SherlockFragment {
         }
 
         variablesGlobales.setLibroBuscar(libro);
+
+        //Para el caso de "Mis Libros"
+        variablesGlobales.getSolicitudBuscar().setLibro(libro); //Libro
+        variablesGlobales.getSolicitudBuscar().getUsuario().setIdUsuario(
+                variablesGlobales.getUsuarioLogueado().getIdUsuario());//Usuario que reserva
     }
 
 

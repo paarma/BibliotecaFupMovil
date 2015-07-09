@@ -124,17 +124,13 @@ public class FmMisLibrosUsuario extends SherlockFragment {
         @Override
         protected Boolean doInBackground(String... params) {
 
-            //Filtrar por estado de la reserva.
-            String estadoReserva = "";
-
             try {
                 TareasGenerales tareasGenerales = new TareasGenerales();
-                listaSolicitud = tareasGenerales.buscarSolicitudes(variablesGlobales.getLibroBuscar(),
-                        variablesGlobales.getUsuarioLogueado().getIdUsuario(), estadoReserva);
+                listaSolicitud = tareasGenerales.buscarSolicitudes(variablesGlobales.getSolicitudBuscar());
                 Log.i("MisLibros",">>>>>>>>>>> Tamaño lista Mislibros buscada: "+listaSolicitud.size());
             }catch (Exception e){
                 resultadoTarea = false;
-                Log.d("MisLibros ", "xxx Error TareaWsBuscarMisLibros: " + e.getMessage());
+                Log.e("MisLibros ", "xxx Error TareaWsBuscarMisLibros: " + e.getMessage());
             }
             return resultadoTarea;
         }
@@ -142,8 +138,13 @@ public class FmMisLibrosUsuario extends SherlockFragment {
         public void onPostExecute(Boolean result){
 
             if(result){
-                adapterSolicitud = new MisLibrosListAdapterUsuario(getActivity(), listaSolicitud);
-                libroListView.setAdapter(adapterSolicitud);
+                try {
+                    adapterSolicitud = new MisLibrosListAdapterUsuario(getActivity(), listaSolicitud);
+                    libroListView.setAdapter(adapterSolicitud);
+                }catch (Exception e){
+                    Log.e("MisLibros","XXX Error cargando MisLibros: "+e.getMessage());
+                }
+
             }else{
                 //Se despliega mensaje de error si esta en la pantalla de "misLibros"
                 if(variablesGlobales.getOpcionMenu()==1) {

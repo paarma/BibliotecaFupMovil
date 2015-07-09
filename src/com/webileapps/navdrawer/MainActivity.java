@@ -229,6 +229,8 @@ public class MainActivity extends SherlockFragmentActivity {
 
                 //Se inicializa el objeto solicitudBuscar
                 variablesGlobales.setSolicitudBuscar(new Solicitud());
+                variablesGlobales.getSolicitudBuscar().setUsuario(new Usuario());
+                variablesGlobales.getSolicitudBuscar().setLibro(new Libro());
 
                 // Locate Position
                 switch (position) {
@@ -277,6 +279,14 @@ public class MainActivity extends SherlockFragmentActivity {
 
                 //Se inicializa el objeto solicitudBuscar
                 variablesGlobales.setSolicitudBuscar(new Solicitud());
+
+                //Se inicializa el objeto solicitudBuscar
+                variablesGlobales.setSolicitudBuscar(new Solicitud());
+                variablesGlobales.getSolicitudBuscar().setUsuario(new Usuario());
+                variablesGlobales.getSolicitudBuscar().setLibro(new Libro());
+                //Para listar MisLibros. para el caso de usuario.
+                variablesGlobales.getSolicitudBuscar().getUsuario().setIdUsuario(
+                        variablesGlobales.getUsuarioLogueado().getIdUsuario());
 
                 // Locate Position
                 switch (position) {

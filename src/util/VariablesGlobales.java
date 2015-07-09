@@ -77,7 +77,10 @@ public class VariablesGlobales {
     private Solicitud solicitudBuscar = new Solicitud();
 
     // Restrict the constructor from being instantiated
-    private VariablesGlobales(){}
+    private VariablesGlobales(){
+        solicitudBuscar.setUsuario(new Usuario());
+        solicitudBuscar.setLibro(new Libro());
+    }
 
     //Getters and Setters
     public void setOpcionMenu(int d){

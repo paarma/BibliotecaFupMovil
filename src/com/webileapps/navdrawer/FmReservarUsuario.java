@@ -193,8 +193,12 @@ public class FmReservarUsuario extends SherlockFragment {
         public void onPostExecute(Boolean result){
 
             if(result){
-                adapterLibro = new LibroListAdapterUsuario(getActivity(), listaLibros);
-                libroListView.setAdapter(adapterLibro);
+                try {
+                    adapterLibro = new LibroListAdapterUsuario(getActivity(), listaLibros);
+                    libroListView.setAdapter(adapterLibro);
+                }catch (Exception e){
+                    Log.e("Reservar","XXX Error cargando pantalla reservar: "+e.getMessage());
+                }
             }else{
                 //Se despliega mensaje de error si esta en la pantalla de "reservar"
                 if(variablesGlobales.getOpcionMenu() == 0) {
