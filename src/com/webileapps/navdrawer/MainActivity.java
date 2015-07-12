@@ -625,4 +625,36 @@ public class MainActivity extends SherlockFragmentActivity {
         }
     }
 
+    /**
+     * Boton buscar Solicitud, ubicado al pie de las pantallas listadoSolicitudes Admin
+     * y permite dirigir a la pantalla de buscar
+     * @param view
+     */
+    public void verBuscarSolicitudAdmin(View view){
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+
+        variablesGlobales.setOpcionMenu(1); //Buscar Solicitudes
+        fmSolicitudesAdmin = new FmSolicitudesAdmin();
+
+        ft.replace(R.id.content_frame, fmSolicitudesAdmin);
+        ft.commit();
+    }
+
+    /**
+     * Funcion encargada de buscar solicitudes y direccionar a la pagina lista autores
+     * @param view
+     */
+    public void buscarSolicitudAdmin(View view){
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+
+        variablesGlobales.setOpcionMenu(0); //Listado Solicitudes
+        fmSolicitudesAdmin = new FmSolicitudesAdmin();
+
+        //Se capturan los parametros para la busqueda de la solicitud
+        FmBuscarSolicitudesAdmin.capturarObjetoBusqueda();
+
+        ft.replace(R.id.content_frame, fmSolicitudesAdmin);
+        ft.commit();
+    }
+
 }

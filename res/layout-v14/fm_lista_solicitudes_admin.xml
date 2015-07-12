@@ -30,7 +30,7 @@
                 android:src="@drawable/abs__ic_search"
                 android:scaleType="fitCenter"
                 android:background="@android:color/transparent"
-                android:onClick="verBuscarLibroAdmin_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"/>
+                android:onClick="verBuscarSolicitudAdmin"/>
 
             <TextView
                 android:layout_height="match_parent"

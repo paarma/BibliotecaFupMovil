@@ -26,4 +26,12 @@
         <item>CORPORATIVO</item>
     </string-array>
 
+    <string-array name="estados_solicitud">
+        <item>Seleccione...</item>
+        <item>EN PROCESO</item>
+        <item>PRESTADO</item>
+        <item>FINALIZADO</item>
+        <item>CANCELADO</item>
+    </string-array>
+
 </resources>

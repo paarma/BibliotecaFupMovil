@@ -167,6 +167,15 @@ public class TareasGenerales {
         request.addProperty("idUsuarioReserva",solicitudBuscar.getUsuario().getIdUsuario());
         request.addProperty("estadoReserva",solicitudBuscar.getEstado());
 
+        request.addProperty("codUsuario",solicitudBuscar.getUsuario().getCodigo());
+        request.addProperty("cedulaUsuario",solicitudBuscar.getUsuario().getCedula());
+
+        if(solicitudBuscar.getFechaSolicitud() != null) {
+            request.addProperty("fechaSolicitud", Utilidades.formatoFechaYYYYMMDD.format(solicitudBuscar.getFechaSolicitud()));
+        }else{
+            request.addProperty("fechaSolicitud","");
+        }
+
         SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
         envelope.bodyOut = request;
 
