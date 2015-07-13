@@ -160,8 +160,8 @@
                     android:layout_below="@+id/textViewFechaSolicitud"
                     android:singleLine="true" />
 
-
-                <!-- EditText para el estado de la solictud-->
+                <!-- Se listan todas las solicitudes con estado "EN PROCESO" -->
+                <!-- EditText para el estado de la solictud
                 <TextView
                     android:id="@+id/textViewEstadoSolicitud"
                     android:layout_width="fill_parent"
@@ -175,7 +175,7 @@
                     android:id="@+id/spinnerEstadoSolicitud"
                     android:layout_below="@+id/textViewEstadoSolicitud"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="12dp" />
+                    android:layout_marginBottom="12dp" /> -->
 
             </RelativeLayout>
 
