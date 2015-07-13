@@ -130,8 +130,6 @@ public class FmBuscarSolicitudesAdmin extends SherlockFragment {
         /*if (!spinnerEstadoSoliciutd.getSelectedItem().toString().equals("Seleccione...")) {
             solicitud.setEstado(spinnerEstadoSoliciutd.getSelectedItem().toString());
         }*/
-        //Se listan todas las solicitudes (estados = "EN PROCESO")
-        solicitud.setEstado(Utilidades.estadoEnProceso);
 
         solicitud.setLibro(libro);
         solicitud.setUsuario(usuario);

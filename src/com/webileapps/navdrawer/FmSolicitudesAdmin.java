@@ -57,6 +57,10 @@ public class FmSolicitudesAdmin extends SherlockFragment {
                     variablesGlobales.getSolicitudBuscar().setUsuario(new Usuario());
                     variablesGlobales.getSolicitudBuscar().setLibro(new Libro());
 
+                    //Se inicializa la solicitud en caso de haber seleccionado una previamente.
+                    FmListaSolicitudesAdmin.setSolicitudSeleccionada(null);
+
+
                     switch (position) {
                         case 0:
                             Log.i("pagina0", ">>>>>>>>>>>>>>>>> Listado Solicitudes");

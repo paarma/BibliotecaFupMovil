@@ -119,8 +119,20 @@
 
         </LinearLayout>
 
+
+        <!-- Encabezado Datos Solicitud -->
+        <TextView
+            android:id="@+id/textViewDatosReserva"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="DATOS SOLICITUD"
+            android:textStyle="bold"
+            android:layout_marginTop="15dp"
+            android:gravity="center_horizontal"/>
+
+
         <!-- Datos de la reserva-->
-        <LinearLayout android:layout_marginTop="15dp"
+        <LinearLayout android:layout_marginTop="10dp"
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -179,7 +191,6 @@
                 android:enabled="false"/>
 
         </LinearLayout>
-
         <!-- Fin datos de la reserva-->
 
 

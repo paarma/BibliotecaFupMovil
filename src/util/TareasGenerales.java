@@ -471,4 +471,59 @@ public class TareasGenerales {
         return listaUsuario;
     }
 
+    /**
+     * Tarea encargada de actualizar las solicitudes.
+     * @param solicitud
+     *  El llamado al WS recibe los parametros:
+     *  idSolicitud: En caso de ser = 0, se actualizaran todas las solicitudes, junto con el parametro "updateAll".
+     *  estado: Estado al cual se modificara la solicitud.
+     *  fechaDevolucion: Indica la fecha en la cual se regresa el libro.
+     *  updateAll: Indica si se actualizan todas las solicitudes o no.
+     */
+    public boolean actualizarSolicitudes(Solicitud solicitud, boolean updateAll){
+
+        final String SOAP_ACTION = conf.getUrl()+"/actualizarSolicitud";
+        final String METHOD_NAME = "actualizarSolicitud";
+        final String NAMESPACE = conf.getNamespace();
+        final String URL = conf.getUrl();
+        boolean resultado = false;
+
+        SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
+
+        request.addProperty("idSolicitud", solicitud.getIdSolicitud());
+        request.addProperty("estado", solicitud.getEstado());
+
+        if(solicitud.getFechaEntrega() != null){
+            request.addProperty("fechaEntrega", Utilidades.formatoFechaYYYYMMDD.format(solicitud.getFechaEntrega()));
+        }else{
+            request.addProperty("fechaEntrega", "");
+        }
+
+        if(updateAll){
+            request.addProperty("updateAll", "true");
+        }else{
+            request.addProperty("updateAll", "false");
+        }
+
+        SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+        envelope.bodyOut = request;
+
+        HttpTransportSE transporte = new HttpTransportSE(URL);
+
+        try {
+            transporte.call(SOAP_ACTION, envelope);
+            int resultadoActualizar = Integer.parseInt(envelope.getResponse().toString());
+
+            Log.i("TareasGenerales.java","*********************** resultado actualizarSolicitudes: "+resultadoActualizar);
+            if (resultadoActualizar == 1)
+            {
+                resultado = true;
+            }
+        }catch (Exception e){
+            Log.e("TareasGenerales.java ", "xxx Error actualizarSolicitudes(): " + e.getMessage());
+        }
+
+        return resultado;
+    }
+
 }

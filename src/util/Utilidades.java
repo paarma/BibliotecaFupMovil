@@ -25,6 +25,7 @@ public class Utilidades {
      * Variables String para manejar ESTADOS de la reserva
      */
     public static String estadoEnProceso = "EN PROCESO";
+    public static String estadoPrestado = "PRESTADO";
 
     /**
      * Variable entera para indicar el numero de dias por los que se puede prestar un libro.
