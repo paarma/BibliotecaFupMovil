@@ -135,10 +135,6 @@ public class FmListaSolicitudesAdmin extends SherlockFragment {
 
             try {
                 TareasGenerales tareasGenerales = new TareasGenerales();
-
-                //Se listan todas las solicitudes (Estado = EN PROCESO)
-                variablesGlobales.getSolicitudBuscar().setEstado(Utilidades.estadoEnProceso);
-
                 listaSolicitudes = tareasGenerales.buscarSolicitudes(variablesGlobales.getSolicitudBuscar());
                 Log.i("SolAdmin",">>>>>>>>>>> Tamaño lista solicitud buscada: "+listaSolicitudes.size());
             }catch (Exception e){
@@ -151,8 +147,13 @@ public class FmListaSolicitudesAdmin extends SherlockFragment {
         public void onPostExecute(Boolean result){
 
             if(result){
-                adapterSolicitud = new SolicitudListAdapterAdmin(getActivity(), listaSolicitudes);
-                solicitudListView.setAdapter(adapterSolicitud);
+                try {
+                    adapterSolicitud = new SolicitudListAdapterAdmin(getActivity(), listaSolicitudes);
+                    solicitudListView.setAdapter(adapterSolicitud);
+                }catch (Exception e){
+                    Log.e("SolAdmin ", "xxx Error TareaWsBuscarSolicitudes: " + e.getMessage());
+                }
+
             }else{
                 String msn = "Error listando solicitudes";
                 Toast.makeText(getActivity(), msn, Toast.LENGTH_LONG).show();

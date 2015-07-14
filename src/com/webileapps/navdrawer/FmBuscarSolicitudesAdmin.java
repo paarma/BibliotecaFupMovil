@@ -6,8 +6,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Spinner;
 
 import com.actionbarsherlock.app.SherlockFragment;
 
@@ -28,7 +30,7 @@ public class FmBuscarSolicitudesAdmin extends SherlockFragment {
     private Calendar calendario = Calendar.getInstance();
 
     private static EditText fechaSolicitud, titulo, isbn, codTopografico, codUsuario, cedulaUsuario;
-    //private static Spinner spinnerEstadoSoliciutd;
+    private static Spinner spinnerEstadoSoliciutd;
 
     private static VariablesGlobales variablesGlobales = VariablesGlobales.getInstance();
 
@@ -77,12 +79,12 @@ public class FmBuscarSolicitudesAdmin extends SherlockFragment {
         cedulaUsuario = (EditText) view.findViewById(R.id.editTextCedula);
 
         fechaSolicitud = (EditText) view.findViewById(R.id.editTextFechaSolicitud);
-        //spinnerEstadoSoliciutd = (Spinner) view.findViewById(R.id.spinnerEstadoSolicitud);
+        spinnerEstadoSoliciutd = (Spinner) view.findViewById(R.id.spinnerEstadoSolicitud);
 
         //Se cargan algunos spinners con los datos del archivo arrays.xml
-/*        ArrayAdapter adapterEstadoSolicitud = ArrayAdapter.createFromResource(getActivity(), R.array.estados_solicitud, R.layout.spinner_item);
+        ArrayAdapter adapterEstadoSolicitud = ArrayAdapter.createFromResource(getActivity(), R.array.estados_solicitud, R.layout.spinner_item);
         adapterEstadoSolicitud.setDropDownViewResource(R.layout.spinner_item);
-        spinnerEstadoSoliciutd.setAdapter(adapterEstadoSolicitud);*/
+        spinnerEstadoSoliciutd.setAdapter(adapterEstadoSolicitud);
     }
 
     private void updateLabelFechaSolicitud() {
@@ -127,9 +129,9 @@ public class FmBuscarSolicitudesAdmin extends SherlockFragment {
             }
         }
 
-        /*if (!spinnerEstadoSoliciutd.getSelectedItem().toString().equals("Seleccione...")) {
+        if (!spinnerEstadoSoliciutd.getSelectedItem().toString().equals("Seleccione...")) {
             solicitud.setEstado(spinnerEstadoSoliciutd.getSelectedItem().toString());
-        }*/
+        }
 
         solicitud.setLibro(libro);
         solicitud.setUsuario(usuario);

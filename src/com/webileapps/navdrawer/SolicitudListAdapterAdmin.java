@@ -5,6 +5,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.List;
@@ -19,6 +21,9 @@ public class SolicitudListAdapterAdmin extends ArrayAdapter<Solicitud> {
 
     private Activity ctx;
 
+    LinearLayout linearItemLibro;
+    ImageView imagenReserva;
+
     public SolicitudListAdapterAdmin(Activity context, List<Solicitud> listaSolicitud) {
         super(context, R.layout.list_view_item_solicitud_admin,listaSolicitud);
         this.ctx = context;
@@ -31,12 +36,33 @@ public class SolicitudListAdapterAdmin extends ArrayAdapter<Solicitud> {
             view = ctx.getLayoutInflater().inflate(R.layout.list_view_item_solicitud_admin,parent,false);
         }
 
+        linearItemLibro = (LinearLayout) view.findViewById(R.id.linearItemSolicitudesAdmin);
+        imagenReserva = (ImageView) view.findViewById(R.id.imgLibroSolicitudAdmin);
+
         Solicitud solicutudActual = this.getItem(position);
         inicializarCamposTexto(view, solicutudActual);
         return view;
     }
 
     private void inicializarCamposTexto(View view, Solicitud solicutudActual) {
+
+        /**
+         * Estados de "Solicitud"
+         * BLANCO: Indica que se ha realizado una solicitud para ese libro.(EN PROCESO)
+         * VERDE: Indica que se acepto la solicitud y el libro ya se le entrego al usuario. (PRESTADO)
+         * ROJO: Indica que se acepto la solicitud y el libro ya se le entrego al usuario pero
+         *          este no lo ha regresado en la fecha de devolucion (MORA)
+         */
+        if(solicutudActual.getEstado().equals(Utilidades.estadoEnProceso)){
+            //linearItemLibro.setBackgroundColor(Color.parseColor("#D8D57F"));
+            imagenReserva.setImageResource(R.drawable.ic_book_white_48dp);
+        }else if(solicutudActual.getEstado().equals(Utilidades.estadoPrestado)){
+            //linearItemLibro.setBackgroundColor(Color.parseColor("#5F9968"));
+            imagenReserva.setImageResource(R.drawable.ic_book_green_48dp);
+        }else if(solicutudActual.getEstado().equals(Utilidades.estadoMora)){
+            //linearItemLibro.setBackgroundColor(Color.parseColor("#FA9393"));
+            imagenReserva.setImageResource(R.drawable.ic_book_red_48dp);
+        }
 
         TextView textView = (TextView) view.findViewById(R.id.tbxTitulo);
         textView.setText(solicutudActual.getLibro().getTitulo());
