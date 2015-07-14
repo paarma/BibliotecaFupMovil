@@ -26,6 +26,8 @@ public class Utilidades {
      */
     public static String estadoEnProceso = "EN PROCESO";
     public static String estadoPrestado = "PRESTADO";
+    public static String estadoCancelado = "CANCELADO";
+    public static String estadoMora = "MORA";
 
     /**
      * Variable entera para indicar el numero de dias por los que se puede prestar un libro.
