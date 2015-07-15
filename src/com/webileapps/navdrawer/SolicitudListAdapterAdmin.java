@@ -83,6 +83,23 @@ public class SolicitudListAdapterAdmin extends ArrayAdapter<Solicitud> {
         editText = (EditText) view.findViewById(R.id.editTextPaginas);
         editText.setText(String.valueOf(solicutudActual.getLibro().getPaginas()));
 
+        //Detalles del usuario (campos ocultos)
+        if(solicutudActual.getUsuario() != null &&
+                solicutudActual.getUsuario().getIdUsuario() != 0){
+
+            editText = (EditText) view.findViewById(R.id.editTextCodigoUsuario);
+            editText.setText(solicutudActual.getUsuario().getCodigo());
+
+            editText = (EditText) view.findViewById(R.id.editTextNombresUsuario);
+            editText.setText(solicutudActual.getUsuario().getPrimerNombre()+" "+
+                solicutudActual.getUsuario().getSegundoNombre());
+
+            editText = (EditText) view.findViewById(R.id.editTextApellidosUsuario);
+            editText.setText(solicutudActual.getUsuario().getPrimerApellido()+" "+
+                solicutudActual.getUsuario().getSegundoApellido());
+
+        }
+
         //Detalles de la reserva (campos ocultos)
         editText = (EditText) view.findViewById(R.id.editTextFechaReserva);
         editText.setText(Utilidades.formatoFechaYYYYMMDD.format(solicutudActual.getFechaReserva()));

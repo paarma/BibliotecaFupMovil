@@ -120,6 +120,78 @@
 
         </LinearLayout>
 
+        <!-- Encabezado Datos Usuario -->
+        <TextView
+            android:id="@+id/textViewDatosUsuario"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="DATOS USUARIO"
+            android:textStyle="bold"
+            android:layout_marginTop="15dp"
+            android:gravity="center_horizontal"/>
+
+        <!-- Datos del usuario-->
+        <LinearLayout android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!-- EditText codigo -->
+            <TextView
+                android:id="@+id/textViewCodigoUsuario"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Codigo:" />
+
+            <EditText
+                android:id="@+id/editTextCodigoUsuario"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textViewCodigoUsuario"
+                android:enabled="false" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!-- EditText nombres -->
+            <TextView
+                android:id="@+id/textViewNombresUsuario"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nombres:" />
+
+            <EditText
+                android:id="@+id/editTextNombresUsuario"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textViewCodigoUsuario"
+                android:enabled="false"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!-- EditText Apellidos -->
+            <TextView
+                android:id="@+id/textViewApellidosUsuario"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Apellidos:" />
+
+            <EditText
+                android:id="@+id/editTextApellidosUsuario"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textViewCodigoUsuario"
+                android:enabled="false"/>
+        </LinearLayout>
+
 
         <!-- Encabezado Datos Solicitud -->
         <TextView
