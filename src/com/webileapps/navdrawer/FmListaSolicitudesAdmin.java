@@ -124,17 +124,16 @@ public class FmListaSolicitudesAdmin extends SherlockFragment {
                 //Si la solicitud seleccionada tiene estado PRESTADO O FINALIZADO,
                 // se oculta el boton "AccionSolicitud"
                 if(solicitudSeleccionada != null){
-                    if(solicitudSeleccionada.getEstado().equals(Utilidades.estadoPrestado) ||
-                            solicitudSeleccionada.getEstado().equals(Utilidades.estadoFinalizado)){
+                    if(solicitudSeleccionada.getEstado().equals(Utilidades.estadoFinalizado)){
                         gridLayoutBtnAccion.setVisibility(View.GONE);
                     }else{
                         gridLayoutBtnAccion.setVisibility(View.VISIBLE);
 
                         if(solicitudSeleccionada.getEstado().equals(Utilidades.estadoEnProceso)){
                             btnAccionLibroAdmin.setImageResource(R.drawable.ic_assignment_turned_in_white_48dp);
-                        }
 
-                        if(solicitudSeleccionada.getEstado().equals(Utilidades.estadoEnMora)){
+                        }else if(solicitudSeleccionada.getEstado().equals(Utilidades.estadoPrestado) ||
+                                solicitudSeleccionada.getEstado().equals(Utilidades.estadoEnMora)){
                             btnAccionLibroAdmin.setImageResource(R.drawable.ic_assignment_returned_white_48dp);
                         }
                     }
