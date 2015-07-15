@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.GridLayout;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -18,6 +19,7 @@ import android.widget.Toast;
 import com.actionbarsherlock.app.SherlockFragment;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import modelo.Solicitud;
@@ -38,7 +40,9 @@ public class FmListaSolicitudesAdmin extends SherlockFragment {
     private List<Solicitud> listaSolicitudes = new ArrayList<Solicitud>();
     private static Solicitud solicitudSeleccionada;
 
-    private ImageButton btnPrestar;
+    private ImageButton btnAccionLibroAdmin;
+
+    private GridLayout gridLayoutBtnAccion;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -50,11 +54,11 @@ public class FmListaSolicitudesAdmin extends SherlockFragment {
         inicializarComponentes(view);
         inicializarListaSolicitudes();
 
-        btnPrestar = (ImageButton) view.findViewById(R.id.btnPrestarLibroAdmin);
-        btnPrestar.setOnClickListener(new View.OnClickListener(){
+        btnAccionLibroAdmin = (ImageButton) view.findViewById(R.id.btnAccionLibroAdmin);
+        btnAccionLibroAdmin.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                prestarLibro();
+                gestionSolicitud();
             }
         });
 
@@ -67,17 +71,18 @@ public class FmListaSolicitudesAdmin extends SherlockFragment {
     private void inicializarComponentes(View view) {
 
         solicitudListView = (ListView) view.findViewById(R.id.listViewSolicitudesAdmin);
+        gridLayoutBtnAccion = (GridLayout) view.findViewById(R.id.gridLayoutBtnAccion);
     }
 
     /**
-     * Metodo encargado de prestar un libro segun solicitud seleccionada
+     * Metodo encargado de prestar o retornar un libro segun solicitud seleccionada
      */
-    public void prestarLibro(){
+    public void gestionSolicitud(){
         if(solicitudSeleccionada == null){
             Toast.makeText(getActivity(), "Seleccione una solicitud", Toast.LENGTH_LONG).show();
         }else{
-            TareaWsPrestarLibro tareaPrestarLibro = new TareaWsPrestarLibro();
-            tareaPrestarLibro.execute();
+            TareaWsGestionLibro tareaGestionLibro = new TareaWsGestionLibro();
+            tareaGestionLibro.execute();
         }
     }
 
@@ -89,6 +94,8 @@ public class FmListaSolicitudesAdmin extends SherlockFragment {
 
         TareaWsBuscarSolicitudes tareaListarSolicitud = new TareaWsBuscarSolicitudes();
         tareaListarSolicitud.execute();
+
+        gridLayoutBtnAccion.setVisibility(View.GONE);
 
         //Evento al seleccionar un elemento de la lista
         solicitudListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -112,6 +119,28 @@ public class FmListaSolicitudesAdmin extends SherlockFragment {
 
                 //Se despliega el detalle del item seleccionado
                 vista.findViewById(R.id.contenedorDetalleSolAdmin).setVisibility(View.VISIBLE);
+
+
+                //Si la solicitud seleccionada tiene estado PRESTADO O FINALIZADO,
+                // se oculta el boton "AccionSolicitud"
+                if(solicitudSeleccionada != null){
+                    if(solicitudSeleccionada.getEstado().equals(Utilidades.estadoPrestado) ||
+                            solicitudSeleccionada.getEstado().equals(Utilidades.estadoFinalizado)){
+                        gridLayoutBtnAccion.setVisibility(View.GONE);
+                    }else{
+                        gridLayoutBtnAccion.setVisibility(View.VISIBLE);
+
+                        if(solicitudSeleccionada.getEstado().equals(Utilidades.estadoEnProceso)){
+                            btnAccionLibroAdmin.setImageResource(R.drawable.ic_assignment_turned_in_white_48dp);
+                        }
+
+                        if(solicitudSeleccionada.getEstado().equals(Utilidades.estadoEnMora)){
+                            btnAccionLibroAdmin.setImageResource(R.drawable.ic_assignment_returned_white_48dp);
+                        }
+                    }
+                }
+                ////////////////////////////////////////////////////////////////////////////////////
+
             }
         });
     }
@@ -163,15 +192,15 @@ public class FmListaSolicitudesAdmin extends SherlockFragment {
 
 
     /**
-     * Tarea encargada de prestar un libro.
-     * Cambia el estado de la solicitud por "PRESTADO"
+     * Tarea encargada de prestar o retornar un libro.
+     * Cambia el estado de la solicitud por "PRESTADO" o "FINALIZADO"
      * El llamado al WS recibe los parametros:
      *  idSolicitud: En caso de ser = 0, se actualizaran todas las solicitudes, junto con el parametro "updateAll".
      *  estado: Estado al cual se modificara la solicitud.
      *  updateAll: Indica si se actualizan todas las solicitudes o no. (No aplica para este caso)
-     *  fechaDevolucion: Indica la fecha en la cual se regresa el libro. (No aplica para este caso)
+     *  fechaDevolucion: Indica la fecha en la cual se regresa el libro.
      */
-    private class TareaWsPrestarLibro extends AsyncTask<String,Integer,Boolean> {
+    private class TareaWsGestionLibro extends AsyncTask<String,Integer,Boolean> {
 
         boolean resultadoTarea = false;
 
@@ -182,12 +211,22 @@ public class FmListaSolicitudesAdmin extends SherlockFragment {
             try {
                 TareasGenerales tareasGenerales = new TareasGenerales();
 
-                solicitudSeleccionada.setEstado(Utilidades.estadoPrestado);
+                //Si la solicitud esta en estado "EN PROCESO", pasa a estado "PRESTADO"
+                if(solicitudSeleccionada.getEstado().equals(Utilidades.estadoEnProceso)){
+                    solicitudSeleccionada.setEstado(Utilidades.estadoPrestado);
+                }else{
+                    //De lo contrario indica que se esta regresando un libro.
+                    solicitudSeleccionada.setEstado(Utilidades.estadoFinalizado);
+                    solicitudSeleccionada.setFechaEntrega(new Date());
+
+                    //Evaluar si el estado es "EN  MORA", para gestionar la tabla multas.
+                }
+
                 resultadoTarea = tareasGenerales.actualizarSolicitudes(solicitudSeleccionada, false);
-                Log.i("SolAdmin",">>>>>>>>>>> TareaWsPrestarLibro: "+listaSolicitudes.size());
+                Log.i("SolAdmin",">>>>>>>>>>> TareaWsGestionLibro: "+listaSolicitudes.size());
 
             }catch (Exception e){
-                Log.e("SolAdmin ", "xxx Error TareaWsPrestarLibro: " + e.getMessage());
+                Log.e("SolAdmin ", "xxx Error TareaWsGestionLibro: " + e.getMessage());
             }
             return resultadoTarea;
         }
@@ -195,11 +234,16 @@ public class FmListaSolicitudesAdmin extends SherlockFragment {
         public void onPostExecute(Boolean result){
 
             if(result){
-                String msn = "Prestamo exitoso";
-                Toast.makeText(getActivity(), msn, Toast.LENGTH_LONG).show();
-                inicializarListaSolicitudes();
+                try{
+                    String msn = "Registro exitoso";
+                    Toast.makeText(getActivity(), msn, Toast.LENGTH_LONG).show();
+                    inicializarListaSolicitudes();
+                }catch (Exception e){
+                    Log.e("SolAdmin","XXX Error prestando o regresando TareaWsGestionLibro: "+e.getMessage());
+                }
+
             }else{
-                String msn = "Error prestando libro";
+                String msn = "Error registrando datos";
                 Toast.makeText(getActivity(), msn, Toast.LENGTH_LONG).show();
             }
             solicitudSeleccionada = null;

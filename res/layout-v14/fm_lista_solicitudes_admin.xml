@@ -50,13 +50,12 @@
             android:clickable="true">
 
             <ImageButton
-                android:id="@+id/btnPrestarLibroAdmin"
+                android:id="@+id/btnRefrescarSolicitudAdmin"
                 android:layout_width="64dp"
                 android:layout_height="match_parent"
-                android:src="@drawable/ic_assignment_turned_in_white_48dp"
+                android:src="@drawable/ic_autorenew_white_48dp"
                 android:scaleType="fitCenter"
-                android:background="@android:color/transparent"
-                android:onClick="prestarLibro"/>
+                android:background="@android:color/transparent" />
 
             <TextView
                 android:layout_height="match_parent"
@@ -70,18 +69,21 @@
 
         <!-- Boton tres -->
         <GridLayout
+            android:id="@+id/gridLayoutBtnAccion"
             android:layout_height="match_parent"
             android:columnCount="2"
             android:rowCount="1"
-            android:clickable="true">
+            android:clickable="true"
+            android:visibility="gone">
 
             <ImageButton
-                android:id="@+id/btnRefrescarSolicitudAdmin"
+                android:id="@+id/btnAccionLibroAdmin"
                 android:layout_width="64dp"
                 android:layout_height="match_parent"
-                android:src="@drawable/ic_autorenew_white_48dp"
+                android:src="@drawable/ic_assignment_turned_in_white_48dp"
                 android:scaleType="fitCenter"
-                android:background="@android:color/transparent" />
+                android:background="@android:color/transparent"
+                android:onClick="prestarLibro"/>
 
             <TextView
                 android:layout_height="match_parent"

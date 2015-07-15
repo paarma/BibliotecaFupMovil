@@ -32,7 +32,7 @@
         <item>PRESTADO</item>
         <item>FINALIZADO</item>
         <item>CANCELADO</item>
-        <item>MORA</item>
+        <item>EN MORA</item>
     </string-array>
 
 </resources>

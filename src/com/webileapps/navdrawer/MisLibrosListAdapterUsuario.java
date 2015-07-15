@@ -56,12 +56,15 @@ public class MisLibrosListAdapterUsuario extends ArrayAdapter<Solicitud> {
         if(solicutudActual.getEstado().equals(Utilidades.estadoEnProceso)){
             //linearItemLibro.setBackgroundColor(Color.parseColor("#D8D57F"));
             imagenReserva.setImageResource(R.drawable.ic_book_white_48dp);
+
         }else if(solicutudActual.getEstado().equals(Utilidades.estadoPrestado)){
             //linearItemLibro.setBackgroundColor(Color.parseColor("#5F9968"));
             imagenReserva.setImageResource(R.drawable.ic_book_green_48dp);
-        }else if(solicutudActual.getEstado().equals(Utilidades.estadoMora)){
+
+        }else if(solicutudActual.getEstado().equals(Utilidades.estadoEnMora)){
             //linearItemLibro.setBackgroundColor(Color.parseColor("#FA9393"));
             imagenReserva.setImageResource(R.drawable.ic_book_red_48dp);
+
         }
 
         TextView textView = (TextView) view.findViewById(R.id.tbxTitulo);
