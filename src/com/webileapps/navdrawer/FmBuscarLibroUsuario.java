@@ -136,16 +136,21 @@ public class FmBuscarLibroUsuario extends SherlockFragment {
 
             if(result){
 
-                ArrayAdapter<Editorial> adapter = new ArrayAdapter<Editorial>(getActivity(),
-                        R.layout.spinner_item,listaEditoriales);
+                try {
+                    ArrayAdapter<Editorial> adapter = new ArrayAdapter<Editorial>(getActivity(),
+                            R.layout.spinner_item, listaEditoriales);
 
-                //Se modifica el seteo general del adapter...
-                //spinnerEditorial.setAdapter(adapter);
+                    //Se modifica el seteo general del adapter...
+                    //spinnerEditorial.setAdapter(adapter);
 
-                //Se setea el adapter agregando el item "Seleccione..." (NothingSelectedSpinnerAdapter)
-                spinnerEditorial.setAdapter(new NothingSelectedSpinnerAdapter(
-                        adapter,R.layout.contact_spinner_nothing_selected,
-                        getActivity()));
+                    //Se setea el adapter agregando el item "Seleccione..." (NothingSelectedSpinnerAdapter)
+                    spinnerEditorial.setAdapter(new NothingSelectedSpinnerAdapter(
+                            adapter, R.layout.contact_spinner_nothing_selected,
+                            getActivity()));
+
+                }catch (Exception e){
+                    Log.e("Buscar ", "xxx Error buscar libro usuario TareaWsListarEditoriales: " + e.getMessage());
+                }
 
             }else{
                 //Se despliega mensaje de error si esta en la pantalla de "buscar"
@@ -156,4 +161,5 @@ public class FmBuscarLibroUsuario extends SherlockFragment {
             }
         }
     }
+
 }
