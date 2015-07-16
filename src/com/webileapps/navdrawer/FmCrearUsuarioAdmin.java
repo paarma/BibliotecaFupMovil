@@ -92,19 +92,23 @@ public class FmCrearUsuarioAdmin extends SherlockFragment {
     public void cargarDatosUsuarioSeleccionado() {
         if (variablesGlobales.getUsuarioSeleccionadoAdmin() != null) {
 
-            cedula.setText(String.valueOf(variablesGlobales.getUsuarioSeleccionadoAdmin().getCedula()));
-            primerNombre.setText(variablesGlobales.getUsuarioSeleccionadoAdmin().getPrimerNombre());
-            segundoNombre.setText(variablesGlobales.getUsuarioSeleccionadoAdmin().getSegundoNombre());
-            primerApellido.setText(variablesGlobales.getUsuarioSeleccionadoAdmin().getPrimerApellido());
-            segundoApellido.setText(variablesGlobales.getUsuarioSeleccionadoAdmin().getSegundoApellido());
-            telefono.setText(String.valueOf(variablesGlobales.getUsuarioSeleccionadoAdmin().getTelefono()));
-            direccion.setText(variablesGlobales.getUsuarioSeleccionadoAdmin().getDireccion());
-            email.setText(variablesGlobales.getUsuarioSeleccionadoAdmin().getEmail());
-            codigo.setText(variablesGlobales.getUsuarioSeleccionadoAdmin().getCodigo());
-            clave.setText(variablesGlobales.getUsuarioSeleccionadoAdmin().getClave());
+            try {
+                cedula.setText(String.valueOf(variablesGlobales.getUsuarioSeleccionadoAdmin().getCedula()));
+                primerNombre.setText(variablesGlobales.getUsuarioSeleccionadoAdmin().getPrimerNombre());
+                segundoNombre.setText(variablesGlobales.getUsuarioSeleccionadoAdmin().getSegundoNombre());
+                primerApellido.setText(variablesGlobales.getUsuarioSeleccionadoAdmin().getPrimerApellido());
+                segundoApellido.setText(variablesGlobales.getUsuarioSeleccionadoAdmin().getSegundoApellido());
+                telefono.setText(String.valueOf(variablesGlobales.getUsuarioSeleccionadoAdmin().getTelefono()));
+                direccion.setText(variablesGlobales.getUsuarioSeleccionadoAdmin().getDireccion());
+                email.setText(variablesGlobales.getUsuarioSeleccionadoAdmin().getEmail());
+                codigo.setText(variablesGlobales.getUsuarioSeleccionadoAdmin().getCodigo());
+                clave.setText(variablesGlobales.getUsuarioSeleccionadoAdmin().getClave());
 
-            //Se cargan los spinners con su respectivo valor.
-            spRol.setSelection(Utilidades.getIndexSpinner(spRol, variablesGlobales.getUsuarioSeleccionadoAdmin().getRol()));
+                //Se cargan los spinners con su respectivo valor.
+                spRol.setSelection(Utilidades.getIndexSpinner(spRol, variablesGlobales.getUsuarioSeleccionadoAdmin().getRol()));
+            }catch (Exception e){
+                Log.e("FmCrearUsuario ", "xxx Error cargarDatosUsuarioSeleccionado: " + e.getMessage());
+            }
         }
     }
 

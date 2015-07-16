@@ -125,8 +125,12 @@ public class FmListaUsuarioAdmin extends SherlockFragment {
         public void onPostExecute(Boolean result){
 
             if(result){
-                adapterUsuario = new UsuarioListAdapterAdmin(getActivity(), listaUsuarios);
-                usuarioListView.setAdapter(adapterUsuario);
+                try {
+                    adapterUsuario = new UsuarioListAdapterAdmin(getActivity(), listaUsuarios);
+                    usuarioListView.setAdapter(adapterUsuario);
+                }catch (Exception e){
+                    Log.e("UsuariosAdmin ", "xxx Error listando usuarios: " + e.getMessage());
+                }
             }else{
                 String msn = "Error listando usuarios";
                 Toast.makeText(getActivity(), msn, Toast.LENGTH_LONG).show();
