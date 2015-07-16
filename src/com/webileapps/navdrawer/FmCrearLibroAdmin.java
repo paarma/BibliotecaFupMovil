@@ -36,7 +36,7 @@ import util.VariablesGlobales;
 
 public class FmCrearLibroAdmin extends SherlockFragment {
 
-    EditText titulo, isbn, codTopografico, temas, paginas, valor, radicado, serie;
+    EditText titulo, isbn, codTopografico, temas, paginas, valor, radicado, serie, cantidad;
     Spinner spinnerEstado, spinnerAdquisicion, spinnerEditorial, spinnerArea, spinnerSede, ciudad;
 
     DatePicker dpickerAnioLibro;
@@ -93,6 +93,7 @@ public class FmCrearLibroAdmin extends SherlockFragment {
         ciudad = (Spinner) view.findViewById(R.id.spinnerCiudad);
         valor = (EditText) view.findViewById(R.id.editTextValor);
         radicado = (EditText) view.findViewById(R.id.editTextRadicado);
+        cantidad = (EditText) view.findViewById(R.id.editTextCantidad);
 
         cargarSpinners();
 
@@ -162,6 +163,7 @@ public class FmCrearLibroAdmin extends SherlockFragment {
                 serie.setText(variablesGlobales.getLibroSeleccionadoAdmin().getSerie());
                 valor.setText(String.valueOf(variablesGlobales.getLibroSeleccionadoAdmin().getValor()));
                 radicado.setText(variablesGlobales.getLibroSeleccionadoAdmin().getRadicado());
+                cantidad.setText(String.valueOf(variablesGlobales.getLibroSeleccionadoAdmin().getCantidad()));
 
 
                 //Se cargan los spinners con su respectivo valor.
@@ -196,6 +198,7 @@ public class FmCrearLibroAdmin extends SherlockFragment {
         temas.getText().clear();
         paginas.getText().clear();
         serie.getText().clear();
+        cantidad.getText().clear();
 
         valor.getText().clear();
         radicado.getText().clear();
@@ -221,6 +224,10 @@ public class FmCrearLibroAdmin extends SherlockFragment {
 
             if(paginas.getText().toString().trim().length() > 0){
                 lib.setPaginas(Integer.parseInt(paginas.getText().toString()));
+            }
+
+            if(cantidad.getText().toString().trim().length() > 0){
+                lib.setCantidad(Integer.parseInt(cantidad.getText().toString()));
             }
 
             lib.setAnio(dpickerAnioLibro.getYear());
@@ -350,6 +357,7 @@ public class FmCrearLibroAdmin extends SherlockFragment {
         request.addProperty("disponibilidad",libro.getDisponibilidad());
         request.addProperty("idUsuario",libro.getIdUsuario()); //Usuario logueado
         request.addProperty("idCiudad",libro.getIdCiudad());
+        request.addProperty("cantidad",libro.getCantidad());
 
         SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
         envelope.bodyOut = request;

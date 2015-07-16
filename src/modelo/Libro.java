@@ -27,6 +27,7 @@ public class Libro implements Serializable {
     private String disponibilidad;
     private int idUsuario; //Usuario que registra el libro en la biblioteca
     private int idCiudad;
+    private int cantidad;
 
     public Libro() {
 
@@ -49,13 +50,14 @@ public class Libro implements Serializable {
         this.disponibilidad = "";
         this.idUsuario = 0;
         this.idCiudad = 0;
+        this.cantidad = 0;
     }
 
     public Libro(int idLibro, String titulo, int valor, String adquisicion,
                  String estado, String isbn, String radicado, Date fechaIngreso,
                  String codigoTopografico, String serie, Sede sede, Editorial editorial,
                  Area area, int anio, String temas, int paginas, String disponibilidad,
-                 int idUsuario, int idCiudad) {
+                 int idUsuario, int idCiudad, int cantidad) {
 
         this.idLibro = idLibro;
         this.titulo = titulo;
@@ -76,6 +78,7 @@ public class Libro implements Serializable {
         this.disponibilidad = disponibilidad;
         this.idUsuario = idUsuario;
         this.idCiudad = idCiudad;
+        this.cantidad = cantidad;
     }
 
     public int getIdLibro() {
@@ -228,5 +231,13 @@ public class Libro implements Serializable {
 
     public void setIdCiudad(int idCiudad) {
         this.idCiudad = idCiudad;
+    }
+
+    public int getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(int cantidad) {
+        this.cantidad = cantidad;
     }
 }
