@@ -109,56 +109,62 @@ public class CargarSpinners {
                 //spinnerEditorial.setAdapter(adapter);
                 //Se setea el adapter agregando el item "Seleccione..." (NothingSelectedSpinnerAdapter)
 
-                if(nombreClase.equals(Editorial.class.getSimpleName())) {
-                    ArrayAdapter<Editorial> adapter = new ArrayAdapter<Editorial>(fActivity,
-                            R.layout.spinner_item, listaEditoriales);
+                try {
 
-                    spinner.setAdapter(new NothingSelectedSpinnerAdapter(
-                            adapter, R.layout.contact_spinner_nothing_selected,
-                            fActivity));
+                    if (nombreClase.equals(Editorial.class.getSimpleName())) {
+                        ArrayAdapter<Editorial> adapter = new ArrayAdapter<Editorial>(fActivity,
+                                R.layout.spinner_item, listaEditoriales);
 
-                    //Se selecciona el valor por defecto en caso de cargar el spinner
-                    //con un libro seleccionado previamente. (Editar Libro)
-                    if(variablesGlobales.getLibroSeleccionadoAdmin() != null
-                            && variablesGlobales.getLibroSeleccionadoAdmin().getEditorial() != null){
-                        spinner.setSelection(Utilidades.getIndexSpinner(spinner,
-                                variablesGlobales.getLibroSeleccionadoAdmin().getEditorial().getDescripcion()));
+                        spinner.setAdapter(new NothingSelectedSpinnerAdapter(
+                                adapter, R.layout.contact_spinner_nothing_selected,
+                                fActivity));
+
+                        //Se selecciona el valor por defecto en caso de cargar el spinner
+                        //con un libro seleccionado previamente. (Editar Libro)
+                        if (variablesGlobales.getLibroSeleccionadoAdmin() != null
+                                && variablesGlobales.getLibroSeleccionadoAdmin().getEditorial() != null) {
+                            spinner.setSelection(Utilidades.getIndexSpinner(spinner,
+                                    variablesGlobales.getLibroSeleccionadoAdmin().getEditorial().getDescripcion()));
+                        }
+
                     }
 
-                }
+                    if (nombreClase.equals(Area.class.getSimpleName())) {
+                        ArrayAdapter<Area> adapter = new ArrayAdapter<Area>(fActivity,
+                                R.layout.spinner_item, listaAreas);
 
-                if(nombreClase.equals(Area.class.getSimpleName())) {
-                    ArrayAdapter<Area> adapter = new ArrayAdapter<Area>(fActivity,
-                            R.layout.spinner_item, listaAreas);
+                        spinner.setAdapter(new NothingSelectedSpinnerAdapter(
+                                adapter, R.layout.contact_spinner_nothing_selected,
+                                fActivity));
 
-                    spinner.setAdapter(new NothingSelectedSpinnerAdapter(
-                            adapter, R.layout.contact_spinner_nothing_selected,
-                            fActivity));
-
-                    //Se selecciona el valor por defecto en caso de cargar el spinner
-                    //con un libro seleccionado previamente. (Editar Libro)
-                    if(variablesGlobales.getLibroSeleccionadoAdmin() != null
-                            && variablesGlobales.getLibroSeleccionadoAdmin().getArea() != null){
-                        spinner.setSelection(Utilidades.getIndexSpinner(spinner,
-                                variablesGlobales.getLibroSeleccionadoAdmin().getArea().getDescripcion()));
+                        //Se selecciona el valor por defecto en caso de cargar el spinner
+                        //con un libro seleccionado previamente. (Editar Libro)
+                        if (variablesGlobales.getLibroSeleccionadoAdmin() != null
+                                && variablesGlobales.getLibroSeleccionadoAdmin().getArea() != null) {
+                            spinner.setSelection(Utilidades.getIndexSpinner(spinner,
+                                    variablesGlobales.getLibroSeleccionadoAdmin().getArea().getDescripcion()));
+                        }
                     }
-                }
 
-                if(nombreClase.equals(Sede.class.getSimpleName())) {
-                    ArrayAdapter<Sede> adapter = new ArrayAdapter<Sede>(fActivity,
-                            R.layout.spinner_item, listaSedes);
+                    if (nombreClase.equals(Sede.class.getSimpleName())) {
+                        ArrayAdapter<Sede> adapter = new ArrayAdapter<Sede>(fActivity,
+                                R.layout.spinner_item, listaSedes);
 
-                    spinner.setAdapter(new NothingSelectedSpinnerAdapter(
-                            adapter, R.layout.contact_spinner_nothing_selected,
-                            fActivity));
+                        spinner.setAdapter(new NothingSelectedSpinnerAdapter(
+                                adapter, R.layout.contact_spinner_nothing_selected,
+                                fActivity));
 
-                    //Se selecciona el valor por defecto en caso de cargar el spinner
-                    //con un libro seleccionado previamente. (Editar Libro)
-                    if(variablesGlobales.getLibroSeleccionadoAdmin() != null
-                            && variablesGlobales.getLibroSeleccionadoAdmin().getSede() != null){
-                        spinner.setSelection(Utilidades.getIndexSpinner(spinner,
-                                variablesGlobales.getLibroSeleccionadoAdmin().getSede().getDescripcion()));
+                        //Se selecciona el valor por defecto en caso de cargar el spinner
+                        //con un libro seleccionado previamente. (Editar Libro)
+                        if (variablesGlobales.getLibroSeleccionadoAdmin() != null
+                                && variablesGlobales.getLibroSeleccionadoAdmin().getSede() != null) {
+                            spinner.setSelection(Utilidades.getIndexSpinner(spinner,
+                                    variablesGlobales.getLibroSeleccionadoAdmin().getSede().getDescripcion()));
+                        }
                     }
+
+                }catch (Exception e){
+                    Log.e("Spiners","XXX Error cargando spinners: "+e.getMessage());
                 }
 
             }else{

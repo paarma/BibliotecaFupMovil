@@ -123,8 +123,12 @@ public class FmListaLibrosAdmin extends SherlockFragment {
         public void onPostExecute(Boolean result){
 
             if(result){
-                adapterLibro = new LibroListAdapterAdmin(getActivity(), listaLibros);
-                libroListView.setAdapter(adapterLibro);
+                try {
+                    adapterLibro = new LibroListAdapterAdmin(getActivity(), listaLibros);
+                    libroListView.setAdapter(adapterLibro);
+                }catch (Exception e){
+                    Log.e("ListaLibrosAdmin","XXX Error listando libros: "+e.getMessage());
+                }
             }else{
                 String msn = "Error listando libros";
                 Toast.makeText(getActivity(), msn, Toast.LENGTH_LONG).show();

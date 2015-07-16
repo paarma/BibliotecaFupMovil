@@ -153,30 +153,34 @@ public class FmCrearLibroAdmin extends SherlockFragment {
     public void cargarDatosLibroSeleccionado(){
         if(variablesGlobales.getLibroSeleccionadoAdmin() != null) {
 
-            titulo.setText(variablesGlobales.getLibroSeleccionadoAdmin().getTitulo());
-            isbn.setText(variablesGlobales.getLibroSeleccionadoAdmin().getIsbn());
-            codTopografico.setText(variablesGlobales.getLibroSeleccionadoAdmin().getCodigoTopografico());
-            temas.setText(variablesGlobales.getLibroSeleccionadoAdmin().getTemas());
-            paginas.setText(String.valueOf(variablesGlobales.getLibroSeleccionadoAdmin().getPaginas()));
-            serie.setText(variablesGlobales.getLibroSeleccionadoAdmin().getSerie());
-            valor.setText(String.valueOf(variablesGlobales.getLibroSeleccionadoAdmin().getValor()));
-            radicado.setText(variablesGlobales.getLibroSeleccionadoAdmin().getRadicado());
+            try {
+                titulo.setText(variablesGlobales.getLibroSeleccionadoAdmin().getTitulo());
+                isbn.setText(variablesGlobales.getLibroSeleccionadoAdmin().getIsbn());
+                codTopografico.setText(variablesGlobales.getLibroSeleccionadoAdmin().getCodigoTopografico());
+                temas.setText(variablesGlobales.getLibroSeleccionadoAdmin().getTemas());
+                paginas.setText(String.valueOf(variablesGlobales.getLibroSeleccionadoAdmin().getPaginas()));
+                serie.setText(variablesGlobales.getLibroSeleccionadoAdmin().getSerie());
+                valor.setText(String.valueOf(variablesGlobales.getLibroSeleccionadoAdmin().getValor()));
+                radicado.setText(variablesGlobales.getLibroSeleccionadoAdmin().getRadicado());
 
 
-            //Se cargan los spinners con su respectivo valor.
-            spinnerEstado.setSelection(Utilidades.getIndexSpinner(spinnerEstado, variablesGlobales.getLibroSeleccionadoAdmin().getEstado()));
-            spinnerAdquisicion.setSelection(Utilidades.getIndexSpinner(spinnerAdquisicion, variablesGlobales.getLibroSeleccionadoAdmin().getAdquisicion()));
+                //Se cargan los spinners con su respectivo valor.
+                spinnerEstado.setSelection(Utilidades.getIndexSpinner(spinnerEstado, variablesGlobales.getLibroSeleccionadoAdmin().getEstado()));
+                spinnerAdquisicion.setSelection(Utilidades.getIndexSpinner(spinnerAdquisicion, variablesGlobales.getLibroSeleccionadoAdmin().getAdquisicion()));
 
-            //Para el caso de la editorial, area y sede...(Spinners con objetos) se valida y cargan en la funcion cargarSpinners().
-            //spinnerEditorial.setSelection(...);
+                //Para el caso de la editorial, area y sede...(Spinners con objetos) se valida y cargan en la funcion cargarSpinners().
+                //spinnerEditorial.setSelection(...);
 
-            //Pendiente cargar spinner ciudad
-            //Referncia a spinnerCiudad ciudad = (Spinner) view.findViewById(R.id.spinnerCiudad);
+                //Pendiente cargar spinner ciudad
+                //Referncia a spinnerCiudad ciudad = (Spinner) view.findViewById(R.id.spinnerCiudad);
 
-            //Se carga el año del libro.
-            // El dia y el mes se cargan por defecto con valores de 1 ya que solo nos interesa el año.
-            if(variablesGlobales.getLibroSeleccionadoAdmin().getAnio() != 0){
-                dpickerAnioLibro.updateDate(variablesGlobales.getLibroSeleccionadoAdmin().getAnio(),1,1);
+                //Se carga el año del libro.
+                // El dia y el mes se cargan por defecto con valores de 1 ya que solo nos interesa el año.
+                if (variablesGlobales.getLibroSeleccionadoAdmin().getAnio() != 0) {
+                    dpickerAnioLibro.updateDate(variablesGlobales.getLibroSeleccionadoAdmin().getAnio(), 1, 1);
+                }
+            }catch (Exception e){
+                Log.e("CrearLibro","XXX Error cargando datos de libros seleccionado: "+e.getMessage());
             }
         }
     }
