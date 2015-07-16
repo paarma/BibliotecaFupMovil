@@ -94,14 +94,18 @@ public class FmCrearAutorAdmin extends SherlockFragment {
     public void cargarDatosUsuarioSeleccionado(){
         if(variablesGlobales.getAutorSeleccionadoAdmin() != null) {
 
-            primerNombre.setText(variablesGlobales.getAutorSeleccionadoAdmin().getPrimerNombre());
-            segundoNombre.setText(variablesGlobales.getAutorSeleccionadoAdmin().getSegundoNombre());
-            primerApellido.setText(variablesGlobales.getAutorSeleccionadoAdmin().getPrimerApellido());
-            segundoApellido.setText(variablesGlobales.getAutorSeleccionadoAdmin().getSegundoApellido());
+            try {
+                primerNombre.setText(variablesGlobales.getAutorSeleccionadoAdmin().getPrimerNombre());
+                segundoNombre.setText(variablesGlobales.getAutorSeleccionadoAdmin().getSegundoNombre());
+                primerApellido.setText(variablesGlobales.getAutorSeleccionadoAdmin().getPrimerApellido());
+                segundoApellido.setText(variablesGlobales.getAutorSeleccionadoAdmin().getSegundoApellido());
 
-            //Se cargan los spinners con su respectivo valor.
-            spinnerTipoAutor.setSelection(Utilidades.getIndexSpinner(spinnerTipoAutor,
-                    variablesGlobales.getAutorSeleccionadoAdmin().getTipoAutor()));
+                //Se cargan los spinners con su respectivo valor.
+                spinnerTipoAutor.setSelection(Utilidades.getIndexSpinner(spinnerTipoAutor,
+                        variablesGlobales.getAutorSeleccionadoAdmin().getTipoAutor()));
+            }catch (Exception e){
+                Log.e("FmCrearAutor ", "xxx Error cargarDatosUsuarioSeleccionado: " + e.getMessage());
+            }
         }
     }
 

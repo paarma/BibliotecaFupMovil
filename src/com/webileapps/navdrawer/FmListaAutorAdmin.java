@@ -126,9 +126,13 @@ public class FmListaAutorAdmin extends SherlockFragment {
         public void onPostExecute(Boolean result){
 
             if(result){
-                if(listaAutores.size() > 0) {
-                    adapterAutor = new AutorListAdapterAdmin(getActivity(), listaAutores);
-                    autorListView.setAdapter(adapterAutor);
+                try {
+                    if (listaAutores.size() > 0) {
+                        adapterAutor = new AutorListAdapterAdmin(getActivity(), listaAutores);
+                        autorListView.setAdapter(adapterAutor);
+                    }
+                }catch (Exception e){
+                    Log.e("AutorAdmin ", "xxx Error listando autores: " + e.getMessage());
                 }
             }else{
                 String msn = "Error listando autores";

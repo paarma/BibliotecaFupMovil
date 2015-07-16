@@ -125,16 +125,20 @@ public class FmListaEditorialAdmin extends SherlockFragment {
         public void onPostExecute(Boolean result){
 
             if(result){
-                if(listaEditoriales.size() > 0) {
+                try {
+                    if (listaEditoriales.size() > 0) {
 
-                    nombresEditoriales = new String[listaEditoriales.size()];
+                        nombresEditoriales = new String[listaEditoriales.size()];
 
-                    for(int i = 0; i < listaEditoriales.size(); i++){
-                        nombresEditoriales[i] = listaEditoriales.get(i).getDescripcion();
+                        for (int i = 0; i < listaEditoriales.size(); i++) {
+                            nombresEditoriales[i] = listaEditoriales.get(i).getDescripcion();
+                        }
+
+                        adapterEditorial = new ArrayAdapter<String>(getActivity(), R.layout.spinner_item, nombresEditoriales);
+                        editorialListView.setAdapter(adapterEditorial);
                     }
-
-                    adapterEditorial = new ArrayAdapter<String>(getActivity(), R.layout.spinner_item, nombresEditoriales);
-                    editorialListView.setAdapter(adapterEditorial);
+                }catch (Exception e){
+                    Log.e("Editorial","XXX Error cargando datos lista editorial: "+e.getMessage());
                 }
             }else{
                 String msn = "Error listando editoriales";

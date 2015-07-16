@@ -42,7 +42,6 @@ public class FmCrearEditorialAdmin extends SherlockFragment {
 		btnCrearEditorial.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				Log.i("CrearAutor", ">>>>>>>>>>>>>>>>>>>> pulsando boton crear Autor");
 				TareaWsGuardarEditorial tareaWsGuardarEditorial = new TareaWsGuardarEditorial();
 				tareaWsGuardarEditorial.execute();
 
@@ -66,7 +65,12 @@ public class FmCrearEditorialAdmin extends SherlockFragment {
     public void cargarDatosEditorialSeleccionada(){
         if(variablesGlobales.getEditorialSeleccionadaAdmin() != null) {
 
-            descripcion.setText(variablesGlobales.getEditorialSeleccionadaAdmin().getDescripcion());
+            try {
+                descripcion.setText(variablesGlobales.getEditorialSeleccionadaAdmin().getDescripcion());
+            }catch (Exception e){
+                Log.e("Editorial","XXX Error cargando datos editorial: "+e.getMessage());
+            }
+
         }
     }
 
