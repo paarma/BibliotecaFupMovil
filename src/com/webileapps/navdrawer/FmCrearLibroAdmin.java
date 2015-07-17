@@ -95,6 +95,9 @@ public class FmCrearLibroAdmin extends SherlockFragment {
         radicado = (EditText) view.findViewById(R.id.editTextRadicado);
         cantidad = (EditText) view.findViewById(R.id.editTextCantidad);
 
+        //Por defecto se carga la cantidad en 1
+        cantidad.setText("1");
+
         cargarSpinners();
 
         //Se cargan algunos spinners con los datos del archivo arrays.xml

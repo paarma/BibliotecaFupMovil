@@ -10,6 +10,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import modelo.Libro;
+import util.Utilidades;
 
 /**
  * Created by pablo on 22/05/15.
@@ -52,6 +53,16 @@ public class LibroListAdapterUsuario extends ArrayAdapter<Libro> {
 
         editText = (EditText) view.findViewById(R.id.editTextPaginas);
         editText.setText(String.valueOf(libroActual.getPaginas()));
+
+
+        editText = (EditText) view.findViewById(R.id.editTextDisponibilidad);
+
+        //Se verifica la disponibilidad segun la cantidad de copias del libro
+        if(libroActual.getCantidad() > Utilidades.cantidadMininaLibroPrestar){
+            editText.setText("SI");
+        }else{
+            editText.setText("NO");
+        }
 
     }
 }

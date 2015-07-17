@@ -36,6 +36,13 @@ public class Utilidades {
     public final static int diasTotalesPrestamo = 2;
 
     /**
+     * Variable entera para indicar la cantidad minima de copias de un libro que podrian quedar en
+     * la biblioteca luego de los precesos de reserva.
+     * De esta manera se indica si un libro esta o no disponible.
+     */
+    public final static int cantidadMininaLibroPrestar = 0;
+
+    /**
      * Metodo encargado de retornar una fecha de un datepicker
      */
      public static Date getDateFromDatePicker(DatePicker datePicker){

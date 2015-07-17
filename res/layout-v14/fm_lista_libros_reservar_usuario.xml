@@ -55,6 +55,7 @@
 
         <!-- Boton dos -->
         <GridLayout
+            android:id="@+id/gridLayoutBtnReservar"
             android:layout_height="match_parent"
             android:columnCount="2"
             android:rowCount="1"
@@ -74,7 +75,7 @@
                 android:textColor="@color/blanco"
                 android:gravity="center_vertical"
                 android:textSize="18sp"
-                android:text="Reservar" />
+                android:background="@drawable/drawer_shadow"/>
 
         </GridLayout>
 

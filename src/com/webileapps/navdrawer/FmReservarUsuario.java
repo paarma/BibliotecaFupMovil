@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
+import android.widget.GridLayout;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -45,6 +46,8 @@ public class FmReservarUsuario extends SherlockFragment {
     DatePicker dpFechaReserva;
     ImageButton btnReservar;
 
+    GridLayout gridLayoutBtnReservar;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -62,23 +65,28 @@ public class FmReservarUsuario extends SherlockFragment {
         btnReservar.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                Log.i("Reservar", ">>>>>>>>>>>>fecha reserva: " +
-                        Utilidades.formatoFechaYYYYMMDD.format(Utilidades.getDateFromDatePicker(dpFechaReserva)));
-                Log.i("Reservas", ">>>>>>>>>>>>>>> Fecha devolucion: "+
-                        Utilidades.sumarRestarDiasAFecha(
-                                Utilidades.getDateFromDatePicker(dpFechaReserva), Utilidades.diasTotalesPrestamo));
+
+                if(libroSeleccionado != null) {
+                    Log.i("Reservar", ">>>>>>>>>>>>fecha reserva: " +
+                            Utilidades.formatoFechaYYYYMMDD.format(Utilidades.getDateFromDatePicker(dpFechaReserva)));
+                    Log.i("Reservas", ">>>>>>>>>>>>>>> Fecha devolucion: " +
+                            Utilidades.sumarRestarDiasAFecha(
+                                    Utilidades.getDateFromDatePicker(dpFechaReserva), Utilidades.diasTotalesPrestamo));
 
 
-                solicitud = new Solicitud();
-                solicitud.setFechaSolicitud(new Date());
-                solicitud.setFechaReserva(Utilidades.getDateFromDatePicker(dpFechaReserva));
-                solicitud.setFechaDevolucion(Utilidades.sumarRestarDiasAFecha(solicitud.getFechaReserva(), Utilidades.diasTotalesPrestamo));
-                solicitud.setUsuario(variablesGlobales.getUsuarioLogueado());
-                solicitud.setLibro(libroSeleccionado);
-                solicitud.setEstado(Utilidades.estadoEnProceso);
+                    solicitud = new Solicitud();
+                    solicitud.setFechaSolicitud(new Date());
+                    solicitud.setFechaReserva(Utilidades.getDateFromDatePicker(dpFechaReserva));
+                    solicitud.setFechaDevolucion(Utilidades.sumarRestarDiasAFecha(solicitud.getFechaReserva(), Utilidades.diasTotalesPrestamo));
+                    solicitud.setUsuario(variablesGlobales.getUsuarioLogueado());
+                    solicitud.setLibro(libroSeleccionado);
+                    solicitud.setEstado(Utilidades.estadoEnProceso);
 
-                TareaWsReservar tareaReservar = new TareaWsReservar();
-                tareaReservar.execute();
+                    TareaWsReservar tareaReservar = new TareaWsReservar();
+                    tareaReservar.execute();
+                }else{
+                    Toast.makeText(getActivity(), "Seleccione un libro", Toast.LENGTH_LONG).show();
+                }
             }
         });
 
@@ -91,6 +99,7 @@ public class FmReservarUsuario extends SherlockFragment {
     private void inicializarComponentes(View view) {
 
         libroListView = (ListView) view.findViewById(R.id.listViewReservarUsuario);
+        gridLayoutBtnReservar = (GridLayout) view.findViewById(R.id.gridLayoutBtnReservar);
     }
 
     /**
@@ -102,6 +111,7 @@ public class FmReservarUsuario extends SherlockFragment {
 
         TareaWsBuscarLibros tareaListarLibro = new TareaWsBuscarLibros();
         tareaListarLibro.execute();
+        libroSeleccionado = null;
 
         //Evento al seleccionar un elemento de la lista
         libroListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -158,6 +168,15 @@ public class FmReservarUsuario extends SherlockFragment {
 
                 //Se despliega el detalle del item seleccionado
                 vista.findViewById(R.id.contenedorDetalleLibroReservar).setVisibility(View.VISIBLE);
+
+
+                //Se verifica la cantidad del libro para verificar si es posible reservarlo o no
+                gridLayoutBtnReservar.setVisibility(View.GONE);
+                if(libroSeleccionado != null &&
+                        libroSeleccionado.getCantidad() > Utilidades.cantidadMininaLibroPrestar){
+                    gridLayoutBtnReservar.setVisibility(View.VISIBLE);
+                }
+
             }
         });
     }
