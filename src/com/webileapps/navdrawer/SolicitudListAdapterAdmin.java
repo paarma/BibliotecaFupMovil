@@ -52,6 +52,7 @@ public class SolicitudListAdapterAdmin extends ArrayAdapter<Solicitud> {
          * VERDE: Indica que se acepto la solicitud y el libro ya se le entrego al usuario. (PRESTADO)
          * ROJO: Indica que se acepto la solicitud y el libro ya se le entrego al usuario pero
          *          este no lo ha regresado en la fecha de devolucion (MORA)
+         * GRIS: Indica que el libro ya se regreso (FINALIZADO)
          */
         if(solicutudActual.getEstado().equals(Utilidades.estadoEnProceso)){
             //linearItemLibro.setBackgroundColor(Color.parseColor("#D8D57F"));
@@ -64,6 +65,10 @@ public class SolicitudListAdapterAdmin extends ArrayAdapter<Solicitud> {
         }else if(solicutudActual.getEstado().equals(Utilidades.estadoEnMora)){
             //linearItemLibro.setBackgroundColor(Color.parseColor("#FA9393"));
             imagenReserva.setImageResource(R.drawable.ic_book_red_48dp);
+
+        }else if(solicutudActual.getEstado().equals(Utilidades.estadoFinalizado)){
+            //linearItemLibro.setBackgroundColor(Color.parseColor("#FA9393"));
+            imagenReserva.setImageResource(R.drawable.ic_book_grey600_48dp);
 
         }
 
