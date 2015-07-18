@@ -28,4 +28,7 @@
     <string name="adjuntar">Adjuntar</string>
     <string name="buscar">Buscar</string>
 
+    <string name="aceptar">Aceptar</string>
+    <string name="cancelar">Cancelar</string>
+
 </resources>
