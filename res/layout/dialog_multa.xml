@@ -6,7 +6,7 @@
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="40dp"
         android:background="@color/list_divider"
         android:contentDescription="@string/app_name"
         android:fontFamily="sans-serif"
@@ -41,5 +41,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="number"/>
+
+    <!-- EditText para nota-->
+    <TextView
+        android:id="@+id/textViewNota"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Nota:" />
+
+    <EditText
+        android:id="@+id/editTextNota"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textMultiLine"
+        android:ems="10" />
+
 
 </LinearLayout>

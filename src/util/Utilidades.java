@@ -72,6 +72,13 @@ public class Utilidades {
         return calendar.getTime();
     }
 
+    public static long diasDiferenciaEntreFechas(Date fecha1, Date fecha2){
+        long diferencia = 0;
+
+        diferencia = fecha2.getTime() - fecha1.getTime();
+        return  diferencia/(3600000*24);
+    }
+
     /**
      * Metodo que recorre un spinner para buscar una cadena contenida en el.
      * Utilidad especificada para seleccionar por defecto un valor determinado  del spinner

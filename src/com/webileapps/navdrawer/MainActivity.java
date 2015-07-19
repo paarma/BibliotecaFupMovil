@@ -17,6 +17,7 @@
 package com.webileapps.navdrawer;
 
 import android.content.res.Configuration;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
@@ -33,11 +34,17 @@ import android.widget.Toast;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.MenuItem;
 
+import org.ksoap2.SoapEnvelope;
+import org.ksoap2.serialization.SoapObject;
+import org.ksoap2.serialization.SoapSerializationEnvelope;
+import org.ksoap2.transport.HttpTransportSE;
+
 import modelo.Autor;
 import modelo.Editorial;
 import modelo.Libro;
 import modelo.Solicitud;
 import modelo.Usuario;
+import util.Configuracion;
 import util.VariablesGlobales;
 
 public class MainActivity extends SherlockFragmentActivity {
@@ -75,6 +82,10 @@ public class MainActivity extends SherlockFragmentActivity {
 
         //Se obtiene el usuario logueado
         usuarioLogueado = (Usuario) getIntent().getExtras().getSerializable("usuarioLogueado");
+
+        //Se obtiene el valor de multa para su respectivo mudulo
+        TareaWSValorMulta tareaValorMulta = new TareaWSValorMulta();
+        tareaValorMulta.execute();
 
         // Get the view from drawer_main.xml
         setContentView(R.layout.drawer_main);
@@ -655,6 +666,57 @@ public class MainActivity extends SherlockFragmentActivity {
 
         ft.replace(R.id.content_frame, fmSolicitudesAdmin);
         ft.commit();
+    }
+
+    /**
+     * Tarea buscarValorMulta
+     */
+    private class TareaWSValorMulta extends AsyncTask<String,Integer,Boolean> {
+        Configuracion conf = new Configuracion();
+
+        private final String SOAP_ACTION = conf.getUrl()+"/buscarValorMulta";
+        private final String METHOD_NAME = "buscarValorMulta";
+        private final String NAMESPACE = conf.getNamespace();
+        private final String URL = conf.getUrl();
+        private int valorMulta = 0;
+        boolean resultadoTarea = false;
+
+        protected Boolean doInBackground(String... params) {
+
+            SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
+
+            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+            envelope.bodyOut = request;
+
+            HttpTransportSE transporte = new HttpTransportSE(URL);
+            try {
+                transporte.call(SOAP_ACTION, envelope);
+                java.util.Vector<SoapObject> rs = (java.util.Vector<SoapObject>) envelope.getResponse();
+
+                if (rs != null)
+                {
+                    for (SoapObject multaSoap : rs)
+                    {
+                        if(multaSoap.getProperty("VALOR").toString() != null) {
+                            valorMulta = Integer.parseInt(multaSoap.getProperty("VALOR").toString());
+                            resultadoTarea = true;
+                        }
+                        break;
+                    }
+                }
+            }catch (Exception e){
+                Log.e("MainAct ", "xxx Error TareaWSValorMulta: "+e.getMessage());
+            }
+            return resultadoTarea;
+        }
+
+        protected void onPostExecute(Boolean result) {
+            if (resultadoTarea) {
+                variablesGlobales.setValorMulta(valorMulta);
+            }else{
+              Log.d("MainAct","XXX Error obteniendo el valor de la multa ");
+            }
+        }
     }
 
 }

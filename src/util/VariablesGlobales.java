@@ -76,6 +76,8 @@ public class VariablesGlobales {
      */
     private Solicitud solicitudBuscar = new Solicitud();
 
+    private int valorMulta = 0;
+
     // Restrict the constructor from being instantiated
     private VariablesGlobales(){
         solicitudBuscar.setUsuario(new Usuario());
@@ -181,5 +183,13 @@ public class VariablesGlobales {
             instance=new VariablesGlobales();
         }
         return instance;
+    }
+
+    public int getValorMulta() {
+        return valorMulta;
+    }
+
+    public void setValorMulta(int valorMulta) {
+        this.valorMulta = valorMulta;
     }
 }

@@ -5,6 +5,7 @@ import android.annotation.TargetApi;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -217,8 +218,6 @@ public class FmListaSolicitudesAdmin extends SherlockFragment {
                     //De lo contrario indica que se esta regresando un libro.
                     solicitudSeleccionada.setEstado(Utilidades.estadoFinalizado);
                     solicitudSeleccionada.setFechaEntrega(new Date());
-
-                    //Evaluar si el estado es "EN  MORA", para gestionar la tabla multas.
                 }
 
                 resultadoTarea = tareasGenerales.actualizarSolicitudes(solicitudSeleccionada, false);
@@ -237,6 +236,12 @@ public class FmListaSolicitudesAdmin extends SherlockFragment {
                     String msn = "Registro exitoso";
                     Toast.makeText(getActivity(), msn, Toast.LENGTH_LONG).show();
                     inicializarListaSolicitudes();
+
+                    //Si la solicitud tenia estado es "EN  MORA", se gestiona la funcionalidad de multas.
+                    if(solicitudSeleccionada.getEstado().equals(Utilidades.estadoEnMora)) {
+                        llamarMultas();
+                    }
+
                 }catch (Exception e){
                     Log.e("SolAdmin","XXX Error prestando o regresando TareaWsGestionLibro: "+e.getMessage());
                 }
@@ -247,6 +252,30 @@ public class FmListaSolicitudesAdmin extends SherlockFragment {
             }
             solicitudSeleccionada = null;
             inicializarListaSolicitudes();
+        }
+    }
+
+    /**
+     * Metodo encargado para gestionar la funcionalidad de multas
+     */
+    public void llamarMultas(){
+        try {
+            DialogFragment dialogMultas = new CustomDialogMultas();
+
+            //Dias mora
+            Long diasMora = Utilidades.diasDiferenciaEntreFechas(
+                    solicitudSeleccionada.getFechaReserva(), new Date());
+
+            //Enviamos parametros al dialog.
+            Bundle args = new Bundle();
+            args.putInt("idSolicitud",solicitudSeleccionada.getIdSolicitud());
+            args.putLong("diasMora", diasMora);
+            dialogMultas.setArguments(args);
+
+            dialogMultas.show(getFragmentManager(), "dialogMultas");
+
+        }catch (Exception e){
+            Log.e("DialogMulta","XXX Error desplegando multas: "+e.getMessage());
         }
     }
 
