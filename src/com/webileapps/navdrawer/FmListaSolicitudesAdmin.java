@@ -40,6 +40,7 @@ public class FmListaSolicitudesAdmin extends SherlockFragment {
 
     private List<Solicitud> listaSolicitudes = new ArrayList<Solicitud>();
     private static Solicitud solicitudSeleccionada;
+    private boolean solicitudEnMora;
 
     private ImageButton btnAccionLibroAdmin;
 
@@ -211,6 +212,16 @@ public class FmListaSolicitudesAdmin extends SherlockFragment {
             try {
                 TareasGenerales tareasGenerales = new TareasGenerales();
 
+                //////////////Funcionalidad para multas
+                if(solicitudSeleccionada.getEstado().equals(Utilidades.estadoEnMora)) {
+                    solicitudEnMora = true;
+                }else{
+                    solicitudEnMora = false;
+                }
+
+                //////////////Fin funcionalidad para multas
+
+                /////////////////////////Se fija el estado en el cual quedara la solicitud.
                 //Si la solicitud esta en estado "EN PROCESO", pasa a estado "PRESTADO"
                 if(solicitudSeleccionada.getEstado().equals(Utilidades.estadoEnProceso)){
                     solicitudSeleccionada.setEstado(Utilidades.estadoPrestado);
@@ -238,7 +249,7 @@ public class FmListaSolicitudesAdmin extends SherlockFragment {
                     inicializarListaSolicitudes();
 
                     //Si la solicitud tenia estado es "EN  MORA", se gestiona la funcionalidad de multas.
-                    if(solicitudSeleccionada.getEstado().equals(Utilidades.estadoEnMora)) {
+                    if(solicitudEnMora) {
                         llamarMultas();
                     }
 
@@ -251,7 +262,7 @@ public class FmListaSolicitudesAdmin extends SherlockFragment {
                 Toast.makeText(getActivity(), msn, Toast.LENGTH_LONG).show();
             }
             solicitudSeleccionada = null;
-            inicializarListaSolicitudes();
+            //inicializarListaSolicitudes();
         }
     }
 
