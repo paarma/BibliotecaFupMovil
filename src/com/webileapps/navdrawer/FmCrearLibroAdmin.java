@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -26,8 +27,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import modelo.Area;
+import modelo.Ciudad;
 import modelo.Editorial;
 import modelo.Libro;
+import modelo.Pais;
 import modelo.Sede;
 import util.CargarSpinners;
 import util.Configuracion;
@@ -37,13 +40,11 @@ import util.VariablesGlobales;
 public class FmCrearLibroAdmin extends SherlockFragment {
 
     EditText titulo, isbn, codTopografico, temas, paginas, valor, radicado, serie, cantidad;
-    Spinner spinnerEstado, spinnerAdquisicion, spinnerEditorial, spinnerArea, spinnerSede, ciudad;
+    Spinner spinnerEstado, spinnerAdquisicion, spinnerEditorial, spinnerArea, spinnerSede, spinnerCiudad, spinnerPais;
 
     DatePicker dpickerAnioLibro;
 
     VariablesGlobales variablesGlobales = VariablesGlobales.getInstance();
-
-    private final static String[] tipoCiudad = { "Seleccione..", "Ciudad_1", "Ciudad_2"};
 
     @Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -74,6 +75,29 @@ public class FmCrearLibroAdmin extends SherlockFragment {
             }
         });
 
+        //Evento al seleccionar el spinner Pais
+        //Se cargan las ciudades segun el pais seleccionado
+        spinnerPais.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if(spinnerPais.getSelectedItem() != null){
+
+                    try{
+                        Pais pais = (Pais) spinnerPais.getSelectedItem();
+                        CargarSpinners.loadDatos(getActivity(), Ciudad.class.getSimpleName(), spinnerCiudad,
+                                pais.getIdPais());
+                    }catch (Exception e){
+                        Log.e("CrearLibro","XXX Error cargando ciudades: "+e.getMessage());
+                    }
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
 		return view;
 	}
 
@@ -90,7 +114,8 @@ public class FmCrearLibroAdmin extends SherlockFragment {
         spinnerEditorial = (Spinner) view.findViewById(R.id.spinnerEditorial);
         spinnerArea = (Spinner) view.findViewById(R.id.spinnerArea);
         spinnerSede = (Spinner) view.findViewById(R.id.spinnerSede);
-        ciudad = (Spinner) view.findViewById(R.id.spinnerCiudad);
+        spinnerPais = (Spinner) view.findViewById(R.id.spinnerPais);
+        spinnerCiudad = (Spinner) view.findViewById(R.id.spinnerCiudad);
         valor = (EditText) view.findViewById(R.id.editTextValor);
         radicado = (EditText) view.findViewById(R.id.editTextRadicado);
         cantidad = (EditText) view.findViewById(R.id.editTextCantidad);
@@ -109,9 +134,6 @@ public class FmCrearLibroAdmin extends SherlockFragment {
         adapterAdquisicion.setDropDownViewResource(R.layout.spinner_item);
         spinnerAdquisicion.setAdapter(adapterAdquisicion);
 
-        ArrayAdapter adapterCiudad = new ArrayAdapter<String>(getActivity(), R.layout.spinner_item, tipoCiudad);
-        Spinner spCiudad = (Spinner) view.findViewById(R.id.spinnerCiudad);
-        spCiudad.setAdapter(adapterCiudad);
 
         ////////////////Se referencia el datepicker (Año Libro)
         //y se ocultan los campos dia y mes para solo mostrar el año.
@@ -146,9 +168,10 @@ public class FmCrearLibroAdmin extends SherlockFragment {
      */
     public void cargarSpinners(){
 
-        CargarSpinners.loadDatos(getActivity(), Editorial.class.getSimpleName(), spinnerEditorial);
-        CargarSpinners.loadDatos(getActivity(), Area.class.getSimpleName(), spinnerArea);
-        CargarSpinners.loadDatos(getActivity(), Sede.class.getSimpleName(), spinnerSede);
+        CargarSpinners.loadDatos(getActivity(), Editorial.class.getSimpleName(), spinnerEditorial, 0);
+        CargarSpinners.loadDatos(getActivity(), Area.class.getSimpleName(), spinnerArea, 0);
+        CargarSpinners.loadDatos(getActivity(), Sede.class.getSimpleName(), spinnerSede, 0);
+        CargarSpinners.loadDatos(getActivity(), Pais.class.getSimpleName(), spinnerPais, 0);
     }
 
     /**
@@ -184,6 +207,13 @@ public class FmCrearLibroAdmin extends SherlockFragment {
                 if (variablesGlobales.getLibroSeleccionadoAdmin().getAnio() != 0) {
                     dpickerAnioLibro.updateDate(variablesGlobales.getLibroSeleccionadoAdmin().getAnio(), 1, 1);
                 }
+
+                //Si existe ciudad, cargamos el spinner de ciudades agrupadas por su respectivo pais
+                if(variablesGlobales.getLibroSeleccionadoAdmin().getCiudad() != null){
+                    CargarSpinners.loadDatos(getActivity(), Ciudad.class.getSimpleName(), spinnerCiudad,
+                            variablesGlobales.getLibroSeleccionadoAdmin().getCiudad().getPais().getIdPais());
+                }
+
             }catch (Exception e){
                 Log.e("CrearLibro","XXX Error cargando datos de libros seleccionado: "+e.getMessage());
             }
@@ -267,12 +297,9 @@ public class FmCrearLibroAdmin extends SherlockFragment {
                 lib.setSede(sedeSeleccionada);
             }
 
-            if (ciudad.getSelectedItem().toString().equals("Ciudad_1")) {
-                lib.setIdCiudad(1);
-            }
-
-            if (ciudad.getSelectedItem().toString().equals("Ciudad_2")) {
-                lib.setIdCiudad(2);
+            Ciudad ciudadSeleccionada = (Ciudad) spinnerCiudad.getSelectedItem();
+            if(ciudadSeleccionada != null){
+                lib.setCiudad(ciudadSeleccionada);
             }
 
             try {
@@ -359,7 +386,13 @@ public class FmCrearLibroAdmin extends SherlockFragment {
         request.addProperty("paginas",libro.getPaginas());
         request.addProperty("disponibilidad",libro.getDisponibilidad());
         request.addProperty("idUsuario",libro.getIdUsuario()); //Usuario logueado
-        request.addProperty("idCiudad",libro.getIdCiudad());
+
+        if(libro.getCiudad() != null) {
+            request.addProperty("idCiudad", libro.getCiudad().getIdCiudad());
+        }else{
+            request.addProperty("idCiudad", "");
+        }
+
         request.addProperty("cantidad",libro.getCantidad());
 
         SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);

@@ -8,8 +8,10 @@ import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
 import modelo.Area;
+import modelo.Ciudad;
 import modelo.Editorial;
 import modelo.Libro;
+import modelo.Pais;
 import modelo.Sede;
 import modelo.Usuario;
 
@@ -231,6 +233,53 @@ public class UtilidadesBuscarPorId {
     }
 
     /**
+     * Metodo encargado de retornar una Ciudad segun su ID
+     * @param idCiudad
+     * @return Ciudad
+     */
+    public Ciudad buscarCiudadPorId(int idCiudad){
+
+        final String SOAP_ACTION = conf.getUrl()+"/buscarCiudadPorId";
+        final String METHOD_NAME = "buscarCiudadPorId";
+        final String NAMESPACE = conf.getNamespace();
+        final String URL = conf.getUrl();
+        Ciudad ciudad = null;
+
+        SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
+        request.addProperty("idCiudad",idCiudad);
+
+        SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+        envelope.bodyOut = request;
+
+        HttpTransportSE transporte = new HttpTransportSE(URL);
+        try {
+            transporte.call(SOAP_ACTION, envelope);
+            java.util.Vector<SoapObject> rs = (java.util.Vector<SoapObject>) envelope.getResponse();
+
+            if (rs != null)
+            {
+                for (SoapObject ciudadSoap : rs)
+                {
+                    ciudad = new Ciudad();
+                    ciudad.setIdCiudad(Integer.parseInt(ciudadSoap.getProperty("ID_CIUDAD").toString()));
+                    ciudad.setNombre(ciudadSoap.getProperty("NOM_CIUDAD").toString());
+
+                    Pais pais = new Pais();
+                    pais.setIdPais(Integer.parseInt(ciudadSoap.getProperty("ID_PAIS").toString()));
+                    pais.setNombre(ciudadSoap.getProperty("NOM_PAIS").toString());
+
+                    ciudad.setPais(pais);
+                    Log.i("Generales.java",">>>>>>>>>>>> buscarCiudadPorId: "+ciudad.getIdCiudad());
+                    break;
+                }
+            }
+        }catch (Exception e){
+            Log.d("Generales.java ", "xxx Error buscarCiudadPorId(): "+e.getMessage());
+        }
+        return ciudad;
+    }
+
+    /**
      * Metodo encardado de setear los valores desde la BD (Soap) a un Libro.
      * @param libroSoap Objeto Soap que contiene los datos de libro para ser setados.
      * @return
@@ -289,6 +338,11 @@ public class UtilidadesBuscarPorId {
         //Sede
         if(libroSoap.getProperty("ID_SEDE") != null) {
             lib.setSede(buscarSedePorId(Integer.parseInt(libroSoap.getProperty("ID_SEDE").toString())));
+        }
+
+        //Ciudad
+        if(libroSoap.getProperty("ID_CIUDAD") != null) {
+            lib.setCiudad(buscarCiudadPorId(Integer.parseInt(libroSoap.getProperty("ID_CIUDAD").toString())));
         }
 
         if(libroSoap.getProperty("ADQUISICION") != null) {

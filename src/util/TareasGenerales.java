@@ -13,8 +13,10 @@ import java.util.List;
 
 import modelo.Area;
 import modelo.Autor;
+import modelo.Ciudad;
 import modelo.Editorial;
 import modelo.Libro;
+import modelo.Pais;
 import modelo.Sede;
 import modelo.Solicitud;
 import modelo.Usuario;
@@ -420,6 +422,94 @@ public class TareasGenerales {
             Log.e("TareasGenerales.java ", "xxx Error listarSedes(): " + e.getMessage());
         }
         return listaDedes;
+    }
+
+    /**
+     * Metodo encargado de listar los Paises de la BD.
+     * @return
+     */
+    public List<Pais> listarPaises(){
+
+        final String SOAP_ACTION = conf.getUrl()+"/listadoPaises";
+        final String METHOD_NAME = "listadoPaises";
+        final String NAMESPACE = conf.getNamespace();
+        final String URL = conf.getUrl();
+        List<Pais> listaPaises = new ArrayList<Pais>();
+
+        SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
+
+        SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+        envelope.bodyOut = request;
+
+        HttpTransportSE transporte = new HttpTransportSE(URL);
+
+        try {
+
+            transporte.call(SOAP_ACTION, envelope);
+            java.util.Vector<SoapObject> rs = (java.util.Vector<SoapObject>) envelope.getResponse();
+
+            if (rs != null) {
+                for (SoapObject paisSoap : rs) {
+
+                    Pais pais = new Pais();
+                    pais.setIdPais(Integer.parseInt(paisSoap.getProperty("ID_PAIS").toString()));
+                    pais.setNombre(paisSoap.getProperty("NOMBRE").toString());
+                    listaPaises.add(pais);
+                }
+            }
+        }catch (Exception e){
+            Log.e("TareasGenerales.java ", "xxx Error listarPaises(): " + e.getMessage());
+        }
+        return listaPaises;
+    }
+
+    /**
+     * Metodo encargado de listar las ciudades de la BD.
+     * @param idPais Para el caso de filtrar por pais.
+     *               En caso de 0, no tendrá en cuenta este filtro.
+     * @return
+     */
+    public List<Ciudad> listarCiudades(int idPais){
+
+        final String SOAP_ACTION = conf.getUrl()+"/listadoCiudades";
+        final String METHOD_NAME = "listadoCiudades";
+        final String NAMESPACE = conf.getNamespace();
+        final String URL = conf.getUrl();
+        List<Ciudad> listaCiudades = new ArrayList<Ciudad>();
+
+        SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
+        request.addProperty("idPais", idPais);
+
+        SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+        envelope.bodyOut = request;
+
+        HttpTransportSE transporte = new HttpTransportSE(URL);
+
+        try {
+
+            transporte.call(SOAP_ACTION, envelope);
+            java.util.Vector<SoapObject> rs = (java.util.Vector<SoapObject>) envelope.getResponse();
+
+            if (rs != null) {
+                for (SoapObject ciudadSoap : rs) {
+
+                    Ciudad ciudad = new Ciudad();
+                    ciudad.setIdCiudad(Integer.parseInt(ciudadSoap.getProperty("ID_CIUDAD").toString()));
+                    ciudad.setNombre(ciudadSoap.getProperty("NOM_CIUDAD").toString());
+
+                    Pais pais = new Pais();
+                    pais.setIdPais(Integer.parseInt(ciudadSoap.getProperty("ID_PAIS").toString()));
+                    pais.setNombre(ciudadSoap.getProperty("NOM_PAIS").toString());
+
+                    ciudad.setPais(pais);
+
+                    listaCiudades.add(ciudad);
+                }
+            }
+        }catch (Exception e){
+            Log.e("TareasGenerales.java ", "xxx Error listarCiudades(): " + e.getMessage());
+        }
+        return listaCiudades;
     }
 
     /**

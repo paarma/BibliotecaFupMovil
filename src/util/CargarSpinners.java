@@ -13,7 +13,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import modelo.Area;
+import modelo.Ciudad;
 import modelo.Editorial;
+import modelo.Pais;
 import modelo.Sede;
 
 /**
@@ -26,12 +28,13 @@ public class CargarSpinners {
 
     public static void loadDatos(FragmentActivity fActivity,
                                  String nombreClase ,
-                                 Spinner spinner){
+                                 Spinner spinner, int idFiltro){
         TareaWsCargarDatosSpinner tareaCargarDatosSpinner = new TareaWsCargarDatosSpinner();
 
         tareaCargarDatosSpinner.setfActivity(fActivity);
         tareaCargarDatosSpinner.setNombreClase(nombreClase);
         tareaCargarDatosSpinner.setSpinner(spinner);
+        tareaCargarDatosSpinner.setIdFiltro(idFiltro);
 
         tareaCargarDatosSpinner.execute();
     }
@@ -62,11 +65,18 @@ public class CargarSpinners {
         private Spinner spinner;
 
         /**
+         * Parametro en el caso de filtrar por algun ID
+         */
+        private int idFiltro = 0;
+
+        /**
          * Listado de datos que se cargaran al spinner
          */
         private List<Editorial> listaEditoriales = new ArrayList<Editorial>();
         private List<Area> listaAreas = new ArrayList<Area>();
         private List<Sede> listaSedes = new ArrayList<Sede>();
+        private List<Pais> listaPaises = new ArrayList<Pais>();
+        private List<Ciudad> listaCiudades = new ArrayList<Ciudad>();
 
         boolean resultadoTarea = true;
 
@@ -93,6 +103,18 @@ public class CargarSpinners {
                 if(nombreClase.equals(Sede.class.getSimpleName())){
                     listaSedes = tareasGenerales.listarSedes();
                     Log.i("cargaSpinner", ">>>>>>>>>>> Tamaño lista Sedes: " + listaSedes.size());
+                }
+
+                 //Se cargan los datos de Pais
+                if(nombreClase.equals(Pais.class.getSimpleName())){
+                    listaPaises = tareasGenerales.listarPaises();
+                    Log.i("cargaSpinner", ">>>>>>>>>>> Tamaño lista Paises: " + listaPaises.size());
+                }
+
+                //Se cargan los datos de Ciudad
+                if(nombreClase.equals(Ciudad.class.getSimpleName())){
+                    listaCiudades = tareasGenerales.listarCiudades(idFiltro);
+                    Log.i("cargaSpinner", ">>>>>>>>>>> Tamaño lista Ciudades: " + listaCiudades.size());
                 }
 
             }catch (Exception e){
@@ -163,6 +185,40 @@ public class CargarSpinners {
                         }
                     }
 
+                    if (nombreClase.equals(Pais.class.getSimpleName())) {
+                        ArrayAdapter<Pais> adapter = new ArrayAdapter<Pais>(fActivity,
+                                R.layout.spinner_item, listaPaises);
+
+                        spinner.setAdapter(new NothingSelectedSpinnerAdapter(
+                                adapter, R.layout.contact_spinner_nothing_selected,
+                                fActivity));
+
+                        //Se selecciona el valor por defecto en caso de cargar el spinner
+                        //con un libro seleccionado previamente. (Editar Libro)
+                        if (variablesGlobales.getLibroSeleccionadoAdmin() != null
+                                && variablesGlobales.getLibroSeleccionadoAdmin().getCiudad() != null) {
+                            spinner.setSelection(Utilidades.getIndexSpinner(spinner,
+                                    variablesGlobales.getLibroSeleccionadoAdmin().getCiudad().getPais().getNombre()));
+                        }
+                    }
+
+                    if (nombreClase.equals(Ciudad.class.getSimpleName())) {
+                        ArrayAdapter<Ciudad> adapter = new ArrayAdapter<Ciudad>(fActivity,
+                                R.layout.spinner_item, listaCiudades);
+
+                        spinner.setAdapter(new NothingSelectedSpinnerAdapter(
+                                adapter, R.layout.contact_spinner_nothing_selected,
+                                fActivity));
+
+                        //Se selecciona el valor por defecto en caso de cargar el spinner
+                        //con un libro seleccionado previamente. (Editar Libro)
+                        if (variablesGlobales.getLibroSeleccionadoAdmin() != null
+                                && variablesGlobales.getLibroSeleccionadoAdmin().getCiudad() != null) {
+                            spinner.setSelection(Utilidades.getIndexSpinner(spinner,
+                                    variablesGlobales.getLibroSeleccionadoAdmin().getCiudad().getNombre()));
+                        }
+                    }
+
                 }catch (Exception e){
                     Log.e("Spiners","XXX Error cargando spinners: "+e.getMessage());
                 }
@@ -183,6 +239,10 @@ public class CargarSpinners {
 
         public void setSpinner(Spinner spinner) {
             this.spinner = spinner;
+        }
+
+        public void setIdFiltro(int idFiltro) {
+            this.idFiltro = idFiltro;
         }
     }
 
