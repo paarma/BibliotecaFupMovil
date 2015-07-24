@@ -86,4 +86,17 @@ public class Autor implements Serializable {
     public void setTipoAutor(String tipoAutor) {
         this.tipoAutor = tipoAutor;
     }
+
+    ////////////////////////////////////////////////////////////////////////////
+    /**
+     * Metodo sobreescrito toString para retornar el valor del campo nombres.
+     * Util para mostrar la descripcion en los spinner
+     * @return
+     */
+    @Override
+    public String toString()
+    {
+        return this.primerNombre+" "+this.segundoNombre+" "+
+                this.primerApellido+" "+this.segundoApellido;
+    }
 }

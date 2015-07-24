@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import modelo.Area;
+import modelo.Autor;
 import modelo.Ciudad;
 import modelo.Editorial;
 import modelo.Pais;
@@ -77,6 +78,7 @@ public class CargarSpinners {
         private List<Sede> listaSedes = new ArrayList<Sede>();
         private List<Pais> listaPaises = new ArrayList<Pais>();
         private List<Ciudad> listaCiudades = new ArrayList<Ciudad>();
+        private List<Autor> listaAutores = new ArrayList<Autor>();
 
         boolean resultadoTarea = true;
 
@@ -115,6 +117,12 @@ public class CargarSpinners {
                 if(nombreClase.equals(Ciudad.class.getSimpleName())){
                     listaCiudades = tareasGenerales.listarCiudades(idFiltro);
                     Log.i("cargaSpinner", ">>>>>>>>>>> Tamaño lista Ciudades: " + listaCiudades.size());
+                }
+
+                //Se cargan los datos de Autores
+                if(nombreClase.equals(Autor.class.getSimpleName())){
+                    listaAutores = tareasGenerales.listarAutores(new Autor());
+                    Log.i("cargaSpinner", ">>>>>>>>>>> Tamaño lista listaAutores: " + listaAutores.size());
                 }
 
             }catch (Exception e){
@@ -217,6 +225,15 @@ public class CargarSpinners {
                             spinner.setSelection(Utilidades.getIndexSpinner(spinner,
                                     variablesGlobales.getLibroSeleccionadoAdmin().getCiudad().getNombre()));
                         }
+                    }
+
+                    if (nombreClase.equals(Autor.class.getSimpleName())) {
+                        ArrayAdapter<Autor> adapter = new ArrayAdapter<Autor>(fActivity,
+                                R.layout.spinner_item, listaAutores);
+
+                        spinner.setAdapter(new NothingSelectedSpinnerAdapter(
+                                adapter, R.layout.contact_spinner_nothing_selected,
+                                fActivity));
                     }
 
                 }catch (Exception e){

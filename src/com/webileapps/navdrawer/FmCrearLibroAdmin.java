@@ -1,6 +1,8 @@
 package com.webileapps.navdrawer;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,7 +14,9 @@ import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragment;
@@ -24,9 +28,11 @@ import org.ksoap2.transport.HttpTransportSE;
 
 import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import modelo.Area;
+import modelo.Autor;
 import modelo.Ciudad;
 import modelo.Editorial;
 import modelo.Libro;
@@ -40,18 +46,38 @@ import util.VariablesGlobales;
 public class FmCrearLibroAdmin extends SherlockFragment {
 
     EditText titulo, isbn, codTopografico, temas, paginas, valor, radicado, serie, cantidad;
-    Spinner spinnerEstado, spinnerAdquisicion, spinnerEditorial, spinnerArea, spinnerSede, spinnerCiudad, spinnerPais;
+    Spinner spinnerEstado, spinnerAdquisicion, spinnerEditorial, spinnerArea,
+            spinnerSede, spinnerCiudad, spinnerPais, spinnerAutor;
 
     DatePicker dpickerAnioLibro;
 
     VariablesGlobales variablesGlobales = VariablesGlobales.getInstance();
 
-    @Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		// Get the view from fm_crear_libro_adminro_admin.xml
-		View view = inflater.inflate(R.layout.fm_crear_libro_admin, container, false);
+    private LinearLayout linearListViewAutores;
+    private ArrayList<Autor> listaAutores;
+    ImageButton btnAgregarAutor, btnEliminarAutor;
+    LayoutInflater inflaterAux;
+    int indexAutorSeleccionado = -1;
 
+    AlertDialog.Builder alertDialogBuilder;
+    AlertDialog alertDialog;
+
+    private String idAutoresConcatenados;
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Get the view from fm_crear_libro_adminro_admin.xml
+        View view = inflater.inflate(R.layout.fm_crear_libro_admin, container, false);
+        inflaterAux = inflater;
+
+        //Dialog para agregar autores (Antes de cargar los spinners)
+        crearDialogAutores();
+
+        //Creamos un objeto de AlertDialog
+        alertDialog = alertDialogBuilder.create();
+
+        //Se inicializan componentes y se cargan los spinners
         inicializarComponentes(view);
 
         ImageButton btnCrearLibro = (ImageButton) view.findViewById(R.id.btnGuardarLibroAdmin);
@@ -61,6 +87,26 @@ public class FmCrearLibroAdmin extends SherlockFragment {
             @Override
             public void onClick(View view) {
                 Log.i("CrearLibro", ">>>>>>>>>>>>>>>>>>>> pulsando boton crear libro");
+
+                //Se gestionan los autores
+                if(listaAutores.size() > 0){
+                    try{
+                        StringBuilder cadena = new StringBuilder();
+                        for(Autor item: listaAutores){
+                            cadena.append(item.getIdAutor()+",");
+                        }
+
+                    //Se elimina la ultima coma
+                    idAutoresConcatenados = cadena.substring(0, cadena.length()-1);
+
+                    }catch (Exception e){
+                        idAutoresConcatenados = "";
+                        Log.e("CadenaAuto","XXX Error armando cadena de autores: "+e.getMessage());
+                    }
+                }else{
+                    idAutoresConcatenados = "";
+                }
+
                 TareaWsGuardarLibro tareaGuardarLibro = new TareaWsGuardarLibro();
                 tareaGuardarLibro.execute();
 
@@ -98,8 +144,32 @@ public class FmCrearLibroAdmin extends SherlockFragment {
             }
         });
 
-		return view;
-	}
+        //////////////////////Autores
+        listaAutores = new ArrayList<Autor>();
+
+        btnAgregarAutor.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Log.i("CrearLibro",">>>>>>>>>>> btnAgregarAutor");
+                // Lanzamos el dialog
+                alertDialog.show();
+            }
+        });
+
+        btnEliminarAutor.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Log.i("CrearLibro", ">>>>>>>>>>> btnEliminarAutor: "+indexAutorSeleccionado);
+                if(indexAutorSeleccionado != -1){
+                    listaAutores.remove(indexAutorSeleccionado);
+                    recargarLinearLayoutAutores();
+                }
+            }
+        });
+        //////////////////////////Fin Autores
+
+        return view;
+    }
 
     public void inicializarComponentes(View view){
 
@@ -161,6 +231,10 @@ public class FmCrearLibroAdmin extends SherlockFragment {
         }
         /////////////////Fin carga datepicker
 
+        //Autores
+        linearListViewAutores = (LinearLayout) view.findViewById(R.id.linear_listview_autores);
+        btnAgregarAutor = (ImageButton) view.findViewById(R.id.btnAgregarAutor);
+        btnEliminarAutor = (ImageButton) view.findViewById(R.id.btnEliminarAutor);
     }
 
     /**
@@ -172,6 +246,7 @@ public class FmCrearLibroAdmin extends SherlockFragment {
         CargarSpinners.loadDatos(getActivity(), Area.class.getSimpleName(), spinnerArea, 0);
         CargarSpinners.loadDatos(getActivity(), Sede.class.getSimpleName(), spinnerSede, 0);
         CargarSpinners.loadDatos(getActivity(), Pais.class.getSimpleName(), spinnerPais, 0);
+        CargarSpinners.loadDatos(getActivity(), Autor.class.getSimpleName(), spinnerAutor, 0);
     }
 
     /**
@@ -221,6 +296,47 @@ public class FmCrearLibroAdmin extends SherlockFragment {
     }
 
     /**
+     * Metodo encargado de crear el dialog para autores
+     */
+    public void crearDialogAutores(){
+
+        // Rescatamos el layout creado para el prompt
+        LayoutInflater li = LayoutInflater.from(getActivity());
+        View prompt = li.inflate(R.layout.prompt_sppiner_autores, null);
+
+        // Creamos un constructor de Alert Dialog y le añadimos nuestro layout al cuadro de dialogo
+        alertDialogBuilder = new AlertDialog.Builder(getActivity());
+        alertDialogBuilder.setView(prompt);
+
+        //Se referencia el spinnerAutores
+        spinnerAutor = (Spinner) prompt.findViewById(R.id.spinnerAutores);
+
+        // Mostramos el mensaje del cuadro de dialogo
+        alertDialogBuilder
+                .setCancelable(false)
+                .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+
+                        if (!spinnerAutor.getSelectedItem().toString().equals("Seleccione...")) {
+
+                            Autor autor = (Autor) spinnerAutor.getSelectedItem();
+                            if (autor != null) {
+                                listaAutores.add(autor);
+                                recargarLinearLayoutAutores();
+                            }
+                        }
+
+                    }
+                })
+                .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // Cancelamos el cuadro de dialogo
+                        dialog.cancel();
+                    }
+                });
+    }
+
+    /**
      * Metodo encardado de limpiar los campos del formulario
      */
     public void limpiarCampos(){
@@ -235,6 +351,70 @@ public class FmCrearLibroAdmin extends SherlockFragment {
 
         valor.getText().clear();
         radicado.getText().clear();
+
+        listaAutores.clear();
+        recargarLinearLayoutAutores();
+    }
+
+    /**
+     * Metodo encargado de recargar el linear_layout de autores
+     */
+    public void recargarLinearLayoutAutores(){
+
+        indexAutorSeleccionado = -1;
+        linearListViewAutores.removeAllViewsInLayout();
+
+        //Se recaga la interfaz con datos vacios en caso de no cargar autores
+        if(listaAutores.size() == 0){
+            linearListViewAutores.removeAllViewsInLayout();
+
+            View mLinearView = inflaterAux.inflate(R.layout.row_autores_libro, null);
+            linearListViewAutores.addView(mLinearView);
+        }
+
+        for(int i = 0; i < listaAutores.size(); i++){
+            /**
+             * inflate items/ add items in linear layout instead of listview
+             */
+            View mLinearView = inflaterAux.inflate(R.layout.row_autores_libro, null);
+            /**
+             * getting id of row.xml
+             */
+            TextView mFirstName = (TextView) mLinearView
+                    .findViewById(R.id.textViewName);
+            TextView mLastName = (TextView) mLinearView
+                    .findViewById(R.id.textViewLastName);
+
+            /**
+             * set item into row
+             */
+            final int index = i;
+            final String fName = listaAutores.get(i).getPrimerNombre();
+            final String lName = listaAutores.get(i).getPrimerApellido();
+            mFirstName.setText(fName);
+            mLastName.setText(lName);
+
+            /**
+             * add view in top linear
+             */
+
+            linearListViewAutores.addView(mLinearView);
+
+            /**
+             * get item row on click
+             *
+             */
+            mLinearView.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    // TODO Auto-generated method stub
+                    Toast.makeText(getActivity(), "Seleccionó: " + fName+ " "+lName,
+                            Toast.LENGTH_SHORT).show();
+                    indexAutorSeleccionado = index;
+                }
+            });
+        }
     }
 
     /**
@@ -394,6 +574,7 @@ public class FmCrearLibroAdmin extends SherlockFragment {
         }
 
         request.addProperty("cantidad",libro.getCantidad());
+        request.addProperty("idAutoresConcatenados",idAutoresConcatenados);
 
         SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
         envelope.bodyOut = request;

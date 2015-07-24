@@ -315,6 +315,61 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="12dp" />
 
+
+            <!-- Autores-->
+            <TextView
+                android:id="@+id/textViewAutores"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/spinnerEstado"
+                android:text="Autores:" />
+
+            <LinearLayout
+                android:id="@+id/linear_btnAutores"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_below="@+id/textViewAutores">
+
+                <ImageButton
+                    android:id="@+id/btnAgregarAutor"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/ic_person_add_white_48dp"
+                    android:scaleType="fitCenter"
+                    android:background="@android:color/transparent" />
+
+                <ImageButton
+                    android:id="@+id/btnEliminarAutor"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="25dp"
+                    android:src="@drawable/ic_cancel_white_48dp"
+                    android:scaleType="fitCenter"
+                    android:background="@android:color/transparent" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linear_listview_autores"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_below="@+id/linear_btnAutores"/>
+
+            <TextView
+                android:id="@+id/textViewFinAutores"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="--------------------------"
+                android:layout_gravity="center"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:layout_below="@+id/linear_listview_autores"/>
+
+            <!-- Final Autores-->
+
+
         </RelativeLayout>
     </ScrollView>
 
