@@ -30,16 +30,19 @@ import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import modelo.Area;
 import modelo.Autor;
 import modelo.Ciudad;
 import modelo.Editorial;
 import modelo.Libro;
+import modelo.LibroAutor;
 import modelo.Pais;
 import modelo.Sede;
 import util.CargarSpinners;
 import util.Configuracion;
+import util.TareasGenerales;
 import util.Utilidades;
 import util.VariablesGlobales;
 
@@ -288,6 +291,10 @@ public class FmCrearLibroAdmin extends SherlockFragment {
                     CargarSpinners.loadDatos(getActivity(), Ciudad.class.getSimpleName(), spinnerCiudad,
                             variablesGlobales.getLibroSeleccionadoAdmin().getCiudad().getPais().getIdPais());
                 }
+
+                //Se cargan los autores asociados al libro en caso de tenerlos
+                TareaWsListarLibroAutor tareaListarLibroAutor = new TareaWsListarLibroAutor();
+                tareaListarLibroAutor.execute();
 
             }catch (Exception e){
                 Log.e("CrearLibro","XXX Error cargando datos de libros seleccionado: "+e.getMessage());
@@ -596,6 +603,55 @@ public class FmCrearLibroAdmin extends SherlockFragment {
 
         return resultado;
     }
+
+
+    /**
+     * Tarea encargada de listar los datos de la tabla LIBRO_AUTOR
+     */
+    private class TareaWsListarLibroAutor extends AsyncTask<String,Integer,Boolean> {
+
+        List<LibroAutor> listaLibroAutor = new ArrayList<LibroAutor>();
+        boolean resultadoTarea = false;
+
+        @SuppressLint("LongLogTag")
+        @Override
+        protected Boolean doInBackground(String... params) {
+
+            try {
+                TareasGenerales tareasGenerales = new TareasGenerales();
+                listaLibroAutor = tareasGenerales.listarLibroAutor(variablesGlobales.getLibroSeleccionadoAdmin().getIdLibro());
+                resultadoTarea = true;
+                Log.i("LibrosAdmin",">>>>>>>>>>> Tamaño lista librosAutor buscada: "+listaLibroAutor.size());
+            }catch (Exception e){
+                resultadoTarea = false;
+                Log.e("ListaLibrosAdmin ", "xxx Error TareaWsListarLibroAutor: " + e.getMessage());
+            }
+            return resultadoTarea;
+        }
+
+        public void onPostExecute(Boolean result){
+
+            if(result){
+                try {
+                    if(listaLibroAutor.size() > 0){
+                        //Se cargan los autores a su respectiva lista
+                        listaAutores.clear();
+                        for(LibroAutor item: listaLibroAutor){
+                            listaAutores.add(item.getAutor());
+                        }
+
+                        recargarLinearLayoutAutores();
+                    }
+                }catch (Exception e){
+                    Log.e("ListaLibrosAdmin","XXX Error listando librosAutor: "+e.getMessage());
+                }
+            }else{
+                //String msn = "Error listando librosAutor";
+                //Toast.makeText(getActivity(), msn, Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
 
     /////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////

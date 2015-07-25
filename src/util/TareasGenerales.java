@@ -16,6 +16,7 @@ import modelo.Autor;
 import modelo.Ciudad;
 import modelo.Editorial;
 import modelo.Libro;
+import modelo.LibroAutor;
 import modelo.Pais;
 import modelo.Sede;
 import modelo.Solicitud;
@@ -614,6 +615,59 @@ public class TareasGenerales {
         }
 
         return resultado;
+    }
+
+    /**
+     * Metodo encargado de retornar el listado de autores de la tabla LIBRO_AUTOR
+     * @param idLibro filtro por libro, en caso de ser 0 listara todos los datos
+     *                de la tabla LIBRO_AUTOR
+     */
+    public List<LibroAutor> listarLibroAutor(int idLibro){
+
+        final String SOAP_ACTION = conf.getUrl()+"/listadoLibroAutor";
+        final String METHOD_NAME = "listadoLibroAutor";
+        final String NAMESPACE = conf.getNamespace();
+        final String URL = conf.getUrl();
+        List<LibroAutor> listaLibroAutor = new ArrayList<LibroAutor>();
+
+        SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
+        request.addProperty("idLibro", idLibro);
+
+
+        SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+        envelope.bodyOut = request;
+
+        HttpTransportSE transporte = new HttpTransportSE(URL);
+
+        try {
+            transporte.call(SOAP_ACTION, envelope);
+            java.util.Vector<SoapObject> rs = (java.util.Vector<SoapObject>) envelope.getResponse();
+
+            if (rs != null)
+            {
+                for (SoapObject libroAutorSoap : rs)
+                {
+                    Libro libro = utilidadesBuscarPorId.buscarLibroPorId(Integer.parseInt(libroAutorSoap.getProperty("ID_LIBRO").toString()));
+
+                    Autor autor = new Autor();
+                    autor.setIdAutor(Integer.parseInt(libroAutorSoap.getProperty("ID_AUTOR").toString()));
+                    autor.setPrimerNombre(libroAutorSoap.getProperty("PRIMER_NOMBRE").toString());
+                    autor.setSegundoNombre(libroAutorSoap.getProperty("SEGUNDO_NOMBRE").toString());
+                    autor.setPrimerApellido(libroAutorSoap.getProperty("PRIMER_APELLIDO").toString());
+                    autor.setSegundoApellido(libroAutorSoap.getProperty("SEGUNDO_APELLIDO").toString());
+                    autor.setTipoAutor(libroAutorSoap.getProperty("TIPO_AUTOR").toString());
+
+                    LibroAutor libAutor =  new LibroAutor();
+                    libAutor.setLibro(libro);
+                    libAutor.setAutor(autor);
+
+                    listaLibroAutor.add(libAutor);
+                }
+            }
+        }catch (Exception e){
+            Log.e("TareasGenerales.java ", "xxx Error listarLibroAutor(): " + e.getMessage());
+        }
+        return listaLibroAutor;
     }
 
 }
