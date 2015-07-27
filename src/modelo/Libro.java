@@ -29,6 +29,10 @@ public class Libro implements Serializable {
     private Ciudad ciudad;
     private int cantidad;
 
+    //Transient
+    // Utilizado para la busqueda de libros por Autor (LIBRO_AUTOR)
+    private int idAutor;
+
     public Libro() {
 
         this.idLibro = 0;
@@ -51,6 +55,9 @@ public class Libro implements Serializable {
         this.idUsuario = 0;
         this.ciudad = null;
         this.cantidad = 0;
+
+        //Transient
+        this.idAutor = 0;
     }
 
     public Libro(int idLibro, String titulo, int valor, String adquisicion,
@@ -239,5 +246,13 @@ public class Libro implements Serializable {
 
     public void setCantidad(int cantidad) {
         this.cantidad = cantidad;
+    }
+
+    public int getIdAutor() {
+        return idAutor;
+    }
+
+    public void setIdAutor(int idAutor) {
+        this.idAutor = idAutor;
     }
 }

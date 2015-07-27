@@ -68,6 +68,8 @@ public class TareasGenerales {
             request.addProperty("editorial","");
         }
 
+        //Autor (LIBRO_AUTOR)
+        request.addProperty("autor",libroBuscar.getIdAutor());
 
         SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
         envelope.bodyOut = request;
@@ -178,6 +180,9 @@ public class TareasGenerales {
         }else{
             request.addProperty("fechaSolicitud","");
         }
+
+        //Autor (LIBRO_AUTOR)
+        request.addProperty("autor",solicitudBuscar.getLibro().getIdAutor());
 
         SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
         envelope.bodyOut = request;

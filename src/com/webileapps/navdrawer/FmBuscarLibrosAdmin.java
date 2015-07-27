@@ -16,15 +16,17 @@ import com.actionbarsherlock.app.SherlockFragment;
 import java.util.ArrayList;
 import java.util.List;
 
+import modelo.Autor;
 import modelo.Editorial;
 import modelo.Libro;
+import util.CargarSpinners;
 import util.NothingSelectedSpinnerAdapter;
 import util.TareasGenerales;
 import util.VariablesGlobales;
 
 public class FmBuscarLibrosAdmin extends SherlockFragment {
 
-    private static Spinner spinnerEditorial;
+    private static Spinner spinnerEditorial, spinnerAutor;
     private static EditText titulo, isbn, codTopografico, temas;
 
     private static VariablesGlobales variablesGlobales = VariablesGlobales.getInstance();
@@ -45,6 +47,9 @@ public class FmBuscarLibrosAdmin extends SherlockFragment {
 
         spinnerEditorial = (Spinner) view.findViewById(R.id.spinnerEditorial);
         cargarSpinnerEditorial();
+
+        spinnerAutor = (Spinner) view.findViewById(R.id.spinnerAutor);
+        CargarSpinners.loadDatos(getActivity(), Autor.class.getSimpleName(), spinnerAutor, 0);
 
         titulo = (EditText) view.findViewById(R.id.editTextTitulo);
         isbn = (EditText) view.findViewById(R.id.editTextIsbn);
@@ -84,12 +89,22 @@ public class FmBuscarLibrosAdmin extends SherlockFragment {
             libro.setTemas(temas.getText().toString());
         }
 
-        Editorial editorialSeleccionada = (Editorial) spinnerEditorial.getSelectedItem();
-        if(editorialSeleccionada != null){
-            libro.setEditorial(editorialSeleccionada);
-            Log.i("Buscar",">>>>>>>> Editorial seleccionada buscarLibro: "+editorialSeleccionada.getDescripcion());
-        }
+        try{
+            Editorial editorialSeleccionada = (Editorial) spinnerEditorial.getSelectedItem();
+            if(editorialSeleccionada != null){
+                libro.setEditorial(editorialSeleccionada);
+                Log.i("Buscar",">>>>>>>> Editorial seleccionada buscarLibro: "+editorialSeleccionada.getDescripcion());
+            }
 
+            Autor autorSeleccionado = (Autor) spinnerAutor.getSelectedItem();
+            if(autorSeleccionado != null){
+                libro.setIdAutor(autorSeleccionado.getIdAutor());
+                Log.i("Buscar",">>>>>>>> idAutor seleccionado buscarLibro: "+autorSeleccionado.getIdAutor());
+            }
+
+        }catch (Exception e){
+            Log.e("Buscar","XXX Error cargando datos de spinners (bucarLibroAdmin): "+e.getMessage());
+        }
         variablesGlobales.setLibroBuscar(libro);
     }
 

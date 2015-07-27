@@ -17,8 +17,17 @@
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin" >
 
-        <!-- EditText para el titulo del libro-->
+        <!-- Usamos el scroll para ver el contenido completo -->
 
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/scrollView">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" >
+
+        <!-- EditText para el titulo del libro-->
         <TextView
             android:id="@+id/textViewTitulo"
             android:layout_width="fill_parent"
@@ -95,6 +104,24 @@
             android:layout_below="@+id/textViewEditorial"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="12dp" />
+
+        <TextView
+            android:id="@+id/textViewAutor"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/spinnerEditorial"
+            android:text="Autor:" />
+
+        <Spinner
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/spinnerAutor"
+            android:layout_below="@+id/textViewAutor"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="12dp" />
+
+            </RelativeLayout>
+        </ScrollView>
 
     </RelativeLayout>
 
