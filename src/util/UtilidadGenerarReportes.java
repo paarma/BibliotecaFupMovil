@@ -9,6 +9,7 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -53,12 +54,22 @@ public class UtilidadGenerarReportes {
         //Cell style for header row
         // Estilo de celda para encabezado
         CellStyle cs = wb.createCellStyle();
-        cs.setFillForegroundColor(HSSFColor.LIME.index);
+
+        cs.setFillForegroundColor(HSSFColor.LIGHT_BLUE.index);
         cs.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+        cs.setAlignment(CellStyle.ALIGN_CENTER);
+
+        Font font = wb.createFont();//Create font
+        font.setBoldweight(Font.BOLDWEIGHT_BOLD);//Make font bold //Negrilla
+
+        cs.setFont(font);//set it to bold
+
+        CellStyle styleCabezera = wb.createCellStyle();
+        styleCabezera.setFont(font); //Se setea el fond para la cabezera o titulo del reporte
 
         switch (tipoArchivo){
             case 1:
-                generarContenidoListaLibros(wb, cs);
+                generarContenidoListaLibros(wb, cs, styleCabezera);
                 break;
             case 2:
                 break;
@@ -111,7 +122,7 @@ public class UtilidadGenerarReportes {
      * @param wb
      * @param cs
      */
-    public void generarContenidoListaLibros(Workbook wb, CellStyle cs){
+    public void generarContenidoListaLibros(Workbook wb, CellStyle cs, CellStyle styleCabezera){
 
         Cell c = null;
 
@@ -120,9 +131,25 @@ public class UtilidadGenerarReportes {
         Sheet sheet1 = null;
         sheet1 = wb.createSheet("Libros"); // (nombre de la hoja)
 
+
+        //Encabezado del reporte
+        Row rowCabezera = sheet1.createRow(0);
+        c = rowCabezera.createCell(0);
+        c.setCellValue("FUNDACION UNIVERSITARIA DE POPAYAN");
+        c.setCellStyle(styleCabezera);
+
+        rowCabezera = sheet1.createRow(1);
+        c = rowCabezera.createCell(0);
+        c.setCellValue("Reporte: Listado de libros");
+
+        // Fila vacia
+        rowCabezera = sheet1.createRow(2);
+        ///////////////////////////////////////Fin encabezado
+
+
         // Generate column headings
         // Generando titulo a las columnas
-        Row row = sheet1.createRow(0);
+        Row row = sheet1.createRow(3);
 
         c = row.createCell(0);
         c.setCellValue("TITULO");
@@ -202,8 +229,8 @@ public class UtilidadGenerarReportes {
 
         for (int i = 0; i < listaLibros.size(); i++){
 
-            /////////Incrementa en 1 para no sobreescribir la fila de encabezado (titulos)
-            Row rowValue = sheet1.createRow(i+1);
+            /////////Incrementa en 4 para no sobreescribir la fila de encabezado (titulos)
+            Row rowValue = sheet1.createRow(i+4);
 
             c = rowValue.createCell(0);
             c.setCellValue(listaLibros.get(i).getTitulo());
