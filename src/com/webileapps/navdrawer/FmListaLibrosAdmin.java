@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -21,6 +22,7 @@ import java.util.List;
 
 import modelo.Libro;
 import util.TareasGenerales;
+import util.UtilidadGenerarReportes;
 import util.VariablesGlobales;
 
 public class FmListaLibrosAdmin extends SherlockFragment {
@@ -33,6 +35,8 @@ public class FmListaLibrosAdmin extends SherlockFragment {
     private List<Libro> listaLibros = new ArrayList<Libro>();
     private Libro libroSeleccionado;
 
+    private ImageButton btnReporte;
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -41,6 +45,14 @@ public class FmListaLibrosAdmin extends SherlockFragment {
 
 		// Get the view from fm_lista_libros_admin.xmladmin.xml
 		View view = inflater.inflate(R.layout.fm_lista_libros_admin, container, false);
+
+        btnReporte = (ImageButton) view.findViewById(R.id.btnReporteLibroAdmin);
+        btnReporte.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                generarReporte();
+            }
+        });
 
         inicializarComponentes(view);
         inicializarListaLibros();
@@ -134,6 +146,17 @@ public class FmListaLibrosAdmin extends SherlockFragment {
                 Toast.makeText(getActivity(), msn, Toast.LENGTH_LONG).show();
             }
         }
+    }
+
+    /**
+     * Metodo encargado de generar un reporte .xls conteniendo el listado de libros.
+     */
+    public void generarReporte(){
+
+        UtilidadGenerarReportes utilidadReporte = new UtilidadGenerarReportes();
+        utilidadReporte.setListaLibros(listaLibros);
+        utilidadReporte.setTipoArchivo(1);
+        utilidadReporte.saveExcelFile(getActivity(), "LibrosFUP.xls");
     }
 
     /////////////////////////////////////////////////////////////

@@ -7,6 +7,8 @@ import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
+import java.util.Date;
+
 import modelo.Area;
 import modelo.Ciudad;
 import modelo.Editorial;
@@ -315,6 +317,16 @@ public class UtilidadesBuscarPorId {
 
         if(libroSoap.getProperty("RADICADO") != null) {
             lib.setRadicado(libroSoap.getProperty("RADICADO").toString());
+        }
+
+        if(libroSoap.getProperty("FECHA_INGRESO") != null) {
+            try{
+                Date fechaIngreso;
+                fechaIngreso = Utilidades.formatoFechaYYYYMMDD.parse(libroSoap.getProperty("FECHA_INGRESO").toString());
+                lib.setFechaIngreso(fechaIngreso);
+            }catch (Exception e){
+                Log.e("Generales","XXX Error seteando fechaIngresoLibro: "+e.getMessage());
+            }
         }
 
         if(libroSoap.getProperty("SERIE") != null) {
