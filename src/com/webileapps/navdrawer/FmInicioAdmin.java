@@ -25,7 +25,6 @@ public class FmInicioAdmin extends SherlockFragment {
         Button btnAutor = (Button) rootView.findViewById(R.id.buttonAutor);
         Button btnEditorial = (Button) rootView.findViewById(R.id.buttonEditorial);
         Button btnSolicitudes = (Button) rootView.findViewById(R.id.buttonSolicitudes);
-        Button btnReportes = (Button) rootView.findViewById(R.id.buttonReportes);
         Button btnUsuarios = (Button) rootView.findViewById(R.id.buttonUsuarios);
 
 
@@ -135,30 +134,6 @@ public class FmInicioAdmin extends SherlockFragment {
                                     }
 
         );
-
-        btnReportes.setOnClickListener(new View.OnClickListener() {
-                                           @Override
-                                           public void onClick(View v) {
-
-                                               // update the main content by replacing fragments
-                                               SherlockFragment fragment = null;
-                                               Log.i("Alex", "inicio - onclick boton");
-                                               fragment = new FmReportesAdmin();
-
-                                               if (fragment != null) {
-                                                   android.support.v4.app.FragmentManager fragmentManager = getFragmentManager();
-                                                   fragmentManager.beginTransaction()
-                                                           .replace(R.id.content_frame, fragment).commit();
-                                               } else {
-                                                   // error in creating fragment
-                                                   Log.i("Alex", "MainActivity - Error cuando se creo el fragment");
-                                               }
-
-                                           }
-                                       }
-
-        );
-
 
         btnUsuarios.setOnClickListener(new View.OnClickListener() {
                                         @Override

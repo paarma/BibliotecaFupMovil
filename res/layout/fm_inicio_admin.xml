@@ -101,36 +101,24 @@
             </TableRow>
 
         </TableRow>
-        <TableRow
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
 
-            <Button
-                android:layout_width="165dp"
-                android:layout_height="wrap_content"
-                android:text="Reportes"
-                android:id="@+id/buttonReportes"
-                android:drawableLeft="@drawable/reportes"
-                android:background="@drawable/btn_default_inicio"
-                android:textColor="@color/list_divider" />
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:gravity="center"
+            android:orientation="horizontal">
 
             <Button
                 android:layout_width="165dp"
                 android:layout_height="wrap_content"
                 android:text="Usuarios"
                 android:id="@+id/buttonUsuarios"
-                android:layout_marginLeft="10dp"
                 android:drawableLeft="@drawable/autor"
                 android:background="@drawable/btn_default_inicio"
-                android:textColor="@color/list_divider" />
+                android:textColor="@color/list_divider"/>
 
-            <TableRow
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent">
+        </LinearLayout>
 
-            </TableRow>
-
-        </TableRow>
     </TableLayout>
 
     <TableRow

@@ -61,7 +61,6 @@ public class MainActivity extends SherlockFragmentActivity {
     Fragment fmLibrosAdmin = new FmLibrosAdmin();
     Fragment fmEditorialAdmin = new FmEditorialAdmin();
     Fragment fmAutorAdmin = new FmAutorAdmin();
-    Fragment fmReportesAdmin = new FmReportesAdmin();
     Fragment fmSolicitudesAdmin = new FmSolicitudesAdmin();
     Fragment fmUsuarioAdmin = new FmUsuarioAdmin();
 
@@ -101,13 +100,13 @@ public class MainActivity extends SherlockFragmentActivity {
             if(usuarioLogueado.getRol().equalsIgnoreCase("ADMINISTRADOR")){
 
                 // Generate title
-                title = new String[] { "Inicio", "Libros", "Editorial","Autor","Solicitudes","Reportes","Usuarios", "Salir"};
+                title = new String[] { "Inicio", "Libros", "Editorial","Autor","Solicitudes","Usuarios", "Salir"};
 
                 // Generate subtitle
                 subtitle = new String[] { "Inicio Admin", "Gestion Libros", "Gestion Editorial", "Gestión Autores", "Gestión Solicitudes", "Ver reportes","Acceder a App", "Cerrar sesión"};
 
                 // Generate icon
-                icon = new int[] { R.drawable.ic_home_white_48dp, R.drawable.ic_style_white_48dp, R.drawable.ic_attach_file_white_48dp,R.drawable.ic_group_white_48dp, R.drawable.ic_book_white_48dp, R.drawable.ic_assessment_white_48dp,R.drawable.ic_person_add_white_48dp, R.drawable.ic_exit_to_app_white_48dp };
+                icon = new int[] { R.drawable.ic_home_white_48dp, R.drawable.ic_style_white_48dp, R.drawable.ic_attach_file_white_48dp,R.drawable.ic_group_white_48dp, R.drawable.ic_book_white_48dp, R.drawable.ic_person_add_white_48dp, R.drawable.ic_exit_to_app_white_48dp };
             }
 
             //Usuario
@@ -266,14 +265,10 @@ public class MainActivity extends SherlockFragmentActivity {
                         ft.replace(R.id.content_frame, fmSolicitudesAdmin);
                         break;
                     case 5:
-                        //Reportes Admin
-                        ft.replace(R.id.content_frame, fmReportesAdmin);
-                        break;
-                    case 6:
                         //Usuarios Admin
                         ft.replace(R.id.content_frame, fmUsuarioAdmin);
                         break;
-                    case 7:
+                    case 6:
                         //Salir Admin
                         finish();
                         break;
