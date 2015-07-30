@@ -1,8 +1,14 @@
 package util;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Environment;
 import android.util.Log;
+import android.widget.TextView;
 
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -29,6 +35,7 @@ public class UtilidadGenerarReportes {
     static String TAG = "ExelLog";
 
     private List<Libro> listaLibros;
+    private String rutaReporte = "";
 
     /**
      * Indica cual es el archivo que se generará
@@ -85,6 +92,11 @@ public class UtilidadGenerarReportes {
             wb.write(os);
             Log.w("FileUtils", "Writing file" + file);
             success = true;
+
+            rutaReporte = file.toString();
+            Activity activity = (Activity) context;
+            lanzarProgressBar(activity);
+
         } catch (IOException e) {
             Log.w("FileUtils", "Error writing " + file, e);
         } catch (Exception e) {
@@ -308,6 +320,67 @@ public class UtilidadGenerarReportes {
 
         }
 
+    }
+
+    /**
+     * ProgressBar (circular)
+     * @param activity
+     */
+    public void lanzarProgressBar(final Activity activity){
+        final ProgressDialog dialogo = ProgressDialog.show(activity, "Espere", "......");
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try{
+                    Thread.sleep(3000);
+                    dialogo.dismiss();
+
+                    //Se lanza el mensaje de alerta. (Controlador para el manejo de hilos)
+                    activity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            showAlert(activity, "Ruta reporte: "+rutaReporte);
+                        }
+                    });
+
+                }catch (InterruptedException e){
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+    }
+
+    /**
+     * AlertDialog para notificacion de mensajes
+     * @param activity
+     * @param message
+     */
+    public static void showAlert(Activity activity, String message) {
+
+        TextView title = new TextView(activity);
+        title.setText("Notificación");
+        title.setPadding(10, 10, 10, 10);
+        //title.setGravity(Gravity.CENTER);
+        title.setTextColor(Color.WHITE);
+        title.setTextSize(20);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+        // builder.setTitle("Title");
+        builder.setCustomTitle(title);
+        // builder.setIcon(R.drawable.alert_36);
+
+        builder.setMessage(message);
+
+        builder.setCancelable(false);
+        builder.setNegativeButton("Aceptar", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.cancel();
+            }
+
+        });
+
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 
     //Setters
