@@ -26,6 +26,7 @@ import java.io.IOException;
 import java.util.List;
 
 import modelo.Libro;
+import modelo.Solicitud;
 
 /**
  * Created by pablo on 28/07/15.
@@ -35,6 +36,7 @@ public class UtilidadGenerarReportes {
     static String TAG = "ExelLog";
 
     private List<Libro> listaLibros;
+    private List<Solicitud> listaSolicitudes;
     private String rutaReporte = "";
 
     /**
@@ -79,6 +81,7 @@ public class UtilidadGenerarReportes {
                 generarContenidoListaLibros(wb, cs, styleCabezera);
                 break;
             case 2:
+                generarContenidoReservas(wb, cs, styleCabezera);
                 break;
         }
 
@@ -143,7 +146,6 @@ public class UtilidadGenerarReportes {
         Sheet sheet1 = null;
         sheet1 = wb.createSheet("Libros"); // (nombre de la hoja)
 
-
         //Encabezado del reporte
         Row rowCabezera = sheet1.createRow(0);
         c = rowCabezera.createCell(0);
@@ -157,7 +159,6 @@ public class UtilidadGenerarReportes {
         // Fila vacia
         rowCabezera = sheet1.createRow(2);
         ///////////////////////////////////////Fin encabezado
-
 
         // Generate column headings
         // Generando titulo a las columnas
@@ -323,6 +324,134 @@ public class UtilidadGenerarReportes {
     }
 
     /**
+     * Metodo encargado de generar el contenido del reporte para el caso de reservas
+     * @param wb
+     * @param cs
+     */
+    public void generarContenidoReservas(Workbook wb, CellStyle cs, CellStyle styleCabezera) {
+
+        Cell c = null;
+
+        Sheet sheet1 = null;
+        sheet1 = wb.createSheet("Reservas"); // (nombre de la hoja)
+
+        //Encabezado del reporte
+        Row rowCabezera = sheet1.createRow(0);
+        c = rowCabezera.createCell(0);
+        c.setCellValue("FUNDACION UNIVERSITARIA DE POPAYAN");
+        c.setCellStyle(styleCabezera);
+
+        rowCabezera = sheet1.createRow(1);
+        c = rowCabezera.createCell(0);
+        c.setCellValue("Reporte: Listado de reservas");
+
+        // Fila vacia
+        rowCabezera = sheet1.createRow(2);
+        ///////////////////////////////////////Fin encabezado
+
+        // Generate column headings
+        Row row = sheet1.createRow(3);
+
+        c = row.createCell(0);
+        c.setCellValue("LIBRO");
+        c.setCellStyle(cs);
+
+        c = row.createCell(1);
+        c.setCellValue("NOMBRES USUARIO");
+        c.setCellStyle(cs);
+
+        c = row.createCell(2);
+        c.setCellValue("APELLIDOS USUARIO");
+        c.setCellStyle(cs);
+
+        c = row.createCell(3);
+        c.setCellValue("COD. USUARIO");
+        c.setCellStyle(cs);
+
+        c = row.createCell(4);
+        c.setCellValue("FECHA SOLICITUD");
+        c.setCellStyle(cs);
+
+        c = row.createCell(5);
+        c.setCellValue("FECHA RESERVA");
+        c.setCellStyle(cs);
+
+        c = row.createCell(6);
+        c.setCellValue("FECHA ENTREGA");
+        c.setCellStyle(cs);
+
+        c = row.createCell(7);
+        c.setCellValue("ESTADO");
+        c.setCellStyle(cs);
+
+        for (int i = 0; i < 9; i++){
+            sheet1.setColumnWidth(i, (15 * 500));
+        }
+
+        for (int i = 0; i < listaSolicitudes.size(); i++) {
+
+            /////////Incrementa en 4 para no sobreescribir la fila de encabezado (titulos)
+            Row rowValue = sheet1.createRow(i + 4);
+
+            c = rowValue.createCell(0);
+            if(listaSolicitudes.get(i).getLibro() != null){
+                c.setCellValue(listaSolicitudes.get(i).getLibro().getTitulo());
+            }else{
+                c.setCellValue("");
+            }
+
+            c = rowValue.createCell(1);
+            if(listaSolicitudes.get(i).getUsuario() != null){
+                c.setCellValue(listaSolicitudes.get(i).getUsuario().getPrimerNombre()+" "+
+                        listaSolicitudes.get(i).getUsuario().getSegundoNombre());
+            }else{
+                c.setCellValue("");
+            }
+
+            c = rowValue.createCell(2);
+            if(listaSolicitudes.get(i).getUsuario() != null){
+                c.setCellValue(listaSolicitudes.get(i).getUsuario().getPrimerApellido()+" "+
+                        listaSolicitudes.get(i).getUsuario().getSegundoApellido());
+            }else{
+                c.setCellValue("");
+            }
+
+            c = rowValue.createCell(3);
+            if(listaSolicitudes.get(i).getUsuario() != null){
+                c.setCellValue(listaSolicitudes.get(i).getUsuario().getCodigo());
+            }else{
+                c.setCellValue("");
+            }
+
+            c = rowValue.createCell(4);
+            if(listaSolicitudes.get(i).getFechaSolicitud() != null) {
+                c.setCellValue(Utilidades.formatoFechaYYYYMMDD.format(listaSolicitudes.get(i).getFechaSolicitud()));
+            }else{
+                c.setCellValue("");
+            }
+
+            c = rowValue.createCell(5);
+            if(listaSolicitudes.get(i).getFechaReserva() != null) {
+                c.setCellValue(Utilidades.formatoFechaYYYYMMDD.format(listaSolicitudes.get(i).getFechaReserva()));
+            }else{
+                c.setCellValue("");
+            }
+
+            c = rowValue.createCell(6);
+            if(listaSolicitudes.get(i).getFechaEntrega() != null) {
+                c.setCellValue(Utilidades.formatoFechaYYYYMMDD.format(listaSolicitudes.get(i).getFechaEntrega()));
+            }else{
+                c.setCellValue("");
+            }
+
+            c = rowValue.createCell(7);
+            c.setCellValue(listaSolicitudes.get(i).getEstado());
+
+        }
+
+    }
+
+    /**
      * ProgressBar (circular)
      * @param activity
      */
@@ -386,6 +515,10 @@ public class UtilidadGenerarReportes {
     //Setters
     public void setListaLibros(List<Libro> listaLibros) {
         this.listaLibros = listaLibros;
+    }
+
+    public void setListaSolicitudes(List<Solicitud> listaSolicitudes) {
+        this.listaSolicitudes = listaSolicitudes;
     }
 
     public void setTipoArchivo(int tipoArchivo) {

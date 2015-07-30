@@ -25,6 +25,7 @@ import java.util.List;
 
 import modelo.Solicitud;
 import util.TareasGenerales;
+import util.UtilidadGenerarReportes;
 import util.Utilidades;
 import util.VariablesGlobales;
 
@@ -37,6 +38,7 @@ public class FmListaSolicitudesAdmin extends SherlockFragment {
 
     private ArrayAdapter<Solicitud> adapterSolicitud;
     private ListView solicitudListView;
+    private ImageButton btnReporte;
 
     private List<Solicitud> listaSolicitudes = new ArrayList<Solicitud>();
     private static Solicitud solicitudSeleccionada;
@@ -52,6 +54,14 @@ public class FmListaSolicitudesAdmin extends SherlockFragment {
 
         Log.i("SOLICITUD", "************************************** INICIO LISTA_SOLICITUD_ADMIN");
         View view = inflater.inflate(R.layout.fm_lista_solicitudes_admin, container, false);
+
+        btnReporte = (ImageButton) view.findViewById(R.id.btnReporteSolicitudAdmin);
+        btnReporte.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                generarReporte();
+            }
+        });
 
         inicializarComponentes(view);
         inicializarListaSolicitudes();
@@ -288,6 +298,18 @@ public class FmListaSolicitudesAdmin extends SherlockFragment {
         }catch (Exception e){
             Log.e("DialogMulta","XXX Error desplegando multas: "+e.getMessage());
         }
+    }
+
+
+    /**
+     * Metodo encargado de generar un reporte .xls conteniendo el listado de solicitudes.
+     */
+    public void generarReporte(){
+
+        UtilidadGenerarReportes utilidadReporte = new UtilidadGenerarReportes();
+        utilidadReporte.setListaSolicitudes(listaSolicitudes);
+        utilidadReporte.setTipoArchivo(2);
+        utilidadReporte.saveExcelFile(getActivity(), "reservasFUP.xls");
     }
 
     /////////////////////////////////////////////////////////////
