@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -21,6 +22,7 @@ import java.util.List;
 
 import modelo.Usuario;
 import util.TareasGenerales;
+import util.UtilidadGenerarReportes;
 import util.VariablesGlobales;
 
 /**
@@ -36,6 +38,8 @@ public class FmListaUsuarioAdmin extends SherlockFragment {
     private List<Usuario> listaUsuarios = new ArrayList<Usuario>();
     private Usuario usuarioSeleccionado;
 
+    private ImageButton btnReporte;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -43,6 +47,14 @@ public class FmListaUsuarioAdmin extends SherlockFragment {
         Log.i("USUARIOS_ADMIN", "************************************** INICIO LISTA_USUARIOS_ADMIN");
 
         View view = inflater.inflate(R.layout.fm_lista_usuario_admin, container, false);
+
+        btnReporte = (ImageButton) view.findViewById(R.id.btnReporteUserAdmin);
+        btnReporte.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                generarReporte();
+            }
+        });
 
         inicializarComponentes(view);
         inicializarListaUsuarios();
@@ -136,6 +148,18 @@ public class FmListaUsuarioAdmin extends SherlockFragment {
                 Toast.makeText(getActivity(), msn, Toast.LENGTH_LONG).show();
             }
         }
+    }
+
+
+    /**
+     * Metodo encargado de generar un reporte .xls conteniendo el listado de usuarios.
+     */
+    public void generarReporte(){
+
+        UtilidadGenerarReportes utilidadReporte = new UtilidadGenerarReportes();
+        utilidadReporte.setListaUsuarios(listaUsuarios);
+        utilidadReporte.setTipoArchivo(3);
+        utilidadReporte.saveExcelFile(getActivity(), "UsuariosFUP.xls");
     }
 
     /////////////////////////////////////////////////////////////

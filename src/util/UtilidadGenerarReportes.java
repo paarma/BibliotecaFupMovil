@@ -27,6 +27,7 @@ import java.util.List;
 
 import modelo.Libro;
 import modelo.Solicitud;
+import modelo.Usuario;
 
 /**
  * Created by pablo on 28/07/15.
@@ -37,6 +38,7 @@ public class UtilidadGenerarReportes {
 
     private List<Libro> listaLibros;
     private List<Solicitud> listaSolicitudes;
+    private List<Usuario> listaUsuarios;
     private String rutaReporte = "";
 
     /**
@@ -82,6 +84,9 @@ public class UtilidadGenerarReportes {
                 break;
             case 2:
                 generarContenidoReservas(wb, cs, styleCabezera);
+                break;
+            case 3:
+                generarContenidoListaUsuarios(wb, cs, styleCabezera);
                 break;
         }
 
@@ -452,6 +457,105 @@ public class UtilidadGenerarReportes {
     }
 
     /**
+     * Metodo encargado de generar el contenido del reporte para el caso de reservas
+     * @param wb
+     * @param cs
+     */
+    public void generarContenidoListaUsuarios(Workbook wb, CellStyle cs, CellStyle styleCabezera) {
+
+        Cell c = null;
+
+        Sheet sheet1 = null;
+        sheet1 = wb.createSheet("Usuarios"); // (nombre de la hoja)
+
+        //Encabezado del reporte
+        Row rowCabezera = sheet1.createRow(0);
+        c = rowCabezera.createCell(0);
+        c.setCellValue("FUNDACION UNIVERSITARIA DE POPAYAN");
+        c.setCellStyle(styleCabezera);
+
+        rowCabezera = sheet1.createRow(1);
+        c = rowCabezera.createCell(0);
+        c.setCellValue("Reporte: Listado de usuarios");
+
+        // Fila vacia
+        rowCabezera = sheet1.createRow(2);
+        ///////////////////////////////////////Fin encabezado
+
+        // Generate column headings
+        Row row = sheet1.createRow(3);
+
+        c = row.createCell(0);
+        c.setCellValue("No. IDENTIFICACION");
+        c.setCellStyle(cs);
+
+        c = row.createCell(1);
+        c.setCellValue("NOMBRES");
+        c.setCellStyle(cs);
+
+        c = row.createCell(2);
+        c.setCellValue("APELLIDOS");
+        c.setCellStyle(cs);
+
+        c = row.createCell(3);
+        c.setCellValue("TELEFONO");
+        c.setCellStyle(cs);
+
+        c = row.createCell(4);
+        c.setCellValue("DIRECCION");
+        c.setCellStyle(cs);
+
+        c = row.createCell(5);
+        c.setCellValue("EMAIL");
+        c.setCellStyle(cs);
+
+        c = row.createCell(6);
+        c.setCellValue("CODIGO");
+        c.setCellStyle(cs);
+
+        c = row.createCell(7);
+        c.setCellValue("ROL");
+        c.setCellStyle(cs);
+
+        for (int i = 0; i < 9; i++){
+            sheet1.setColumnWidth(i, (15 * 500));
+        }
+
+        for (int i = 0; i < listaUsuarios.size(); i++) {
+
+            /////////Incrementa en 4 para no sobreescribir la fila de encabezado (titulos)
+            Row rowValue = sheet1.createRow(i + 4);
+
+            c = rowValue.createCell(0);
+            c.setCellValue(listaUsuarios.get(i).getCedula());
+
+            c = rowValue.createCell(1);
+            c.setCellValue(listaUsuarios.get(i).getPrimerNombre()+" "+
+                    listaUsuarios.get(i).getSegundoNombre());
+
+            c = rowValue.createCell(2);
+                c.setCellValue(listaUsuarios.get(i).getPrimerApellido()+" "+
+                        listaUsuarios.get(i).getSegundoApellido());
+
+            c = rowValue.createCell(3);
+            c.setCellValue(listaUsuarios.get(i).getTelefono());
+
+            c = rowValue.createCell(4);
+            c.setCellValue(listaUsuarios.get(i).getDireccion());
+
+            c = rowValue.createCell(5);
+            c.setCellValue(listaUsuarios.get(i).getEmail());
+
+            c = rowValue.createCell(6);
+            c.setCellValue(listaUsuarios.get(i).getCodigo());
+
+            c = rowValue.createCell(7);
+            c.setCellValue(listaUsuarios.get(i).getRol());
+        }
+
+    }
+
+    /**
      * ProgressBar (circular)
      * @param activity
      */
@@ -461,7 +565,7 @@ public class UtilidadGenerarReportes {
             @Override
             public void run() {
                 try{
-                    Thread.sleep(3000);
+                    Thread.sleep(2000);
                     dialogo.dismiss();
 
                     //Se lanza el mensaje de alerta. (Controlador para el manejo de hilos)
@@ -519,6 +623,10 @@ public class UtilidadGenerarReportes {
 
     public void setListaSolicitudes(List<Solicitud> listaSolicitudes) {
         this.listaSolicitudes = listaSolicitudes;
+    }
+
+    public void setListaUsuarios(List<Usuario> listaUsuarios) {
+        this.listaUsuarios = listaUsuarios;
     }
 
     public void setTipoArchivo(int tipoArchivo) {
