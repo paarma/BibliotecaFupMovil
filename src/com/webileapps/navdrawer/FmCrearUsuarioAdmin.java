@@ -3,6 +3,7 @@ package com.webileapps.navdrawer;
 import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,7 +28,7 @@ import util.VariablesGlobales;
 
 
 /**
- * Created by alex on 9/05/15.
+ * Created by Pablo on 9/05/15.
  */
 public class FmCrearUsuarioAdmin extends SherlockFragment {
 
@@ -50,9 +51,13 @@ public class FmCrearUsuarioAdmin extends SherlockFragment {
             @Override
             public void onClick(View view) {
                 Log.i("CrearAutor", ">>>>>>>>>>>>>>>>>>>> pulsando boton crear Autor");
-                TareaWsGuardarUsuario tareaWsGuardarUsuario = new TareaWsGuardarUsuario();
-                tareaWsGuardarUsuario.execute();
 
+                if(validarCamposTexto()){
+                    TareaWsGuardarUsuario tareaWsGuardarUsuario = new TareaWsGuardarUsuario();
+                    tareaWsGuardarUsuario.execute();
+                }else{
+                    Toast.makeText(getActivity(), "Verificar campos requeridos", Toast.LENGTH_LONG).show();
+                }
             }
         });
 
@@ -62,6 +67,27 @@ public class FmCrearUsuarioAdmin extends SherlockFragment {
                 limpiarCampos();
             }
         });
+
+        //Limpia validaciones de campos requeridos
+        /////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////////////////////
+        primerNombre.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                primerNombre.setError(null);
+            }
+        });
+
+        primerApellido.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                primerApellido.setError(null);
+            }
+        });
+        //Fin limpiar validaciones de campos requeridos
+        /////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////////////////////
+
 
         return view;
     }
@@ -240,6 +266,39 @@ public class FmCrearUsuarioAdmin extends SherlockFragment {
             }
         }catch (Exception e){
             Log.e("GuardandoUsuario", "xxx Error guardarUsuario(): " + e.getMessage());
+        }
+
+        return resultado;
+    }
+
+    /**
+     * Metodo encargado de validar los campos de texto
+     * @return
+     */
+    public boolean validarCamposTexto(){
+
+        boolean resultado = true;
+
+        if(cedula.getText().toString().length() == 0){
+            cedula.setError("Cedula requerida");
+            resultado = false;
+        }
+
+        if(primerNombre.getText().toString().length() == 0 ||
+                primerNombre.getText().toString().trim().equals("")){
+            primerNombre.setError("Primer nombre requerido");
+            resultado = false;
+        }
+
+        if(primerApellido.getText().toString().length() == 0 ||
+                TextUtils.isEmpty(primerApellido.getText().toString().trim())){
+            primerApellido.setError("Primer apellido requerido");
+            resultado = false;
+        }
+
+        if(codigo.getText().toString().length() == 0){
+            codigo.setError("Codigo requerido");
+            resultado = false;
         }
 
         return resultado;
