@@ -3,6 +3,7 @@ package com.webileapps.navdrawer;
 import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +20,7 @@ import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
 import util.Configuracion;
+import util.TareasGenerales;
 import util.VariablesGlobales;
 
 public class FmCrearEditorialAdmin extends SherlockFragment {
@@ -42,9 +44,8 @@ public class FmCrearEditorialAdmin extends SherlockFragment {
 		btnCrearEditorial.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				TareaWsGuardarEditorial tareaWsGuardarEditorial = new TareaWsGuardarEditorial();
-				tareaWsGuardarEditorial.execute();
 
+                validarGuardar();
 			}
 		});
 
@@ -138,6 +139,82 @@ public class FmCrearEditorialAdmin extends SherlockFragment {
 	public void limpiarCampos(){
 		descripcion.getText().clear();
 	}
+
+    /**
+     * Metodo encargado de validar los campos de texto y llamar al metodo para almacenear la info.
+     */
+    public void validarGuardar(){
+
+        boolean resultado = true;
+
+        if(descripcion.getText().toString().length() == 0 ||
+                TextUtils.isEmpty(descripcion.getText().toString().trim())){
+            descripcion.setError("Nombre requerido");
+            resultado = false;
+        }
+
+        //Verificar campos ya registrados (repetidos) en la BD.
+        TareaWsVerificarDatoEnBd tarea = new TareaWsVerificarDatoEnBd();
+        tarea.setPasaValidacionPrevia(resultado);
+
+        tarea.execute();
+    }
+
+    /**
+     * Tarea encargada de verificar si existe un determinado dato repetido en la BD
+     * en caso de pasar todas las validaciones de los campos de texto, llama a la
+     * tarea encargada de guardar la info.
+     */
+    private class TareaWsVerificarDatoEnBd extends AsyncTask<String,Integer,Boolean> {
+
+        private boolean datoRepetido = false;
+
+        private boolean descripcionRepetida = false;
+        private boolean pasaValidacionPrevia = false;
+
+        @Override
+        protected Boolean doInBackground(String... strings) {
+
+            try{
+                TareasGenerales tareasGenerales = new TareasGenerales();
+
+                if(tareasGenerales.verficarDatoEnBd("EDITORIAL","DESCRIPCION",descripcion.getText().toString())){
+                    Log.i("FmCrearEditorial",">>>>>>>>>>>>>>>>>> editorial ya registrada");
+                    datoRepetido = true;
+                    descripcionRepetida = true;
+                }
+            }catch (Exception e){
+                Log.e("FmCrearEditorial", "xxx Error TareaWsVerificarDatoEnBd: " + e.getMessage());
+            }
+            return datoRepetido;
+        }
+
+        public void onPostExecute(Boolean result){
+            if(result){ //Indica que hay almenos un dato repetido en BD
+
+                if(descripcionRepetida){
+                    descripcion.setError("Editorial ya registrada");
+                }
+
+                Toast.makeText(getActivity(), "Verificar campos requeridos", Toast.LENGTH_LONG).show();
+
+            }else{ // Pasa validacion exitosa de campos repetidos
+
+                if(pasaValidacionPrevia){
+                    TareaWsGuardarEditorial tareaWsGuardarEditorial = new TareaWsGuardarEditorial();
+                    tareaWsGuardarEditorial.execute();
+                }else{
+                    Toast.makeText(getActivity(), "Verificar campos requeridos", Toast.LENGTH_LONG).show();
+                }
+
+            }
+        }
+
+        //Setters
+        public void setPasaValidacionPrevia(boolean pasaValidacionPrevia) {
+            this.pasaValidacionPrevia = pasaValidacionPrevia;
+        }
+    }
 
     /////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////
