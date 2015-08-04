@@ -23,6 +23,7 @@ import org.ksoap2.transport.HttpTransportSE;
 
 import modelo.Usuario;
 import util.Configuracion;
+import util.TareasGenerales;
 import util.Utilidades;
 import util.VariablesGlobales;
 
@@ -52,12 +53,7 @@ public class FmCrearUsuarioAdmin extends SherlockFragment {
             public void onClick(View view) {
                 Log.i("CrearAutor", ">>>>>>>>>>>>>>>>>>>> pulsando boton crear Autor");
 
-                if(validarCamposTexto()){
-                    TareaWsGuardarUsuario tareaWsGuardarUsuario = new TareaWsGuardarUsuario();
-                    tareaWsGuardarUsuario.execute();
-                }else{
-                    Toast.makeText(getActivity(), "Verificar campos requeridos", Toast.LENGTH_LONG).show();
-                }
+                validarGuardar();
             }
         });
 
@@ -272,10 +268,9 @@ public class FmCrearUsuarioAdmin extends SherlockFragment {
     }
 
     /**
-     * Metodo encargado de validar los campos de texto
-     * @return
+     * Metodo encargado de validar los campos de texto y llamar al metodo para almacenear la info.
      */
-    public boolean validarCamposTexto(){
+    public void validarGuardar(){
 
         boolean resultado = true;
 
@@ -301,7 +296,79 @@ public class FmCrearUsuarioAdmin extends SherlockFragment {
             resultado = false;
         }
 
-        return resultado;
+        //Verificar campos ya registrados (repetidos) en la BD.
+        TareaWsVerificarDatoEnBd tarea = new TareaWsVerificarDatoEnBd();
+        tarea.setPasaValidacionPrevia(resultado);
+
+        tarea.execute();
+    }
+
+    /**
+     * Tarea encargada de verificar si existe un determinado dato repetido en la BD
+     * en caso de pasar todas las validaciones de los campos de texto, llama a la
+     * tarea encargada de guardar la info.
+     */
+    private class TareaWsVerificarDatoEnBd extends AsyncTask<String,Integer,Boolean> {
+
+        private boolean datoRepetido = false;
+
+        private boolean cedulaRepetida = false;
+        private boolean emailRepetido = false;
+        private boolean pasaValidacionPrevia = false;
+
+        @Override
+        protected Boolean doInBackground(String... strings) {
+
+            try{
+                TareasGenerales tareasGenerales = new TareasGenerales();
+
+                if(tareasGenerales.verficarDatoEnBd("USUARIO","CEDULA",cedula.getText().toString())){
+                    Log.i("GuardandoUsuario",">>>>>>>>>>>>>>>>>> cedula ya registrada");
+                    datoRepetido = true;
+                    cedulaRepetida = true;
+                }
+
+                if(!TextUtils.isEmpty(email.getText().toString().trim()) &&
+                        tareasGenerales.verficarDatoEnBd("USUARIO","EMAIL",email.getText().toString())){
+                    Log.i("GuardandoUsuario",">>>>>>>>>>>>>>>>>> email ya registrado");
+                    datoRepetido = true;
+                    emailRepetido = true;
+                }
+
+            }catch (Exception e){
+                Log.e("Generales", "xxx Error TareaWsVerificarDatoEnBd: " + e.getMessage());
+            }
+            return datoRepetido;
+        }
+
+        public void onPostExecute(Boolean result){
+            if(result){ //Indica que hay almenos un dato repetido en BD
+
+                if(cedulaRepetida){
+                    cedula.setError("Cedula ya registrada");
+                }
+
+                if(emailRepetido){
+                    email.setError("Email ya registrado");
+                }
+                Toast.makeText(getActivity(), "Verificar campos requeridos", Toast.LENGTH_LONG).show();
+
+            }else{ // Pasa validacion exitosa de campos repetidos
+
+                if(pasaValidacionPrevia){
+                    TareaWsGuardarUsuario tareaWsGuardarUsuario = new TareaWsGuardarUsuario();
+                    tareaWsGuardarUsuario.execute();
+                }else{
+                    Toast.makeText(getActivity(), "Verificar campos requeridos", Toast.LENGTH_LONG).show();
+                }
+
+            }
+        }
+
+        //Setters
+        public void setPasaValidacionPrevia(boolean pasaValidacionPrevia) {
+            this.pasaValidacionPrevia = pasaValidacionPrevia;
+        }
     }
 
     /////////////////////////////////////////////////////////////

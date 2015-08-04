@@ -675,4 +675,49 @@ public class TareasGenerales {
         return listaLibroAutor;
     }
 
+
+    /**
+     * Metodo que verifica si ya se encuentra registrado un determinado dato en la BD
+     * @param tablaVerificar
+     * @param campoVerificar
+     * @param valorVerificar
+     * @return
+     */
+    public boolean verficarDatoEnBd(String tablaVerificar, String campoVerificar, String valorVerificar){
+
+        final String SOAP_ACTION = conf.getUrl()+"/verficarDatoEnBd";
+        final String METHOD_NAME = "verficarDatoEnBd";
+        final String NAMESPACE = conf.getNamespace();
+        final String URL = conf.getUrl();
+
+        boolean respuesta = false;
+
+        SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
+        request.addProperty("tabla", tablaVerificar);
+        request.addProperty("campo", campoVerificar);
+        request.addProperty("valor", valorVerificar);
+
+        SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+        envelope.bodyOut = request;
+
+        HttpTransportSE transporte = new HttpTransportSE(URL);
+        try {
+            transporte.call(SOAP_ACTION, envelope);
+            int resultado = Integer.parseInt(envelope.getResponse().toString());
+
+            Log.i("Generales","*********************** resultado verificar: "+resultado);
+            if (resultado == 1)
+            {
+                respuesta = true;
+            }
+        } catch (Exception e) {
+            respuesta = false;
+            Log.e("Generales", "xxx Error TareaWsVerificarDatoEnBd: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return respuesta;
+
+    }
+
 }
