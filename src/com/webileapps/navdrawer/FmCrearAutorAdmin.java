@@ -3,6 +3,9 @@ package com.webileapps.navdrawer;
 import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,7 +29,7 @@ import util.VariablesGlobales;
 
 
 /**
- * Created by alex on 9/05/15.
+ * Created by Pablo on 9/05/15.
  */
 public class FmCrearAutorAdmin extends SherlockFragment {
 
@@ -51,9 +54,13 @@ public class FmCrearAutorAdmin extends SherlockFragment {
             @Override
             public void onClick(View view) {
                 Log.i("CrearAutor", ">>>>>>>>>>>>>>>>>>>> pulsando boton crear Autor");
-                TareaWsGuardarAutor tareaWsGuardarAutor = new TareaWsGuardarAutor();
-                tareaWsGuardarAutor.execute();
 
+                if(validarGuardar()){
+                    TareaWsGuardarAutor tareaWsGuardarAutor = new TareaWsGuardarAutor();
+                    tareaWsGuardarAutor.execute();
+                }else{
+                    Toast.makeText(getActivity(), "Verificar campos requeridos", Toast.LENGTH_LONG).show();
+                }
             }
         });
 
@@ -66,8 +73,39 @@ public class FmCrearAutorAdmin extends SherlockFragment {
         });
 
 
-        return view;
+        //Limpia validaciones de campos requeridos
+        /////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////////////////////
+        primerNombre.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) { }
 
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+                primerNombre.setError(null);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) { }
+        });
+
+        primerApellido.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) { }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+                primerApellido.setError(null);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) { }
+        });
+        //Fin limpiar validaciones de campos requeridos
+        /////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////////////////////
+
+        return view;
 
     }
 
@@ -186,6 +224,28 @@ public class FmCrearAutorAdmin extends SherlockFragment {
         segundoNombre.getText().clear();
         primerApellido.getText().clear();
         segundoApellido.getText().clear();
+    }
+
+    /**
+     * Metodo encargado de validar los campos de texto y llamar al metodo para almacenear la info.
+     */
+    public boolean validarGuardar() {
+
+        boolean resultado = true;
+
+        if (primerNombre.getText().toString().length() == 0 ||
+                primerNombre.getText().toString().trim().equals("")) {
+            primerNombre.setError("Primer nombre requerido");
+            resultado = false;
+        }
+
+        if(primerApellido.getText().toString().length() == 0 ||
+                TextUtils.isEmpty(primerApellido.getText().toString().trim())){
+            primerApellido.setError("Primer apellido requerido");
+            resultado = false;
+        }
+
+        return resultado;
     }
 
     /////////////////////////////////////////////////////////////

@@ -3,7 +3,9 @@ package com.webileapps.navdrawer;
 import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -67,18 +69,30 @@ public class FmCrearUsuarioAdmin extends SherlockFragment {
         //Limpia validaciones de campos requeridos
         /////////////////////////////////////////////////////////////////////////////
         /////////////////////////////////////////////////////////////////////////////
-        primerNombre.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        primerNombre.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onFocusChange(View view, boolean b) {
+            public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) { }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
                 primerNombre.setError(null);
             }
+
+            @Override
+            public void afterTextChanged(Editable editable) { }
         });
 
-        primerApellido.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        primerApellido.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onFocusChange(View view, boolean b) {
+            public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) { }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
                 primerApellido.setError(null);
             }
+
+            @Override
+            public void afterTextChanged(Editable editable) { }
         });
         //Fin limpiar validaciones de campos requeridos
         /////////////////////////////////////////////////////////////////////////////

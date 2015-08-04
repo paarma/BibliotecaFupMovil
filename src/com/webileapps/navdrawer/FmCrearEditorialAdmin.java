@@ -3,7 +3,9 @@ package com.webileapps.navdrawer;
 import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -56,6 +58,26 @@ public class FmCrearEditorialAdmin extends SherlockFragment {
                 variablesGlobales.setEditorialSeleccionadaAdmin(null);
 			}
 		});
+
+
+        //Limpia validaciones de campos requeridos
+        /////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////////////////////
+        descripcion.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) { }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+                descripcion.setError(null);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) { }
+        });
+        //Fin limpiar validaciones de campos requeridos
+        /////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////////////////////
 
 		return view;
 	}
