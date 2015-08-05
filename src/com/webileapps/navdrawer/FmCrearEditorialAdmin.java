@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -169,8 +168,7 @@ public class FmCrearEditorialAdmin extends SherlockFragment {
 
         boolean resultado = true;
 
-        if(descripcion.getText().toString().length() == 0 ||
-                TextUtils.isEmpty(descripcion.getText().toString().trim())){
+        if(descripcion.getText().toString().trim().length() == 0){
             descripcion.setError("Nombre requerido");
             resultado = false;
         }
@@ -200,11 +198,30 @@ public class FmCrearEditorialAdmin extends SherlockFragment {
             try{
                 TareasGenerales tareasGenerales = new TareasGenerales();
 
-                if(tareasGenerales.verficarDatoEnBd("EDITORIAL","DESCRIPCION",descripcion.getText().toString())){
-                    Log.i("FmCrearEditorial",">>>>>>>>>>>>>>>>>> editorial ya registrada");
-                    datoRepetido = true;
-                    descripcionRepetida = true;
+                /**
+                 * Si se esta creando una nueva editorial
+                 */
+                if(variablesGlobales.getEditorialSeleccionadaAdmin() == null){
+                    if(tareasGenerales.verficarDatoEnBd("EDITORIAL","DESCRIPCION",descripcion.getText().toString())){
+                        Log.i("FmCrearEditorial",">>>>>>>>>>>>>>>>>> editorial ya registrada");
+                        datoRepetido = true;
+                        descripcionRepetida = true;
+                    }
                 }
+
+
+                /**
+                 * Si se esta editando una editorial
+                 */
+                if(variablesGlobales.getEditorialSeleccionadaAdmin() != null){
+                    if(!variablesGlobales.getEditorialSeleccionadaAdmin().getDescripcion().equals(descripcion.getText().toString()) &&
+                            tareasGenerales.verficarDatoEnBd("EDITORIAL","DESCRIPCION",descripcion.getText().toString())){
+                        Log.i("FmCrearEditorial",">>>>>>>>>>>>>>>>>> editorial ya registrada");
+                        datoRepetido = true;
+                        descripcionRepetida = true;
+                    }
+                }
+
             }catch (Exception e){
                 Log.e("FmCrearEditorial", "xxx Error TareaWsVerificarDatoEnBd: " + e.getMessage());
             }

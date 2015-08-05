@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -233,14 +232,12 @@ public class FmCrearAutorAdmin extends SherlockFragment {
 
         boolean resultado = true;
 
-        if (primerNombre.getText().toString().length() == 0 ||
-                primerNombre.getText().toString().trim().equals("")) {
+        if (primerNombre.getText().toString().trim().length() == 0) {
             primerNombre.setError("Primer nombre requerido");
             resultado = false;
         }
 
-        if(primerApellido.getText().toString().length() == 0 ||
-                TextUtils.isEmpty(primerApellido.getText().toString().trim())){
+        if(primerApellido.getText().toString().trim().length() == 0){
             primerApellido.setError("Primer apellido requerido");
             resultado = false;
         }
