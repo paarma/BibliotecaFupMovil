@@ -162,9 +162,7 @@ public class FmCrearUsuarioAdmin extends SherlockFragment {
 
             Usuario user = new Usuario();
 
-            if(cedula.getText().toString().trim().length() > 0){
-                user.setCedula(Integer.parseInt(cedula.getText().toString()));
-            }
+            user.setCedula(Integer.parseInt(cedula.getText().toString()));
             user.setPrimerNombre(primerNombre.getText().toString());
             user.setSegundoNombre(segundoNombre.getText().toString());
             user.setPrimerApellido(primerApellido.getText().toString());
@@ -288,24 +286,22 @@ public class FmCrearUsuarioAdmin extends SherlockFragment {
 
         boolean resultado = true;
 
-        if(cedula.getText().toString().length() == 0){
+        if(cedula.getText().toString().trim().length() == 0){
             cedula.setError("Cedula requerida");
             resultado = false;
         }
 
-        if(primerNombre.getText().toString().length() == 0 ||
-                primerNombre.getText().toString().trim().equals("")){
+        if(primerNombre.getText().toString().trim().length() == 0){
             primerNombre.setError("Primer nombre requerido");
             resultado = false;
         }
 
-        if(primerApellido.getText().toString().length() == 0 ||
-                TextUtils.isEmpty(primerApellido.getText().toString().trim())){
+        if(primerApellido.getText().toString().trim().length() == 0){
             primerApellido.setError("Primer apellido requerido");
             resultado = false;
         }
 
-        if(codigo.getText().toString().length() == 0){
+        if(codigo.getText().toString().trim().length() == 0){
             codigo.setError("Codigo requerido");
             resultado = false;
         }
@@ -328,6 +324,7 @@ public class FmCrearUsuarioAdmin extends SherlockFragment {
 
         private boolean cedulaRepetida = false;
         private boolean emailRepetido = false;
+        private boolean codigoRepetido = false;
         private boolean pasaValidacionPrevia = false;
 
         @Override
@@ -336,17 +333,61 @@ public class FmCrearUsuarioAdmin extends SherlockFragment {
             try{
                 TareasGenerales tareasGenerales = new TareasGenerales();
 
-                if(tareasGenerales.verficarDatoEnBd("USUARIO","CEDULA",cedula.getText().toString())){
-                    Log.i("GuardandoUsuario",">>>>>>>>>>>>>>>>>> cedula ya registrada");
-                    datoRepetido = true;
-                    cedulaRepetida = true;
+                /**
+                 * Si esta creando un nuevo usuario
+                 */
+                if(variablesGlobales.getUsuarioSeleccionadoAdmin() == null){
+
+                    if(tareasGenerales.verficarDatoEnBd("USUARIO","CEDULA",cedula.getText().toString())){
+                        Log.i("GuardandoUsuario",">>>>>>>>>>>>>>>>>> cedula ya registrada (crear)");
+                        datoRepetido = true;
+                        cedulaRepetida = true;
+                    }
+
+                    if(!TextUtils.isEmpty(email.getText().toString().trim()) &&
+                            tareasGenerales.verficarDatoEnBd("USUARIO","EMAIL",email.getText().toString())){
+                        Log.i("GuardandoUsuario", ">>>>>>>>>>>>>>>>>> email ya registrado (crear)");
+                        datoRepetido = true;
+                        emailRepetido = true;
+                    }
+
+                    if(tareasGenerales.verficarDatoEnBd("USUARIO","CODIGO",codigo.getText().toString())){
+                        Log.i("GuardandoUsuario",">>>>>>>>>>>>>>>>>> codigo ya registrado (crear)");
+                        datoRepetido = true;
+                        codigoRepetido = true;
+                    }
+
                 }
 
-                if(!TextUtils.isEmpty(email.getText().toString().trim()) &&
-                        tareasGenerales.verficarDatoEnBd("USUARIO","EMAIL",email.getText().toString())){
-                    Log.i("GuardandoUsuario",">>>>>>>>>>>>>>>>>> email ya registrado");
-                    datoRepetido = true;
-                    emailRepetido = true;
+
+                /**
+                 * Si esta editando un usuario
+                 */
+                if(variablesGlobales.getUsuarioSeleccionadoAdmin() != null){
+
+                    if(variablesGlobales.getUsuarioSeleccionadoAdmin().getCedula() != Integer.parseInt(cedula.getText().toString()) &&
+                            tareasGenerales.verficarDatoEnBd("USUARIO","CEDULA",cedula.getText().toString())){
+                        Log.i("GuardandoUsuario",">>>>>>>>>>>>>>>>>> cedula ya registrada (editar)");
+                        datoRepetido = true;
+                        cedulaRepetida = true;
+                    }
+
+                    if(!TextUtils.isEmpty(email.getText().toString().trim()) &&
+                            !variablesGlobales.getUsuarioSeleccionadoAdmin().getEmail().equals(email.getText().toString())){
+                        if(tareasGenerales.verficarDatoEnBd("USUARIO","EMAIL",email.getText().toString())) {
+                        Log.i("GuardandoUsuario", ">>>>>>>>>>>>>>>>>> email ya registrado (editar)");
+                        datoRepetido = true;
+                        emailRepetido = true;
+                        }
+                    }
+
+                    if(!variablesGlobales.getUsuarioSeleccionadoAdmin().getCodigo().equals(codigo.getText().toString()) &&
+                            tareasGenerales.verficarDatoEnBd("USUARIO","CODIGO",codigo.getText().toString())){
+                        Log.i("GuardandoUsuario",">>>>>>>>>>>>>>>>>> codigo ya registrado (editar)");
+                        datoRepetido = true;
+                        codigoRepetido = true;
+                     }
+
                 }
 
             }catch (Exception e){
@@ -365,6 +406,11 @@ public class FmCrearUsuarioAdmin extends SherlockFragment {
                 if(emailRepetido){
                     email.setError("Email ya registrado");
                 }
+
+                if(codigoRepetido){
+                    codigo.setError("Código ya registrado");
+                }
+
                 Toast.makeText(getActivity(), "Verificar campos requeridos", Toast.LENGTH_LONG).show();
 
             }else{ // Pasa validacion exitosa de campos repetidos
