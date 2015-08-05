@@ -163,18 +163,18 @@ public class FmCrearUsuarioAdmin extends SherlockFragment {
             Usuario user = new Usuario();
 
             user.setCedula(Integer.parseInt(cedula.getText().toString()));
-            user.setPrimerNombre(primerNombre.getText().toString());
-            user.setSegundoNombre(segundoNombre.getText().toString());
-            user.setPrimerApellido(primerApellido.getText().toString());
-            user.setSegundoApellido(segundoApellido.getText().toString());
+            user.setPrimerNombre(primerNombre.getText().toString().trim());
+            user.setSegundoNombre(segundoNombre.getText().toString().trim());
+            user.setPrimerApellido(primerApellido.getText().toString().trim());
+            user.setSegundoApellido(segundoApellido.getText().toString().trim());
 
             if(telefono.getText().toString().trim().length() > 0){
                 user.setTelefono(Integer.parseInt(telefono.getText().toString()));
             }
-            user.setDireccion(direccion.getText().toString());
-            user.setEmail(email.getText().toString());
-            user.setCodigo(codigo.getText().toString());
-            user.setClave(clave.getText().toString());
+            user.setDireccion(direccion.getText().toString().trim());
+            user.setEmail(email.getText().toString().trim());
+            user.setCodigo(codigo.getText().toString().trim());
+            user.setClave(clave.getText().toString().trim());
 
             if (!spRol.getSelectedItem().toString().equals("Seleccione...")) {
                 user.setRol(spRol.getSelectedItem().toString());

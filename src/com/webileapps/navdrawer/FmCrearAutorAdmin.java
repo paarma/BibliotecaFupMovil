@@ -171,10 +171,10 @@ public class FmCrearAutorAdmin extends SherlockFragment {
                 request.addProperty("idAutor", 0);
             }
 
-            request.addProperty("primerNombre", primerNombre.getText().toString());
-            request.addProperty("segundoNombre", segundoNombre.getText().toString());
-            request.addProperty("primerApellido", primerApellido.getText().toString());
-            request.addProperty("segundoApellido", segundoApellido.getText().toString());
+            request.addProperty("primerNombre", primerNombre.getText().toString().trim());
+            request.addProperty("segundoNombre", segundoNombre.getText().toString().trim());
+            request.addProperty("primerApellido", primerApellido.getText().toString().trim());
+            request.addProperty("segundoApellido", segundoApellido.getText().toString().trim());
 
             if(!spinnerTipoAutor.getSelectedItem().toString().equals("Seleccione...")){
                 request.addProperty("tipo", spinnerTipoAutor.getSelectedItem().toString());

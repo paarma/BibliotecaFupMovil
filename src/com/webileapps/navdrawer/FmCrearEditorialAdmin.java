@@ -120,7 +120,7 @@ public class FmCrearEditorialAdmin extends SherlockFragment {
                 request.addProperty("idEditorial", 0);
             }
 
-            request.addProperty("descripcion", descripcion.getText().toString());
+            request.addProperty("descripcion", descripcion.getText().toString().trim());
 
             SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
             envelope.bodyOut = request;

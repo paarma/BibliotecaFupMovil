@@ -436,7 +436,7 @@ public class FmCrearLibroAdmin extends SherlockFragment {
         protected Boolean doInBackground(String... params) {
 
             Libro lib = new Libro();
-            lib.setTitulo(titulo.getText().toString());
+            lib.setTitulo(titulo.getText().toString().trim());
 
             if(valor.getText().toString().trim().length() > 0){
                 lib.setValor(Integer.parseInt(valor.getText().toString()));
@@ -451,9 +451,9 @@ public class FmCrearLibroAdmin extends SherlockFragment {
             }
 
             lib.setAnio(dpickerAnioLibro.getYear());
-            lib.setSerie(serie.getText().toString());
-            lib.setIsbn(isbn.getText().toString());
-            lib.setCodigoTopografico(codTopografico.getText().toString());
+            lib.setSerie(serie.getText().toString().trim());
+            lib.setIsbn(isbn.getText().toString().trim());
+            lib.setCodigoTopografico(codTopografico.getText().toString().trim());
 
             if (!spinnerEstado.getSelectedItem().toString().equals("Seleccione...")) {
                 lib.setEstado(spinnerEstado.getSelectedItem().toString());
@@ -463,9 +463,9 @@ public class FmCrearLibroAdmin extends SherlockFragment {
                 lib.setAdquisicion(spinnerAdquisicion.getSelectedItem().toString());
             }
 
-            lib.setRadicado(radicado.getText().toString());
+            lib.setRadicado(radicado.getText().toString().trim());
             lib.setFechaIngreso(new Date());
-            lib.setTemas(temas.getText().toString());
+            lib.setTemas(temas.getText().toString().trim());
             //lib.setDisponibilidad("SI");
             lib.setIdUsuario(variablesGlobales.getUsuarioLogueado().getIdUsuario());
 
