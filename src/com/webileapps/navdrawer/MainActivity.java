@@ -16,6 +16,8 @@
 
 package com.webileapps.navdrawer;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -26,6 +28,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -712,6 +715,36 @@ public class MainActivity extends SherlockFragmentActivity {
               Log.d("MainAct","XXX Error obteniendo el valor de la multa ");
             }
         }
+    }
+
+    /**
+     * Metodo especifico que captura el evento al pulsar botones fisicos del dispositivo.
+     * @param keyCode
+     * @param event
+     * @return
+     */
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event){
+
+        switch(keyCode){
+            case KeyEvent.KEYCODE_BACK: //Botón "Atras".
+
+                new AlertDialog.Builder(this)
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .setTitle("Salir")
+                    .setMessage("Está seguro que desea salir?")
+                    .setNegativeButton(android.R.string.cancel, null)//sin listener
+                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {//un listener que al pulsar, cierre la aplicacion
+                        @Override
+                        public void onClick(DialogInterface dialog, int which){
+                            //Salir
+                            finish();
+                        }
+                    }).show();
+
+                break;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
 }
