@@ -69,14 +69,14 @@
         </GridLayout>
 
         <!-- Boton tres -->
-        <GridLayout
+<!--        <GridLayout
             android:layout_height="match_parent"
             android:columnCount="2"
             android:rowCount="1"
             android:clickable="true">
 
             <ImageButton
-                android:id="@+id/btnRefrescarLibrosAdmin"
+                android:id="@+id/btnRefrescarEditorialAdmin"
                 android:layout_width="64dp"
                 android:layout_height="match_parent"
                 android:src="@drawable/ic_autorenew_white_48dp"
@@ -91,7 +91,7 @@
                 android:textSize="18sp"
                 android:background="@drawable/drawer_shadow"/>
 
-        </GridLayout>
+        </GridLayout>-->
 
     </GridLayout>
 

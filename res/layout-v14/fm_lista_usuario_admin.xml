@@ -94,7 +94,7 @@
         </GridLayout>
 
         <!-- Boton cuatro -->
-        <GridLayout
+<!--        <GridLayout
             android:layout_height="match_parent"
             android:columnCount="2"
             android:rowCount="1"
@@ -116,7 +116,7 @@
                 android:textSize="18sp"
                 android:background="@drawable/drawer_shadow"/>
 
-        </GridLayout>
+        </GridLayout>-->
 
     </GridLayout>
 

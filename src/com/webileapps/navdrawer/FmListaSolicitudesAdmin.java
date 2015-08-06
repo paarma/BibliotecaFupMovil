@@ -44,7 +44,7 @@ public class FmListaSolicitudesAdmin extends SherlockFragment {
     private static Solicitud solicitudSeleccionada;
     private boolean solicitudEnMora;
 
-    private ImageButton btnAccionLibroAdmin;
+    private ImageButton btnAccionLibroAdmin, btnRefrescar;
 
     private GridLayout gridLayoutBtnAccion;
 
@@ -71,6 +71,14 @@ public class FmListaSolicitudesAdmin extends SherlockFragment {
             @Override
             public void onClick(View view) {
                 gestionSolicitud();
+            }
+        });
+
+        btnRefrescar = (ImageButton) view.findViewById(R.id.btnRefrescarSolicitudAdmin);
+        btnRefrescar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                inicializarListaSolicitudes();
             }
         });
 
