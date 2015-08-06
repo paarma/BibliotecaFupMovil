@@ -5,6 +5,8 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -91,28 +93,7 @@ public class FmCrearLibroAdmin extends SherlockFragment {
             public void onClick(View view) {
                 Log.i("CrearLibro", ">>>>>>>>>>>>>>>>>>>> pulsando boton crear libro");
 
-                //Se gestionan los autores
-                if(listaAutores.size() > 0){
-                    try{
-                        StringBuilder cadena = new StringBuilder();
-                        for(Autor item: listaAutores){
-                            cadena.append(item.getIdAutor()+",");
-                        }
-
-                    //Se elimina la ultima coma
-                    idAutoresConcatenados = cadena.substring(0, cadena.length()-1);
-
-                    }catch (Exception e){
-                        idAutoresConcatenados = "";
-                        Log.e("CadenaAuto","XXX Error armando cadena de autores: "+e.getMessage());
-                    }
-                }else{
-                    idAutoresConcatenados = "";
-                }
-
-                TareaWsGuardarLibro tareaGuardarLibro = new TareaWsGuardarLibro();
-                tareaGuardarLibro.execute();
-
+                validarGuardar();
             }
         });
 
@@ -170,6 +151,52 @@ public class FmCrearLibroAdmin extends SherlockFragment {
             }
         });
         //////////////////////////Fin Autores
+
+
+        //Limpia validaciones de campos requeridos
+        /////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////////////////////
+        titulo.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) { }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+                titulo.setError(null);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) { }
+        });
+
+        isbn.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) { }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+                isbn.setError(null);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) { }
+        });
+
+        codTopografico.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) { }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+                codTopografico.setError(null);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) { }
+        });
+        //Fin limpiar validaciones de campos requeridos
+        /////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////////////////////
 
         return view;
     }
@@ -500,6 +527,24 @@ public class FmCrearLibroAdmin extends SherlockFragment {
                 lib.setIdLibro(variablesGlobales.getLibroSeleccionadoAdmin().getIdLibro());
             }
 
+            //Se gestionan los autores
+            if(listaAutores.size() > 0){
+                try{
+                    StringBuilder cadena = new StringBuilder();
+                    for(Autor item: listaAutores){
+                        cadena.append(item.getIdAutor()+",");
+                    }
+
+                    //Se elimina la ultima coma
+                    idAutoresConcatenados = cadena.substring(0, cadena.length()-1);
+                }catch (Exception e){
+                    idAutoresConcatenados = "";
+                    Log.e("CadenaAuto","XXX Error armando cadena de autores: "+e.getMessage());
+                }
+            }else{
+                idAutoresConcatenados = "";
+            }
+
             resultadoTarea = guardarLibro(lib);
 
             }catch (Exception e){
@@ -652,6 +697,126 @@ public class FmCrearLibroAdmin extends SherlockFragment {
         }
     }
 
+    /**
+     * Metodo encargado de validar los campos de texto y llamar al metodo para almacenear la info.
+     */
+    public void validarGuardar() {
+
+        boolean resultado = true;
+
+        if (titulo.getText().toString().trim().length() == 0) {
+            titulo.setError("Título requerido");
+            resultado = false;
+        }
+
+        if (isbn.getText().toString().trim().length() == 0) {
+            isbn.setError("ISBN requerido");
+            resultado = false;
+        }
+
+        if (codTopografico.getText().toString().trim().length() == 0) {
+            codTopografico.setError("Código requerido");
+            resultado = false;
+        }
+
+        //Verificar campos ya registrados (repetidos) en la BD.
+        TareaWsVerificarDatoEnBd tarea = new TareaWsVerificarDatoEnBd();
+        tarea.setPasaValidacionPrevia(resultado);
+
+        tarea.execute();
+
+    }
+
+    /**
+     * Tarea encargada de verificar si existe un determinado dato repetido en la BD
+     * en caso de pasar todas las validaciones de los campos de texto, llama a la
+     * tarea encargada de guardar la info.
+     */
+    private class TareaWsVerificarDatoEnBd extends AsyncTask<String,Integer,Boolean> {
+
+        private boolean datoRepetido = false;
+
+        private boolean isbnRepetido = false;
+        private boolean codTopograficoRepetido = false;
+        private boolean pasaValidacionPrevia = false;
+
+        @Override
+        protected Boolean doInBackground(String... strings) {
+
+            try {
+                TareasGenerales tareasGenerales = new TareasGenerales();
+
+                /**
+                 * Si esta creando un nuevo libro
+                 */
+                if(variablesGlobales.getLibroSeleccionadoAdmin() == null) {
+                    if(tareasGenerales.verficarDatoEnBd("LIBRO", "ISBN", isbn.getText().toString().trim())){
+                        Log.i("GuardandoUsuario",">>>>>>>>>>>>>>>>>> ISBN ya registrado (crear)");
+                        datoRepetido = true;
+                        isbnRepetido = true;
+                    }
+
+                    if(tareasGenerales.verficarDatoEnBd("LIBRO","COD_TOPOGRAFICO",codTopografico.getText().toString().trim())){
+                        Log.i("GuardandoUsuario",">>>>>>>>>>>>>>>>>> codTopografico ya registrado (crear)");
+                        datoRepetido = true;
+                        codTopograficoRepetido = true;
+                    }
+                }
+
+                /**
+                 * Si esta editando un libro
+                 */
+                if(variablesGlobales.getLibroSeleccionadoAdmin() != null) {
+                    if(!variablesGlobales.getLibroSeleccionadoAdmin().getIsbn().equals(isbn.getText().toString().trim()) &&
+                            tareasGenerales.verficarDatoEnBd("LIBRO","ISBN",isbn.getText().toString().trim())){
+                        datoRepetido = true;
+                        isbnRepetido = true;
+                    }
+
+                    if(!variablesGlobales.getLibroSeleccionadoAdmin().getCodigoTopografico().equals(codTopografico.getText().toString().trim()) &&
+                            tareasGenerales.verficarDatoEnBd("LIBRO","COD_TOPOGRAFICO",codTopografico.getText().toString().trim())){
+                        datoRepetido = true;
+                        codTopograficoRepetido = true;
+                    }
+                }
+
+            } catch (Exception e) {
+                Log.e("Generales", "xxx Error TareaWsVerificarDatoEnBd: " + e.getMessage());
+            }
+            return datoRepetido;
+        }
+
+        public void onPostExecute(Boolean result) {
+            if (result) { //Indica que hay almenos un dato repetido en BD
+
+                if(isbnRepetido){
+                    isbn.setError("ISBN ya registrado");
+                }
+
+                if(codTopograficoRepetido){
+                    codTopografico.setError("Código ya registrado");
+                }
+
+                Toast.makeText(getActivity(), "Verificar campos requeridos", Toast.LENGTH_LONG).show();
+
+            } else { // Pasa validacion exitosa de campos repetidos
+
+                if (pasaValidacionPrevia) {
+                    TareaWsGuardarLibro tareaGuardarLibro = new TareaWsGuardarLibro();
+                    tareaGuardarLibro.execute();
+                } else {
+                    Toast.makeText(getActivity(), "Verificar campos requeridos", Toast.LENGTH_LONG).show();
+                }
+
+            }
+        }
+
+        //Setters
+        public void setPasaValidacionPrevia(boolean pasaValidacionPrevia) {
+            this.pasaValidacionPrevia = pasaValidacionPrevia;
+        }
+
+    }
 
     /////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////
