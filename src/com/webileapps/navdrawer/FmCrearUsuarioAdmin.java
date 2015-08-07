@@ -23,6 +23,9 @@ import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import modelo.Usuario;
 import util.Configuracion;
 import util.TareasGenerales;
@@ -89,6 +92,19 @@ public class FmCrearUsuarioAdmin extends SherlockFragment {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
                 primerApellido.setError(null);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) { }
+        });
+
+        email.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) { }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+                email.setError(null);
             }
 
             @Override
@@ -306,6 +322,12 @@ public class FmCrearUsuarioAdmin extends SherlockFragment {
             resultado = false;
         }
 
+        final String emailValue = email.getText().toString().trim();
+        if(!TextUtils.isEmpty(emailValue) && !isValidEmail(emailValue)){
+            email.setError("Email inválido");
+            resultado = false;
+        }
+
         //Verificar campos ya registrados (repetidos) en la BD.
         TareaWsVerificarDatoEnBd tarea = new TareaWsVerificarDatoEnBd();
         tarea.setPasaValidacionPrevia(resultado);
@@ -429,6 +451,20 @@ public class FmCrearUsuarioAdmin extends SherlockFragment {
         public void setPasaValidacionPrevia(boolean pasaValidacionPrevia) {
             this.pasaValidacionPrevia = pasaValidacionPrevia;
         }
+    }
+
+    /**
+     * Metodo encargado de validar si un formato de un email es correco
+     * @param email
+     * @return
+     */
+    private boolean isValidEmail(String email) {
+        String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+                + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+
+        Pattern pattern = Pattern.compile(EMAIL_PATTERN);
+        Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
     }
 
     /////////////////////////////////////////////////////////////
