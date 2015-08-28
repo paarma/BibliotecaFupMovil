@@ -1,6 +1,7 @@
 package com.webileapps.navdrawer;
 
 import android.annotation.SuppressLint;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
@@ -14,6 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragment;
@@ -105,6 +107,19 @@ public class FmCrearUsuarioAdmin extends SherlockFragment {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
                 email.setError(null);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) { }
+        });
+
+        clave.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) { }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+                clave.setError(null);
             }
 
             @Override
@@ -320,6 +335,20 @@ public class FmCrearUsuarioAdmin extends SherlockFragment {
         if(codigo.getText().toString().trim().length() == 0){
             codigo.setError("Codigo requerido");
             resultado = false;
+        }
+
+        if(clave.getText().toString().trim().length() == 0){
+            clave.setError("Clave requerida");
+            resultado = false;
+        }
+
+        //Validacion de rol
+        if (spRol.getSelectedItem().toString().equals("Seleccione...")) {
+
+            TextView errorText = (TextView)spRol.getSelectedView();
+            errorText.setError("Rol requerido"); //anything here, just to add the icon
+            errorText.setTextColor(Color.RED);//just to highlight that this is an error
+            errorText.setText("Rol requerido");//changes the selected item text to this
         }
 
         final String emailValue = email.getText().toString().trim();
