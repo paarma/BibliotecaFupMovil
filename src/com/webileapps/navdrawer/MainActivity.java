@@ -61,11 +61,11 @@ public class MainActivity extends SherlockFragmentActivity {
     String[] subtitle;
     int[] icon;
     Fragment fmInicioAdmin = new FmInicioAdmin();
-    Fragment fmLibrosAdmin = new FmLibrosAdmin();
-    Fragment fmEditorialAdmin = new FmEditorialAdmin();
-    Fragment fmAutorAdmin = new FmAutorAdmin();
-    Fragment fmSolicitudesAdmin = new FmSolicitudesAdmin();
-    Fragment fmUsuarioAdmin = new FmUsuarioAdmin();
+    Fragment fmLibrosAdmin;
+    Fragment fmEditorialAdmin;
+    Fragment fmAutorAdmin;
+    Fragment fmSolicitudesAdmin;
+    Fragment fmUsuarioAdmin;
 
     //Usuario
     Fragment fmInicioUsuario = new FmInicioUsuario();
@@ -215,6 +215,12 @@ public class MainActivity extends SherlockFragmentActivity {
         if(usuarioLogueado != null) {
             //Administrador
             if (usuarioLogueado.getRol().equalsIgnoreCase("ADMINISTRADOR")) {
+
+                fmLibrosAdmin = new FmLibrosAdmin();
+                fmEditorialAdmin = new FmEditorialAdmin();
+                fmAutorAdmin = new FmAutorAdmin();
+                fmSolicitudesAdmin = new FmSolicitudesAdmin();
+                fmUsuarioAdmin = new FmUsuarioAdmin();
 
                 //Se inicializa el objeto libroSeleccionadoAdmin
                 variablesGlobales.setLibroSeleccionadoAdmin(null);

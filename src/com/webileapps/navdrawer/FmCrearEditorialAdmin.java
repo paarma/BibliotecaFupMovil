@@ -92,7 +92,8 @@ public class FmCrearEditorialAdmin extends SherlockFragment {
             }catch (Exception e){
                 Log.e("Editorial","XXX Error cargando datos editorial: "+e.getMessage());
             }
-
+        }else{
+            limpiarCampos();
         }
     }
 

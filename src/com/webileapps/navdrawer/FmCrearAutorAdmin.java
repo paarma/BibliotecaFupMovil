@@ -143,6 +143,8 @@ public class FmCrearAutorAdmin extends SherlockFragment {
             }catch (Exception e){
                 Log.e("FmCrearAutor ", "xxx Error cargarDatosUsuarioSeleccionado: " + e.getMessage());
             }
+        }else{
+            limpiarCampos();
         }
     }
 

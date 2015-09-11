@@ -176,6 +176,8 @@ public class FmCrearUsuarioAdmin extends SherlockFragment {
             }catch (Exception e){
                 Log.e("FmCrearUsuario ", "xxx Error cargarDatosUsuarioSeleccionado: " + e.getMessage());
             }
+        }else{
+            limpiarCampos();
         }
     }
 

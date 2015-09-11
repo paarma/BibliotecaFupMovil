@@ -326,6 +326,8 @@ public class FmCrearLibroAdmin extends SherlockFragment {
             }catch (Exception e){
                 Log.e("CrearLibro","XXX Error cargando datos de libros seleccionado: "+e.getMessage());
             }
+        }else{
+            limpiarCampos();
         }
     }
 
