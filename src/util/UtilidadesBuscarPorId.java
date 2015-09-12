@@ -372,6 +372,124 @@ public class UtilidadesBuscarPorId {
         return lib;
     }
 
+
+    /**
+     * Metodo encardado de setear los valores desde la BD (Soap) a un Libro.
+     * @param libroSoap Objeto Soap que contiene los datos de libro para ser setados.
+     * @return
+     */
+    public Libro obtenerLibroSoapNew(SoapObject libroSoap){
+
+        Libro lib = new Libro();
+        lib.setIdLibro(Integer.parseInt(libroSoap.getProperty("ID_LIBRO").toString()));
+
+        if(libroSoap.getProperty("TITULO") != null){
+            lib.setTitulo(libroSoap.getProperty("TITULO").toString());
+        }
+
+        if(libroSoap.getProperty("ISBN") != null){
+            lib.setIsbn(libroSoap.getProperty("ISBN").toString());
+        }
+
+        if(libroSoap.getProperty("COD_TOPOGRAFICO") != null){
+            lib.setCodigoTopografico(libroSoap.getProperty("COD_TOPOGRAFICO").toString());
+        }
+
+        if(libroSoap.getProperty("TEMAS") != null){
+            lib.setTemas(libroSoap.getProperty("TEMAS").toString());
+        }
+
+        if(libroSoap.getProperty("PAGINAS") != null) {
+            lib.setPaginas(Integer.parseInt(libroSoap.getProperty("PAGINAS").toString()));
+        }
+
+        if(libroSoap.getProperty("VALOR") != null) {
+            lib.setValor(Integer.parseInt(libroSoap.getProperty("VALOR").toString()));
+        }
+
+        if(libroSoap.getProperty("RADICADO") != null) {
+            lib.setRadicado(libroSoap.getProperty("RADICADO").toString());
+        }
+
+        if(libroSoap.getProperty("FECHA_INGRESO") != null) {
+            try{
+                Date fechaIngreso;
+                fechaIngreso = Utilidades.formatoFechaYYYYMMDD.parse(libroSoap.getProperty("FECHA_INGRESO").toString());
+                lib.setFechaIngreso(fechaIngreso);
+            }catch (Exception e){
+                Log.e("Generales","XXX Error seteando fechaIngresoLibro: "+e.getMessage());
+            }
+        }
+
+        if(libroSoap.getProperty("SERIE") != null) {
+            lib.setSerie(libroSoap.getProperty("SERIE").toString());
+        }
+
+        if(libroSoap.getProperty("ANIO") != null) {
+            lib.setAnio(Integer.parseInt(libroSoap.getProperty("ANIO").toString()));
+        }
+
+        //Editorial
+        if(libroSoap.getProperty("ID_EDITORIAL") != null) {
+
+            Editorial editorial = new Editorial();
+            editorial.setIdEditorial(Integer.parseInt(libroSoap.getProperty("ID_EDITORIAL").toString()));
+            editorial.setDescripcion(libroSoap.getProperty("DES_EDITORIAL").toString());
+
+            lib.setEditorial(editorial);
+        }
+
+        //Area
+        if(libroSoap.getProperty("ID_AREA") != null) {
+
+            Area area = new Area();
+            area.setIdArea(Integer.parseInt(libroSoap.getProperty("ID_AREA").toString()));
+            area.setDescripcion(libroSoap.getProperty("DES_AREA").toString());
+
+            lib.setArea(area);
+        }
+
+        //Sede
+        if(libroSoap.getProperty("ID_SEDE") != null) {
+
+            Sede sede = new Sede();
+            sede.setIdSede(Integer.parseInt(libroSoap.getProperty("ID_SEDE").toString()));
+            sede.setDescripcion(libroSoap.getProperty("DES_SEDE").toString());
+
+            lib.setSede(sede);
+        }
+
+        //Ciudad
+        if(libroSoap.getProperty("ID_CIUDAD") != null) {
+
+            Ciudad ciudad = new Ciudad();
+            ciudad.setIdCiudad(Integer.parseInt(libroSoap.getProperty("ID_CIUDAD").toString()));
+            ciudad.setNombre(libroSoap.getProperty("NOM_CIUDAD").toString());
+
+            Pais pais = new Pais();
+            pais.setIdPais(Integer.parseInt(libroSoap.getProperty("ID_PAIS").toString()));
+            pais.setNombre(libroSoap.getProperty("NOM_PAIS").toString());
+
+            ciudad.setPais(pais);
+            lib.setCiudad(ciudad);
+        }
+
+        if(libroSoap.getProperty("ADQUISICION") != null) {
+            lib.setAdquisicion(libroSoap.getProperty("ADQUISICION").toString());
+        }
+
+        if(libroSoap.getProperty("EST_LIBRO") != null) {
+            lib.setEstado(libroSoap.getProperty("EST_LIBRO").toString());
+        }
+
+        if(libroSoap.getProperty("CANTIDAD") != null) {
+            lib.setCantidad(Integer.parseInt(libroSoap.getProperty("CANTIDAD").toString()));
+        }
+
+        return lib;
+    }
+
+
     /**
      * Metodo encardado de setear los valores desde la BD (Soap) a un Usuario.
      * @param user Objeto Soap que contiene los datos del usuario para ser setados.

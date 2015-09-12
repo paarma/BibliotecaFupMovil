@@ -50,8 +50,15 @@ public class TareasGenerales {
      */
     public List<Libro> buscarLibros(Libro libroBuscar){
 
-        final String SOAP_ACTION = conf.getUrl()+"/listadoLibros";
-        final String METHOD_NAME = "listadoLibros";
+        //Anterior metodo para el listado de libros
+        //final String SOAP_ACTION = conf.getUrl()+"/listadoLibros";
+        //final String METHOD_NAME = "listadoLibros";
+
+        //Metodo actual para el listado de libros (con los datos de objetos relacionales)
+        final String SOAP_ACTION = conf.getUrl()+"/listadoLibrosNew";
+        final String METHOD_NAME = "listadoLibrosNew";
+
+
         final String NAMESPACE = conf.getNamespace();
         final String URL = conf.getUrl();
         List<Libro> listaLibro = new ArrayList<Libro>();
@@ -84,7 +91,12 @@ public class TareasGenerales {
             {
                 for (SoapObject libroSoap : rs)
                 {
-                    listaLibro.add(utilidadesBuscarPorId.obtenerLibroSoap(libroSoap));
+
+                    //Anterior metodo para el listado de libros
+                    //listaLibro.add(utilidadesBuscarPorId.obtenerLibroSoap(libroSoap));
+
+                    //Metodo actual para el listado de libros (con los datos de objetos relacionales)
+                    listaLibro.add(utilidadesBuscarPorId.obtenerLibroSoapNew(libroSoap));
                 }
             }
         }catch (Exception e){
