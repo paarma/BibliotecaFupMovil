@@ -646,8 +646,13 @@ public class TareasGenerales {
      */
     public List<LibroAutor> listarLibroAutor(int idLibro){
 
-        final String SOAP_ACTION = conf.getUrl()+"/listadoLibroAutor";
-        final String METHOD_NAME = "listadoLibroAutor";
+        //Anterior metodo listado libroAutor
+        /*final String SOAP_ACTION = conf.getUrl()+"/listadoLibroAutor";
+        final String METHOD_NAME = "listadoLibroAutor";*/
+
+        //Metodo actual listado libroAutor (con los datos de los objetos relacionales)
+        final String SOAP_ACTION = conf.getUrl()+"/listadoLibroAutorNew";
+        final String METHOD_NAME = "listadoLibroAutorNew";
         final String NAMESPACE = conf.getNamespace();
         final String URL = conf.getUrl();
         List<LibroAutor> listaLibroAutor = new ArrayList<LibroAutor>();
@@ -669,7 +674,11 @@ public class TareasGenerales {
             {
                 for (SoapObject libroAutorSoap : rs)
                 {
-                    Libro libro = utilidadesBuscarPorId.buscarLibroPorId(Integer.parseInt(libroAutorSoap.getProperty("ID_LIBRO").toString()));
+                    //Anterior seteo de datos
+                    //Libro libro = utilidadesBuscarPorId.buscarLibroPorId(Integer.parseInt(libroAutorSoap.getProperty("ID_LIBRO").toString()));
+
+                    //Metodo acutal para el seteo de datos
+                    Libro libro = utilidadesBuscarPorId.obtenerLibroSoapNew(libroAutorSoap);
 
                     Autor autor = new Autor();
                     autor.setIdAutor(Integer.parseInt(libroAutorSoap.getProperty("ID_AUTOR").toString()));
