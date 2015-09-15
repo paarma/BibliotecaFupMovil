@@ -161,8 +161,13 @@ public class TareasGenerales {
      */
     public List<Solicitud> buscarSolicitudes(Solicitud solicitudBuscar){
 
-        final String SOAP_ACTION = conf.getUrl()+"/listadoReservas";
-        final String METHOD_NAME = "listadoReservas";
+        //Antiguo metodo llamado reservas
+        /*final String SOAP_ACTION = conf.getUrl()+"/listadoReservas";
+        final String METHOD_NAME = "listadoReservas";*/
+
+        //Metodo actual para el llamado a reservas (con datos de objetos relacionales)
+        final String SOAP_ACTION = conf.getUrl()+"/listadoReservasNew";
+        final String METHOD_NAME = "listadoReservasNew";
         final String NAMESPACE = conf.getNamespace();
         final String URL = conf.getUrl();
         List<Solicitud> listaSolicitudes = new ArrayList<Solicitud>();
@@ -209,8 +214,13 @@ public class TareasGenerales {
             {
                 for (SoapObject solicitudSoap : rs)
                 {
-                    Libro libroBd = utilidadesBuscarPorId.buscarLibroPorId(Integer.parseInt(solicitudSoap.getProperty("ID_LIBRO_SOL").toString()));
-                    Usuario usuarioBd = utilidadesBuscarPorId.buscarUsuarioPorId(Integer.parseInt(solicitudSoap.getProperty("ID_USUARIO_SOL").toString()));
+                    //Antiguos metodos seteando datos a la reserva
+                    //Libro libroBd = utilidadesBuscarPorId.buscarLibroPorId(Integer.parseInt(solicitudSoap.getProperty("ID_LIBRO_SOL").toString()));
+                    //Usuario usuarioBd = utilidadesBuscarPorId.buscarUsuarioPorId(Integer.parseInt(solicitudSoap.getProperty("ID_USUARIO_SOL").toString()));
+
+                    //Metodos actuales seteo datos a la reserva
+                    Libro libroBd = utilidadesBuscarPorId.obtenerLibroSoapNew(solicitudSoap);
+                    Usuario usuarioBd = utilidadesBuscarPorId.obtenerUsuarioSoap(solicitudSoap);
 
                     Solicitud sol = new Solicitud();
                     sol.setIdSolicitud(Integer.parseInt(solicitudSoap.getProperty("ID_SOLICITUD").toString()));
@@ -241,11 +251,6 @@ public class TareasGenerales {
                         fechas = Utilidades.formatoFechaYYYYMMDD.parse(solicitudSoap.getProperty("FECHA_ENTREGA").toString());
                         sol.setFechaEntrega(fechas);
                     }
-
-                    Log.i("TareasGenerales", ">>>>>>>>>>>>>>>>>>>> fecha SOLICITUD: " + sol.getFechaSolicitud());
-                    Log.i("TareasGenerales", ">>>>>>>>>>>>>>>>>>>> fecha RESERVA: " + sol.getFechaReserva());
-                    Log.i("TareasGenerales", ">>>>>>>>>>>>>>>>>>>> fecha DEVOLUCION: " + sol.getFechaDevolucion());
-                    Log.i("TareasGenerales", ">>>>>>>>>>>>>>>>>>>> fecha ENTREGA: " + sol.getFechaEntrega());
 
                     listaSolicitudes.add(sol);
                 }
