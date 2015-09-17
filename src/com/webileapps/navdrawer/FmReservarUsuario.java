@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import modelo.Autor;
 import modelo.Libro;
 import modelo.Solicitud;
 import util.TareasGenerales;
@@ -202,6 +203,13 @@ public class FmReservarUsuario extends SherlockFragment {
                 TareasGenerales tareasGenerales = new TareasGenerales();
                 listaLibros = tareasGenerales.buscarLibros(variablesGlobales.getLibroBuscar());
                 Log.i("Reservar",">>>>>>>>>>> Tamaño lista libros buscada: "+listaLibros.size());
+
+                //Autores asociados a cada libro
+                for(int i = 0; i < listaLibros.size(); i++){
+                    List< Autor > listaAutores = tareasGenerales.listarLibroAutorOnlyAutor(listaLibros.get(i).getIdLibro());
+                    listaLibros.get(i).setListaAutores(listaAutores);
+                }
+
             }catch (Exception e){
                 resultadoTarea = false;
                 Log.d("ReservarUsuario ", "xxx Error TareaWsBuscarLibros: " + e.getMessage());

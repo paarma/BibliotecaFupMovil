@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.List;
@@ -19,6 +20,10 @@ public class LibroListAdapterUsuario extends ArrayAdapter<Libro> {
 
     private Activity ctx;
 
+    //Variables especificas para listar los autores
+    ViewGroup parentAux;
+    private LinearLayout linearListViewAutores;
+
     public LibroListAdapterUsuario(Activity context, List<Libro> libros) {
         super(context, R.layout.list_view_item_libro_usuario,libros);
         this.ctx = context;
@@ -30,6 +35,10 @@ public class LibroListAdapterUsuario extends ArrayAdapter<Libro> {
         if(view == null){
             view = ctx.getLayoutInflater().inflate(R.layout.list_view_item_libro_usuario,parent,false);
         }
+
+        //Variables especificas para listar los autores
+        parentAux = parent;
+        linearListViewAutores = (LinearLayout) view.findViewById(R.id.linear_listview_autores);
 
         Libro  libroActual = this.getItem(position);
         inicializarCamposTexto(view, libroActual);
@@ -63,6 +72,60 @@ public class LibroListAdapterUsuario extends ArrayAdapter<Libro> {
         }else{
             editText.setText("NO");
         }
+
+        if(libroActual.getEditorial() != null) {
+            editText = (EditText) view.findViewById(R.id.editTextEditorial);
+            editText.setText(String.valueOf(libroActual.getEditorial().getDescripcion()));
+        }
+
+        if(libroActual.getArea() != null) {
+            editText = (EditText) view.findViewById(R.id.editTextArea);
+            editText.setText(String.valueOf(libroActual.getArea().getDescripcion()));
+        }
+
+
+        linearListViewAutores.removeAllViewsInLayout();
+        //Se recaga la interfaz con datos vacios en caso de no cargar autores
+        if(libroActual.getListaAutores() != null && libroActual.getListaAutores().size() == 0){
+            linearListViewAutores.removeAllViewsInLayout();
+
+            //View mLinearView = inflaterAux.inflate(R.layout.row_autores_libro, null);
+            View mLinearView = ctx.getLayoutInflater().inflate(R.layout.row_autores_libro_gray,parentAux,false);
+            linearListViewAutores.addView(mLinearView);
+        }
+
+        if(libroActual.getListaAutores() != null){
+            for(int i = 0; i < libroActual.getListaAutores().size(); i++){
+                /**
+                 * inflate items/ add items in linear layout instead of listview
+                 */
+                //View mLinearView = inflaterAux.inflate(R.layout.row_autores_libro, null);
+                View mLinearView = ctx.getLayoutInflater().inflate(R.layout.row_autores_libro_gray,parentAux,false);
+                /**
+                 * getting id of row.xml
+                 */
+                TextView mFirstName = (TextView) mLinearView
+                        .findViewById(R.id.textViewName);
+                TextView mLastName = (TextView) mLinearView
+                        .findViewById(R.id.textViewLastName);
+
+                /**
+                 * set item into row
+                 */
+                final String fName = libroActual.getListaAutores().get(i).getPrimerNombre();
+                final String lName = libroActual.getListaAutores().get(i).getPrimerApellido();
+                mFirstName.setText(fName);
+                mLastName.setText(lName);
+
+                /**
+                 * add view in top linear
+                 */
+                linearListViewAutores.addView(mLinearView);
+
+            }
+        }
+
+
 
     }
 }
