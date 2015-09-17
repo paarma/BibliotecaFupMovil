@@ -20,6 +20,7 @@ import com.actionbarsherlock.app.SherlockFragment;
 import java.util.ArrayList;
 import java.util.List;
 
+import modelo.Autor;
 import modelo.Libro;
 import util.TareasGenerales;
 import util.UtilidadGenerarReportes;
@@ -125,6 +126,13 @@ public class FmListaLibrosAdmin extends SherlockFragment {
                 TareasGenerales tareasGenerales = new TareasGenerales();
                 listaLibros = tareasGenerales.buscarLibros(variablesGlobales.getLibroBuscar());
                 Log.i("LibrosAdmin",">>>>>>>>>>> Tamaño lista libros buscada: "+listaLibros.size());
+
+
+                for(int i = 0; i < listaLibros.size(); i++){
+                    List<Autor> listaAutores = tareasGenerales.listarLibroAutorOnlyAutor(listaLibros.get(i).getIdLibro());
+                    listaLibros.get(i).setListaAutores(listaAutores);
+                }
+
             }catch (Exception e){
                 resultadoTarea = false;
                 Log.e("ListaLibrosAdmin ", "xxx Error TareaWsBuscarLibros: " + e.getMessage());

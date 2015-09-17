@@ -347,7 +347,24 @@
 
         </LinearLayout>
 
-    </LinearLayout>
+        <!-- Autores -->
+        <TextView
+            android:id="@+id/textViewAutores"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/editTextEstado"
+            android:text="Autores:" />
+
+        <LinearLayout
+            android:id="@+id/linear_listview_autores"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_below="@+id/textViewAutores"/>
+        <!-- Fin Autores -->
+
+        </LinearLayout>
+
     <!-- Fin panel oculto -->
 
 </LinearLayout>

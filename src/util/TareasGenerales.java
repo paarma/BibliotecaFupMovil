@@ -703,6 +703,55 @@ public class TareasGenerales {
 
 
     /**
+     * Metodo encargado de retornar el listado de autores (SOLO EL OBJETO AUTOR) de la tabla LIBRO_AUTOR
+     * @param idLibro filtro por libro, en caso de ser 0 listara todos los datos
+     *                de la tabla LIBRO_AUTOR
+     */
+    public List<Autor> listarLibroAutorOnlyAutor(int idLibro){
+
+        final String SOAP_ACTION = conf.getUrl()+"/listadoLibroAutorNew";
+        final String METHOD_NAME = "listadoLibroAutorNew";
+        final String NAMESPACE = conf.getNamespace();
+        final String URL = conf.getUrl();
+        List<Autor> listaAutor = new ArrayList<Autor>();
+
+        SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
+        request.addProperty("idLibro", idLibro);
+
+
+        SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+        envelope.bodyOut = request;
+
+        HttpTransportSE transporte = new HttpTransportSE(URL);
+
+        try {
+            transporte.call(SOAP_ACTION, envelope);
+            java.util.Vector<SoapObject> rs = (java.util.Vector<SoapObject>) envelope.getResponse();
+
+            if (rs != null)
+            {
+                for (SoapObject libroAutorSoap : rs)
+                {
+
+                    Autor autor = new Autor();
+                    autor.setIdAutor(Integer.parseInt(libroAutorSoap.getProperty("ID_AUTOR").toString()));
+                    autor.setPrimerNombre(libroAutorSoap.getProperty("PRIMER_NOMBRE").toString());
+                    autor.setSegundoNombre(libroAutorSoap.getProperty("SEGUNDO_NOMBRE").toString());
+                    autor.setPrimerApellido(libroAutorSoap.getProperty("PRIMER_APELLIDO").toString());
+                    autor.setSegundoApellido(libroAutorSoap.getProperty("SEGUNDO_APELLIDO").toString());
+                    autor.setTipoAutor(libroAutorSoap.getProperty("TIPO_AUTOR").toString());
+
+                    listaAutor.add(autor);
+                }
+            }
+        }catch (Exception e){
+            Log.e("TareasGenerales.java ", "xxx Error listarLibroAutorOnlyAutor(): " + e.getMessage());
+        }
+        return listaAutor;
+    }
+
+
+    /**
      * Metodo que verifica si ya se encuentra registrado un determinado dato en la BD
      * @param tablaVerificar
      * @param campoVerificar

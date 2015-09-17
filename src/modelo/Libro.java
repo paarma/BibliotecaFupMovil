@@ -2,6 +2,7 @@ package modelo;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by pablo on 22/05/15.
@@ -33,6 +34,10 @@ public class Libro implements Serializable {
     // Utilizado para la busqueda de libros por Autor (LIBRO_AUTOR)
     private int idAutor;
 
+    //Transient
+    // Utilizado para setear el listado de autores para el libro (si los tiene)
+    private List<Autor> listaAutores;
+
     public Libro() {
 
         this.idLibro = 0;
@@ -58,6 +63,7 @@ public class Libro implements Serializable {
 
         //Transient
         this.idAutor = 0;
+        listaAutores = null;
     }
 
     public Libro(int idLibro, String titulo, int valor, String adquisicion,
@@ -254,5 +260,13 @@ public class Libro implements Serializable {
 
     public void setIdAutor(int idAutor) {
         this.idAutor = idAutor;
+    }
+
+    public List<Autor> getListaAutores() {
+        return listaAutores;
+    }
+
+    public void setListaAutores(List<Autor> listaAutores) {
+        this.listaAutores = listaAutores;
     }
 }
