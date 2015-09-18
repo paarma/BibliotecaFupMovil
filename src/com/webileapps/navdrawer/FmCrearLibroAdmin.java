@@ -738,7 +738,7 @@ public class FmCrearLibroAdmin extends SherlockFragment {
 
         private boolean datoRepetido = false;
 
-        private boolean isbnRepetido = false;
+//        private boolean isbnRepetido = false;
         private boolean codTopograficoRepetido = false;
         private boolean pasaValidacionPrevia = false;
 
@@ -752,11 +752,13 @@ public class FmCrearLibroAdmin extends SherlockFragment {
                  * Si esta creando un nuevo libro
                  */
                 if(variablesGlobales.getLibroSeleccionadoAdmin() == null) {
-                    if(tareasGenerales.verficarDatoEnBd("LIBRO", "ISBN", isbn.getText().toString().trim())){
-                        Log.i("GuardandoUsuario",">>>>>>>>>>>>>>>>>> ISBN ya registrado (crear)");
-                        datoRepetido = true;
-                        isbnRepetido = true;
-                    }
+
+                    //Se omite validacion de ISBN repetido
+//                    if(tareasGenerales.verficarDatoEnBd("LIBRO", "ISBN", isbn.getText().toString().trim())){
+//                        Log.i("GuardandoUsuario",">>>>>>>>>>>>>>>>>> ISBN ya registrado (crear)");
+//                        datoRepetido = true;
+//                        isbnRepetido = true;
+//                    }
 
                     if(tareasGenerales.verficarDatoEnBd("LIBRO","COD_TOPOGRAFICO",codTopografico.getText().toString().trim())){
                         Log.i("GuardandoUsuario",">>>>>>>>>>>>>>>>>> codTopografico ya registrado (crear)");
@@ -769,11 +771,13 @@ public class FmCrearLibroAdmin extends SherlockFragment {
                  * Si esta editando un libro
                  */
                 if(variablesGlobales.getLibroSeleccionadoAdmin() != null) {
-                    if(!variablesGlobales.getLibroSeleccionadoAdmin().getIsbn().equals(isbn.getText().toString().trim()) &&
-                            tareasGenerales.verficarDatoEnBd("LIBRO","ISBN",isbn.getText().toString().trim())){
-                        datoRepetido = true;
-                        isbnRepetido = true;
-                    }
+
+                    //Se omite validacion de ISBN repetido
+//                    if(!variablesGlobales.getLibroSeleccionadoAdmin().getIsbn().equals(isbn.getText().toString().trim()) &&
+//                            tareasGenerales.verficarDatoEnBd("LIBRO","ISBN",isbn.getText().toString().trim())){
+//                        datoRepetido = true;
+//                        isbnRepetido = true;
+//                    }
 
                     if(!variablesGlobales.getLibroSeleccionadoAdmin().getCodigoTopografico().equals(codTopografico.getText().toString().trim()) &&
                             tareasGenerales.verficarDatoEnBd("LIBRO","COD_TOPOGRAFICO",codTopografico.getText().toString().trim())){
@@ -791,9 +795,10 @@ public class FmCrearLibroAdmin extends SherlockFragment {
         public void onPostExecute(Boolean result) {
             if (result) { //Indica que hay almenos un dato repetido en BD
 
-                if(isbnRepetido){
-                    isbn.setError("ISBN ya registrado");
-                }
+                //Se omite validacion de ISBN repetido
+//                if(isbnRepetido){
+//                    isbn.setError("ISBN ya registrado");
+//                }
 
                 if(codTopograficoRepetido){
                     codTopografico.setError("Código ya registrado");
