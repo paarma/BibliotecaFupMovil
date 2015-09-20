@@ -188,12 +188,12 @@
 
         </LinearLayout>
 
+        <!-- Se omite la cantidad
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <!-- EditText para la cantidad del libro -->
             <TextView
                 android:id="@+id/textViewCantidad"
                 android:layout_width="wrap_content"
@@ -209,7 +209,7 @@
                 android:inputType="number"
                 android:enabled="false" />
 
-        </LinearLayout>
+        </LinearLayout>  -->
 
         <LinearLayout
             android:orientation="horizontal"

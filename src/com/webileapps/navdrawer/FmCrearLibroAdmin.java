@@ -58,7 +58,7 @@ public class FmCrearLibroAdmin extends SherlockFragment {
 
     VariablesGlobales variablesGlobales = VariablesGlobales.getInstance();
 
-    private LinearLayout linearListViewAutores;
+    private LinearLayout linearListViewAutores, linearCantidadLibro;
     private ArrayList<Autor> listaAutores;
     ImageButton btnAgregarAutor, btnEliminarAutor;
     LayoutInflater inflaterAux;
@@ -265,6 +265,9 @@ public class FmCrearLibroAdmin extends SherlockFragment {
         linearListViewAutores = (LinearLayout) view.findViewById(R.id.linear_listview_autores);
         btnAgregarAutor = (ImageButton) view.findViewById(R.id.btnAgregarAutor);
         btnEliminarAutor = (ImageButton) view.findViewById(R.id.btnEliminarAutor);
+
+        linearCantidadLibro = (LinearLayout) view.findViewById(R.id.linearCantidad);
+        linearCantidadLibro.setVisibility(View.VISIBLE);
     }
 
     /**
@@ -284,6 +287,9 @@ public class FmCrearLibroAdmin extends SherlockFragment {
      */
     public void cargarDatosLibroSeleccionado(){
         if(variablesGlobales.getLibroSeleccionadoAdmin() != null) {
+
+            //Si esta editando, se oculta el campo cantidad
+            linearCantidadLibro.setVisibility(View.GONE);
 
             try {
                 titulo.setText(variablesGlobales.getLibroSeleccionadoAdmin().getTitulo());
@@ -383,7 +389,7 @@ public class FmCrearLibroAdmin extends SherlockFragment {
         temas.getText().clear();
         paginas.getText().clear();
         serie.getText().clear();
-        cantidad.getText().clear();
+        cantidad.setText("1");
 
         valor.getText().clear();
         radicado.getText().clear();
@@ -576,8 +582,16 @@ public class FmCrearLibroAdmin extends SherlockFragment {
     public boolean guardarLibro(Libro libro){
 
         Configuracion conf = new Configuracion();
-        final String SOAP_ACTION = conf.getUrl()+"/guardarLibro";
-        final String METHOD_NAME = "guardarLibro";
+
+        //Metodo anterior para el guardado de libros
+        //final String SOAP_ACTION = conf.getUrl()+"/guardarLibro";
+        //final String METHOD_NAME = "guardarLibro";
+
+        //Metodo actual para el guardado de libros (almacena cada libro de manera individual segun la canatidad)
+        final String SOAP_ACTION = conf.getUrl()+"/guardarLibroNew";
+        final String METHOD_NAME = "guardarLibroNew";
+
+
         final String NAMESPACE = conf.getNamespace();
         final String URL = conf.getUrl();
         boolean resultado = false;

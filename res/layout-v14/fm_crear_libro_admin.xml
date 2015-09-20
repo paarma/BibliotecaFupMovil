@@ -153,20 +153,28 @@
                 android:inputType="number" />
 
             <!-- EditText para la cantidad del libro -->
-            <TextView
-                android:id="@+id/textViewCantidad"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/editTextSerie"
-                android:text="Cantidad:" />
-
-            <EditText
-                android:id="@+id/editTextCantidad"
+            <LinearLayout
+                android:id="@+id/linearCantidad"
+                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/textViewCantidad"
-                android:inputType="number" />
+                android:layout_below="@+id/editTextSerie">
 
+                <TextView
+                    android:id="@+id/textViewCantidad"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/editTextSerie"
+                    android:text="Cantidad:" />
+
+                <EditText
+                    android:id="@+id/editTextCantidad"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/textViewCantidad"
+                    android:inputType="number" />
+
+            </LinearLayout>
 
             <!-- Año del libro -->
             <LinearLayout
@@ -174,7 +182,7 @@
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/editTextCantidad">
+                android:layout_below="@+id/linearCantidad">
 
                 <TextView
                     android:layout_width="wrap_content"

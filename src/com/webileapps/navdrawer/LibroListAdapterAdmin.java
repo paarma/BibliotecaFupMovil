@@ -71,8 +71,9 @@ public class LibroListAdapterAdmin extends ArrayAdapter<Libro> {
         editText = (EditText) view.findViewById(R.id.editTextSerie);
         editText.setText(String.valueOf(libroActual.getSerie()));
 
-        editText = (EditText) view.findViewById(R.id.editTextCantidad);
-        editText.setText(String.valueOf(libroActual.getCantidad()));
+        //Se omite la cantidad
+        //editText = (EditText) view.findViewById(R.id.editTextCantidad);
+        //editText.setText(String.valueOf(libroActual.getCantidad()));
 
         editText = (EditText) view.findViewById(R.id.editTextAnio);
         editText.setText(String.valueOf(libroActual.getAnio()));
