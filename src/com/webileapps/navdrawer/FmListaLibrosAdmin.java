@@ -12,7 +12,9 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragment;
@@ -38,11 +40,17 @@ public class FmListaLibrosAdmin extends SherlockFragment {
 
     private ImageButton btnReporte;
 
+    TareasGenerales tareasGenerales = new TareasGenerales();
+    private LinearLayout linearListViewAutores;
+    ViewGroup parentAux;
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
         Log.i("LIBROS_ADMIN", "************************************** INICIO LISTA_LIBROS_ADMIN");
+
+        parentAux = container;
 
 		// Get the view from fm_lista_libros_admin.xmladmin.xml
 		View view = inflater.inflate(R.layout.fm_lista_libros_admin, container, false);
@@ -87,22 +95,41 @@ public class FmListaLibrosAdmin extends SherlockFragment {
                 libroSeleccionado = listaLibros.get(posicion);
                 variablesGlobales.setLibroSeleccionadoAdmin(libroSeleccionado);
 
+                cargarAutoresAsociados(vista);
+
                 //Se ocultan todos los detalles de libros que esten deplegados
-                try {
-                    for(int j = 0; j<libroListView.getCount(); j++){
-                        View containerAux = libroListView.getChildAt(j);
-                        if(containerAux != null) {
-                            libroListView.getChildAt(j).findViewById(R.id.contenedorDetalleLibroAdmin).setVisibility(View.GONE);
-                        }
-                    }
-                }catch (Exception e){
-                    Log.e("Error", "Error ocultando detalles del libro: " + e.getMessage());
-                }
+//                try {
+//                    for(int j = 0; j<libroListView.getCount(); j++){
+//                        View containerAux = libroListView.getChildAt(j);
+//                        if(containerAux != null) {
+//                            libroListView.getChildAt(j).findViewById(R.id.contenedorDetalleLibroAdmin).setVisibility(View.GONE);
+//                        }
+//                    }
+//                }catch (Exception e){
+//                    Log.e("Error", "Error ocultando detalles del libro: " + e.getMessage());
+//                }
 
                 //Se despliega el detalle del item seleccionado
                 vista.findViewById(R.id.contenedorDetalleLibroAdmin).setVisibility(View.VISIBLE);
             }
         });
+    }
+
+    /**
+     * Carga los autores asociados a un libro
+     * @param vista
+     */
+    public void cargarAutoresAsociados(View vista){
+
+        linearListViewAutores = (LinearLayout) vista.findViewById(R.id.linear_listview_autores);
+        linearListViewAutores.removeAllViewsInLayout();
+
+        //Se agrega una fila vacia en el layout de autores en el caso de no tener autores asociados.
+        View mLinearViewAux = getActivity().getLayoutInflater().inflate(R.layout.row_autores_libro_gray,parentAux,false);
+        linearListViewAutores.addView(mLinearViewAux);
+
+        TareaWsAutoresAsociados tareaWsAutoresAsociados = new TareaWsAutoresAsociados();
+        tareaWsAutoresAsociados.execute();
     }
 
     ////////////////////////////////////////////////////
@@ -123,16 +150,8 @@ public class FmListaLibrosAdmin extends SherlockFragment {
         protected Boolean doInBackground(String... params) {
 
             try {
-                TareasGenerales tareasGenerales = new TareasGenerales();
                 listaLibros = tareasGenerales.buscarLibros(variablesGlobales.getLibroBuscar());
-                Log.i("LibrosAdmin",">>>>>>>>>>> Tamaño lista libros buscada: "+listaLibros.size());
-
-
-                for(int i = 0; i < listaLibros.size(); i++){
-                    List<Autor> listaAutores = tareasGenerales.listarLibroAutorOnlyAutor(listaLibros.get(i).getIdLibro());
-                    listaLibros.get(i).setListaAutores(listaAutores);
-                }
-
+                Log.i("LibrosAdmin",">>>>>>>>>>> Tamaño lista libros buscadaAdmin: "+listaLibros.size());
             }catch (Exception e){
                 resultadoTarea = false;
                 Log.e("ListaLibrosAdmin ", "xxx Error TareaWsBuscarLibros: " + e.getMessage());
@@ -157,6 +176,72 @@ public class FmListaLibrosAdmin extends SherlockFragment {
     }
 
     /**
+     * Tarea encargada de listar los autores asociados a un determinado libro
+     */
+    private class TareaWsAutoresAsociados extends AsyncTask<String,Integer,Boolean> {
+
+        boolean resultadoTarea = true;
+        private List<Autor> listaAutores;
+
+        @SuppressLint("LongLogTag")
+        @Override
+        protected Boolean doInBackground(String... params) {
+
+            try {
+                listaAutores = tareasGenerales.listarLibroAutorOnlyAutor(libroSeleccionado.getIdLibro());
+                Log.i("LibrosAdmin",">>>>>>>>>>> Tamaño lista autoresAsocuados: "+listaAutores.size());
+            }catch (Exception e){
+                resultadoTarea = false;
+                Log.e("ListaLibrosAdmin ", "xxx Error TareaWsAutoresAsociados: " + e.getMessage());
+            }
+            return resultadoTarea;
+        }
+
+        public void onPostExecute(Boolean result){
+
+            if(result){
+
+                if(listaAutores != null && listaAutores.size() > 0){
+
+                    linearListViewAutores.removeAllViewsInLayout();
+
+                    for(int i = 0; i < listaAutores.size(); i++){
+                        /**
+                         * inflate items/ add items in linear layout instead of listview
+                         */
+                        //View mLinearView = inflaterAux.inflate(R.layout.row_autores_libro, null);
+                        View mLinearView = getActivity().getLayoutInflater().inflate(R.layout.row_autores_libro_gray,parentAux,false);
+                        /**
+                         * getting id of row.xml
+                         */
+                        TextView mFirstName = (TextView) mLinearView
+                                .findViewById(R.id.textViewName);
+                        TextView mLastName = (TextView) mLinearView
+                                .findViewById(R.id.textViewLastName);
+
+                        /**
+                         * set item into row
+                         */
+                        final String fName = listaAutores.get(i).getPrimerNombre();
+                        final String lName = listaAutores.get(i).getPrimerApellido();
+                        mFirstName.setText(fName);
+                        mLastName.setText(lName);
+
+                        /**
+                         * add view in top linear
+                         */
+                        linearListViewAutores.addView(mLinearView);
+                    }
+                }
+
+            }else{
+                Log.e("listaAutores"," XXX Error listando autoresAsocuadis");
+            }
+        }
+    }
+
+
+    /**
      * Metodo encargado de generar un reporte .xls conteniendo el listado de libros.
      */
     public void generarReporte(){
@@ -179,6 +264,6 @@ public class FmListaLibrosAdmin extends SherlockFragment {
         super.onResume();
 
         //Funcionalidad para recergar las variables del Fragment
-        inicializarListaLibros();
+        //inicializarListaLibros();
     }
 }

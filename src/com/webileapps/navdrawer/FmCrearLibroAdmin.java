@@ -76,6 +76,8 @@ public class FmCrearLibroAdmin extends SherlockFragment {
         View view = inflater.inflate(R.layout.fm_crear_libro_admin, container, false);
         inflaterAux = inflater;
 
+        Log.i("CREAR_LIB", "************************************** INICIO CREAR LIBRO");
+
         //Dialog para agregar autores (Antes de cargar los spinners)
         crearDialogAutores();
 
