@@ -31,4 +31,6 @@
     <string name="aceptar">Aceptar</string>
     <string name="cancelar">Cancelar</string>
 
+    <string name="display">Desplegando %1$s de %2$s</string>
+
 </resources>

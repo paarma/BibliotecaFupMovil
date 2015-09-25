@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
@@ -24,6 +25,7 @@ import java.util.List;
 
 import modelo.Autor;
 import modelo.Libro;
+import util.DatasourceLibros;
 import util.TareasGenerales;
 import util.UtilidadGenerarReportes;
 import util.VariablesGlobales;
@@ -44,16 +46,32 @@ public class FmListaLibrosAdmin extends SherlockFragment {
     private LinearLayout linearListViewAutores;
     ViewGroup parentAux;
 
+
+    private DatasourceLibros datasourceLibros;
+    private static final int PAGESIZE = 10;
+    private TextView textViewDisplaying;
+    View viewAux = null;
+    View footerView;
+    boolean loading;
+    LayoutInflater inflaterAux;
+
+
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+	public View onCreateView(final LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
         Log.i("LIBROS_ADMIN", "************************************** INICIO LISTA_LIBROS_ADMIN");
 
         parentAux = container;
+        inflaterAux = inflater;
 
 		// Get the view from fm_lista_libros_admin.xmladmin.xml
 		View view = inflater.inflate(R.layout.fm_lista_libros_admin, container, false);
+
+        datasourceLibros = DatasourceLibros.getInstance();
+        viewAux = view;
+
+        footerView = inflater.inflate(R.layout.footer_load, null);
 
         btnReporte = (ImageButton) view.findViewById(R.id.btnReporteLibroAdmin);
         btnReporte.setOnClickListener(new View.OnClickListener() {
@@ -66,6 +84,36 @@ public class FmListaLibrosAdmin extends SherlockFragment {
         inicializarComponentes(view);
         inicializarListaLibros();
 
+        //Scroll del listView
+        libroListView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView absListView, int i) {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
+                try {
+
+                    //boolean lastItem = firstVisibleItem + visibleItemCount == totalItemCount && libroListView.getChildAt(visibleItemCount -1) != null && libroListView.getChildAt(visibleItemCount-1).getBottom() <= libroListView.getHeight();
+                    boolean lastItem = (firstVisibleItem + visibleItemCount == totalItemCount);
+                    boolean moreRows = adapterLibro.getCount() < datasourceLibros.getSize();
+
+                    if (!loading &&  lastItem && moreRows)
+                    {
+                        loading = true;
+                        libroListView.addFooterView(footerView);
+                        (new LoadNextPage()).execute("");
+                    }
+                }catch (Exception e){
+                    Log.e("LibrosAdmin","xxx Error scroll listaLibrosAmin: "+e.getMessage());
+                }
+
+            }
+        });
+
+
 		return view;
 	}
 
@@ -76,6 +124,18 @@ public class FmListaLibrosAdmin extends SherlockFragment {
 
         libroListView = (ListView) view.findViewById(R.id.listViewLibrosAdmin);
     }
+
+    /**
+     * Mensaje de cabezera indicando la cantidad de registros
+     */
+    private void updateDisplayingTextView()
+    {
+        textViewDisplaying = (TextView) viewAux.findViewById(R.id.displaying);
+        String text = getString(R.string.display);
+        text = String.format(text, adapterLibro.getCount(), datasourceLibros.getSize());
+        textViewDisplaying.setText(text);
+    }
+
 
     /**
      * Se carga el listado de libros provenientes de la BD,
@@ -163,8 +223,19 @@ public class FmListaLibrosAdmin extends SherlockFragment {
 
             if(result){
                 try {
-                    adapterLibro = new LibroListAdapterAdmin(getActivity(), listaLibros);
+
+                    datasourceLibros.setSIZE(listaLibros.size());
+                    datasourceLibros.setData(listaLibros);
+
+                    //adapterLibro = new LibroListAdapterAdmin(getActivity(), listaLibros);
+                    adapterLibro = new LibroListAdapterAdmin(getActivity(), datasourceLibros.getData(0, PAGESIZE));
+
+                    libroListView.addFooterView(footerView);
                     libroListView.setAdapter(adapterLibro);
+                    libroListView.removeFooterView(footerView);
+
+                    updateDisplayingTextView();
+
                 }catch (Exception e){
                     Log.e("ListaLibrosAdmin","XXX Error listando libros: "+e.getMessage());
                 }
@@ -251,6 +322,47 @@ public class FmListaLibrosAdmin extends SherlockFragment {
         utilidadReporte.setTipoArchivo(1);
         utilidadReporte.saveExcelFile(getActivity(), "LibrosFUP.xls");
     }
+
+
+    /**
+     * Clase encargada de carga la siguente pagina del listView
+     */
+    private class LoadNextPage extends AsyncTask<String, Void, String>
+    {
+        private List<Libro> newData = null;
+        @Override
+        protected String doInBackground(String... arg0)
+        {
+            //para que de tiempo a ver el footer <span class="wp-smiley wp-emoji wp-emoji-wink" title=";)">;)</span>
+            try
+            {
+                Thread.sleep(1500);
+            }
+            catch (InterruptedException e)
+            {
+                Log.e("LoadNextPage","xxx Error cargando siguiente pagina listaLibrosAdmin: "+e.getMessage());
+            }
+            newData = datasourceLibros.getData(adapterLibro.getCount(), PAGESIZE);
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String result)
+        {
+
+            for (Libro value : newData)
+            {
+                adapterLibro.add(value);
+            }
+            adapterLibro.notifyDataSetChanged();
+
+            libroListView.removeFooterView(footerView);
+            updateDisplayingTextView();
+            loading = false;
+        }
+
+    }
+
 
     /////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////

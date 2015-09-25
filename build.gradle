@@ -24,6 +24,7 @@ dependencies {
     compile 'com.actionbarsherlock:actionbarsherlock:4.4.0@aar'
     compile files('libs/ksoap2-android-assembly-3.0.0-jar-with-dependencies.jar')
     compile files('libs/poi-3.7.jar')
+    compile 'com.jakewharton:butterknife:7.0.1'
 }
 
 android {

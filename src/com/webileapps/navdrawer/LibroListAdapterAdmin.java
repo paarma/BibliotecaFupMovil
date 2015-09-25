@@ -5,11 +5,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.List;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import modelo.Libro;
 
 /**
@@ -26,13 +29,28 @@ public class LibroListAdapterAdmin extends ArrayAdapter<Libro> {
     public LibroListAdapterAdmin(Activity context, List<Libro> libros) {
         super(context, R.layout.list_view_item_libro_admin,libros);
         this.ctx = context;
+
+        setNotifyOnChange(true);
     }
 
     @Override
     public View getView(int position, View view, ViewGroup parent) {
 
+        Holder holder = null;
+
         if(view == null){
+
+            holder = new Holder();
             view = ctx.getLayoutInflater().inflate(R.layout.list_view_item_libro_admin,parent,false);
+
+            //Almacena en el holder la info que esta en pantalla
+            ButterKnife.bind(holder, view);
+
+            //cada "view" tendrá su único tag, ya que cada layout es compartido
+            //fila que aparezca en le linearLauout, esto optimiza recursos eficientemente
+            view.setTag(holder);
+        }else{
+            holder = (Holder) view.getTag();
         }
 
         //Variables especificas para listar los autores
@@ -40,67 +58,102 @@ public class LibroListAdapterAdmin extends ArrayAdapter<Libro> {
         linearListViewAutores = (LinearLayout) view.findViewById(R.id.linear_listview_autores);
 
         Libro  libroActual = this.getItem(position);
-        inicializarCamposTexto(view, libroActual);
+        inicializarCamposTexto(view, holder, libroActual);
         return view;
     }
 
-    private void inicializarCamposTexto(View view, Libro libroActual) {
+    /**
+     *Clase para contener una referencia al contenido del layout definido en el xml (libro)
+     */
+    public class Holder
+    {
+        /**
+         * Notaciones de la libreria butterknife
+         * para inyectar vistas
+         */
+        @Bind(R.id.imgLibroAdmin)
+        protected ImageView imgLibro;
 
-        TextView textView = (TextView) view.findViewById(R.id.tbxTitulo);
-        textView.setText(libroActual.getTitulo());
+        @Bind(R.id.tbxTitulo)
+        protected TextView titulo;
 
-        textView = (TextView) view.findViewById(R.id.tbxIsbn);
-        textView.setText(libroActual.getIsbn());
+        @Bind(R.id.tbxIsbn)
+        protected TextView isbn;
+
+        @Bind(R.id.contenedorDetalleLibroAdmin)
+        protected  LinearLayout contenedorOculto;
+
+        @Bind(R.id.editTextCodTopo)
+        protected EditText codTopografico;
+
+        @Bind(R.id.editTextTemas)
+        protected EditText temas;
+
+        @Bind(R.id.editTextPaginas)
+        protected EditText paginas;
+
+        @Bind(R.id.editTextValor)
+        protected EditText valor;
+
+        @Bind(R.id.editTextRadicado)
+        protected EditText radicado;
+
+        @Bind(R.id.editTextSerie)
+        protected EditText serie;
+
+        @Bind(R.id.editTextAnio)
+        protected EditText anio;
+
+        @Bind(R.id.editTextEditorial)
+        protected EditText editorial;
+
+        @Bind(R.id.editTextArea)
+        protected EditText area;
+
+        @Bind(R.id.editTextSede)
+        protected EditText sede;
+
+        @Bind(R.id.editTextAdquisicion)
+        protected EditText adquisicion;
+
+        @Bind(R.id.editTextEstado)
+        protected EditText estado;
+
+    }
+
+    private void inicializarCamposTexto(View view, Holder holder, Libro libroActual) {
+
+        holder.titulo.setText(libroActual.getTitulo());
+        holder.isbn.setText(libroActual.getIsbn());
 
         //Detalles del libro (campos ocultos)
-        view.findViewById(R.id.contenedorDetalleLibroAdmin).setVisibility(View.GONE);
+        holder.contenedorOculto.setVisibility(View.GONE);
 
-        EditText editText = (EditText) view.findViewById(R.id.editTextCodTopo);
-        editText.setText(libroActual.getCodigoTopografico());
-
-        editText = (EditText) view.findViewById(R.id.editTextTemas);
-        editText.setText(libroActual.getTemas());
-
-        editText = (EditText) view.findViewById(R.id.editTextPaginas);
-        editText.setText(String.valueOf(libroActual.getPaginas()));
-
-        editText = (EditText) view.findViewById(R.id.editTextValor);
-        editText.setText(String.valueOf(libroActual.getValor()));
-
-        editText = (EditText) view.findViewById(R.id.editTextRadicado);
-        editText.setText(libroActual.getRadicado());
-
-        editText = (EditText) view.findViewById(R.id.editTextSerie);
-        editText.setText(String.valueOf(libroActual.getSerie()));
-
-        //Se omite la cantidad
-        //editText = (EditText) view.findViewById(R.id.editTextCantidad);
-        //editText.setText(String.valueOf(libroActual.getCantidad()));
-
-        editText = (EditText) view.findViewById(R.id.editTextAnio);
-        editText.setText(String.valueOf(libroActual.getAnio()));
+        holder.codTopografico.setText(libroActual.getCodigoTopografico());
+        holder.temas.setText(libroActual.getTemas());
+        holder.paginas.setText(String.valueOf(libroActual.getPaginas()));
+        holder.valor.setText(String.valueOf(libroActual.getValor()));
+        holder.radicado.setText(libroActual.getRadicado());
+        holder.serie.setText(String.valueOf(libroActual.getSerie()));
+        holder.anio.setText(String.valueOf(libroActual.getAnio()));
 
         if(libroActual.getEditorial() != null) {
-            editText = (EditText) view.findViewById(R.id.editTextEditorial);
-            editText.setText(String.valueOf(libroActual.getEditorial().getDescripcion()));
+            holder.editorial.setText(libroActual.getEditorial().getDescripcion());
         }
 
         if(libroActual.getArea() != null) {
-            editText = (EditText) view.findViewById(R.id.editTextArea);
-            editText.setText(String.valueOf(libroActual.getArea().getDescripcion()));
+            holder.area.setText(libroActual.getArea().getDescripcion());
         }
 
         if(libroActual.getSede() != null) {
-            editText = (EditText) view.findViewById(R.id.editTextSede);
-            editText.setText(libroActual.getSede().getDescripcion());
+            holder.sede.setText(libroActual.getSede().getDescripcion());
         }
 
-        editText = (EditText) view.findViewById(R.id.editTextAdquisicion);
-        editText.setText(libroActual.getAdquisicion());
+        holder.adquisicion.setText(libroActual.getAdquisicion());
+        holder.estado.setText(libroActual.getEstado());
 
-        editText = (EditText) view.findViewById(R.id.editTextEstado);
-        editText.setText(libroActual.getEstado());
-
+        //Se omite la cantidad view.findViewById(R.id.editTextCantidad);
 
     }
+
 }
