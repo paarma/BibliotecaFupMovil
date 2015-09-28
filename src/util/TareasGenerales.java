@@ -105,6 +105,126 @@ public class TareasGenerales {
         return listaLibro;
     }
 
+
+    /**
+     * Metodo encargado de retornar el total de libros
+     * @param libroBuscar objeto de la clase Libro el cual contiene los parametros
+     *                    de busqueda ya sean fijados o por defecto. En el caso
+     *                    de tenerlos por defecto (new Libro()) se listaran todos los libros
+     *                    presentes.
+     * @return totalLibros
+     */
+    public int cantidadLibros(Libro libroBuscar){
+
+        final String SOAP_ACTION = conf.getUrl()+"/cantidadLibros";
+        final String METHOD_NAME = "cantidadLibros";
+
+
+        final String NAMESPACE = conf.getNamespace();
+        final String URL = conf.getUrl();
+        int cantidad = 0;
+
+        SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
+        request.addProperty("titulo",libroBuscar.getTitulo());
+        request.addProperty("isbn",libroBuscar.getIsbn());
+        request.addProperty("codTopografico",libroBuscar.getCodigoTopografico());
+        request.addProperty("temas",libroBuscar.getTemas());
+
+        if(libroBuscar.getEditorial() != null){
+            request.addProperty("editorial",libroBuscar.getEditorial().getIdEditorial());
+        }else{
+            request.addProperty("editorial","");
+        }
+
+        //Autor (LIBRO_AUTOR)
+        request.addProperty("autor",libroBuscar.getIdAutor());
+
+        SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+        envelope.bodyOut = request;
+
+        HttpTransportSE transporte = new HttpTransportSE(URL);
+
+        try {
+            transporte.call(SOAP_ACTION, envelope);
+            cantidad = Integer.parseInt(envelope.getResponse().toString());
+            Log.i("Reservando","*********************** resultado cantidadLibros: "+cantidad);
+        }catch (Exception e){
+            Log.e("TareasGenerales.java ", "xxx Error cantidadLibros(): " + e.getMessage());
+        }
+        return cantidad;
+    }
+
+
+    /**
+     * Metodo encargado de retornar el listado de libros PAGINADOS segun busqueda
+     * @param libroBuscar objeto de la clase Libro el cual contiene los parametros
+     *                    de busqueda ya sean fijados o por defecto. En el caso
+     *                    de tenerlos por defecto (new Libro()) se listaran todos los libros
+     *                    presentes.
+     * @return ListadoLibros
+     */
+    public List<Libro> buscarLibrosPaginados(Libro libroBuscar, int offset, int limit){
+
+        //Anterior metodo para el listado de libros
+        //final String SOAP_ACTION = conf.getUrl()+"/listadoLibros";
+        //final String METHOD_NAME = "listadoLibros";
+
+        //Metodo actual para el listado de libros (con los datos de objetos relacionales)
+        final String SOAP_ACTION = conf.getUrl()+"/listadoLibrosPagindosNew";
+        final String METHOD_NAME = "listadoLibrosPagindosNew";
+
+
+        final String NAMESPACE = conf.getNamespace();
+        final String URL = conf.getUrl();
+        List<Libro> listaLibro = new ArrayList<Libro>();
+
+        SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
+        request.addProperty("titulo",libroBuscar.getTitulo());
+        request.addProperty("isbn",libroBuscar.getIsbn());
+        request.addProperty("codTopografico",libroBuscar.getCodigoTopografico());
+        request.addProperty("temas",libroBuscar.getTemas());
+
+        if(libroBuscar.getEditorial() != null){
+            request.addProperty("editorial",libroBuscar.getEditorial().getIdEditorial());
+        }else{
+            request.addProperty("editorial","");
+        }
+
+        //Autor (LIBRO_AUTOR)
+        request.addProperty("autor",libroBuscar.getIdAutor());
+
+        //Paginacion
+        request.addProperty("offset",offset);
+        request.addProperty("limit",limit);
+
+        SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+        envelope.bodyOut = request;
+
+        HttpTransportSE transporte = new HttpTransportSE(URL);
+
+        try {
+            transporte.call(SOAP_ACTION, envelope);
+            java.util.Vector<SoapObject> rs = (java.util.Vector<SoapObject>) envelope.getResponse();
+
+            if (rs != null)
+            {
+                for (SoapObject libroSoap : rs)
+                {
+
+                    //Anterior metodo para el listado de libros
+                    //listaLibro.add(utilidadesBuscarPorId.obtenerLibroSoap(libroSoap));
+
+                    //Metodo actual para el listado de libros (con los datos de objetos relacionales)
+                    listaLibro.add(utilidadesBuscarPorId.obtenerLibroSoapNew(libroSoap));
+                }
+            }
+        }catch (Exception e){
+            Log.e("TareasGenerales.java ", "xxx Error buscarLibrosPaginados(): " + e.getMessage());
+        }
+        return listaLibro;
+    }
+
+
     /**
      * Metodo encargado de reservar un libro
      * @param solicitud

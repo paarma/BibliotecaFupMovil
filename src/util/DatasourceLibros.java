@@ -1,5 +1,7 @@
 package util;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +17,9 @@ public class DatasourceLibros
     private static DatasourceLibros datasourceLibros = null;
     private List<Libro> data = null;
     private int SIZE = 0;
+
+    TareasGenerales tareasGenerales = new TareasGenerales();
+    VariablesGlobales variablesGlobales = VariablesGlobales.getInstance();
 
     public static DatasourceLibros getInstance()
     {
@@ -52,12 +57,14 @@ public class DatasourceLibros
     public List<Libro> getData(int offset, int limit)
     {
         List<Libro> newList = new ArrayList<Libro>(limit);
-        int end = offset + limit;
-        if (end > data.size())
-        {
-            end = data.size();
+
+        try {
+            newList = tareasGenerales.buscarLibrosPaginados(variablesGlobales.getLibroBuscar(), offset, limit);
+            Log.i("DSLibros", ">>>>>>>>>>> Tamaño lista libros DataSoruce: " + newList.size());
+        }catch (Exception e){
+            Log.e("DSLibros ", "xxx Error getData(): " + e.getMessage());
         }
-        newList.addAll(data.subList(offset, end));
+
         return newList;
     }
 

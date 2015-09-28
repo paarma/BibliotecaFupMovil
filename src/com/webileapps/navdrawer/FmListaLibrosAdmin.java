@@ -152,7 +152,8 @@ public class FmListaLibrosAdmin extends SherlockFragment {
             @Override
             public void onItemClick(AdapterView<?> padre, View vista, int posicion, long id) {
 
-                libroSeleccionado = listaLibros.get(posicion);
+                //libroSeleccionado = listaLibros.get(posicion);
+                libroSeleccionado = (Libro) libroListView.getItemAtPosition(posicion);
                 variablesGlobales.setLibroSeleccionadoAdmin(libroSeleccionado);
 
                 cargarAutoresAsociados(vista);
@@ -204,14 +205,16 @@ public class FmListaLibrosAdmin extends SherlockFragment {
     private class TareaWsBuscarLibros extends AsyncTask<String,Integer,Boolean> {
 
         boolean resultadoTarea = true;
+        int cantidad = 0;
 
         @SuppressLint("LongLogTag")
         @Override
         protected Boolean doInBackground(String... params) {
 
             try {
-                listaLibros = tareasGenerales.buscarLibros(variablesGlobales.getLibroBuscar());
-                Log.i("LibrosAdmin",">>>>>>>>>>> Tamaño lista libros buscadaAdmin: "+listaLibros.size());
+                //listaLibros = tareasGenerales.buscarLibros(variablesGlobales.getLibroBuscar());
+                cantidad = tareasGenerales.cantidadLibros(variablesGlobales.getLibroBuscar());
+                Log.i("LibrosAdmin",">>>>>>>>>>> Tamaño lista libros buscadaAdmin: "+cantidad);
             }catch (Exception e){
                 resultadoTarea = false;
                 Log.e("ListaLibrosAdmin ", "xxx Error TareaWsBuscarLibros: " + e.getMessage());
@@ -224,8 +227,8 @@ public class FmListaLibrosAdmin extends SherlockFragment {
             if(result){
                 try {
 
-                    datasourceLibros.setSIZE(listaLibros.size());
-                    datasourceLibros.setData(listaLibros);
+                    datasourceLibros.setSIZE(cantidad);
+                    //datasourceLibros.setData(listaLibros);
 
                     //adapterLibro = new LibroListAdapterAdmin(getActivity(), listaLibros);
                     adapterLibro = new LibroListAdapterAdmin(getActivity(), datasourceLibros.getData(0, PAGESIZE));
@@ -336,13 +339,17 @@ public class FmListaLibrosAdmin extends SherlockFragment {
             //para que de tiempo a ver el footer <span class="wp-smiley wp-emoji wp-emoji-wink" title=";)">;)</span>
             try
             {
-                Thread.sleep(1500);
+                Thread.sleep(1000);
+                newData = datasourceLibros.getData(adapterLibro.getCount(), PAGESIZE);
             }
-            catch (InterruptedException e)
+            catch (InterruptedException e){
+                Log.e("LoadNextPage","xxx Error cargando siguiente pagina InterruptedException: "+e.getMessage());
+            }
+            catch (Exception e)
             {
-                Log.e("LoadNextPage","xxx Error cargando siguiente pagina listaLibrosAdmin: "+e.getMessage());
+                Log.e("LoadNextPage","xxx Error cargando siguiente pagina Exception: "+e.getMessage());
             }
-            newData = datasourceLibros.getData(adapterLibro.getCount(), PAGESIZE);
+
             return null;
         }
 
