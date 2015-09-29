@@ -1,11 +1,13 @@
 package util;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Environment;
 import android.util.Log;
 import android.widget.TextView;
@@ -47,6 +49,9 @@ public class UtilidadGenerarReportes {
      */
     private int tipoArchivo;
 
+    VariablesGlobales variablesGlobales = VariablesGlobales.getInstance();
+    TareasGenerales tareasGenerales = new TareasGenerales();
+
     //Generar archivo excel
     public boolean saveExcelFile(Context context, String fileName) {
 
@@ -58,63 +63,17 @@ public class UtilidadGenerarReportes {
 
         boolean success = false;
 
-        //New Workbook
-        // nuevo libro de trabajo
-        Workbook wb = new HSSFWorkbook();
-
-        //Cell style for header row
-        // Estilo de celda para encabezado
-        CellStyle cs = wb.createCellStyle();
-
-        cs.setFillForegroundColor(HSSFColor.LIGHT_BLUE.index);
-        cs.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-        cs.setAlignment(CellStyle.ALIGN_CENTER);
-
-        Font font = wb.createFont();//Create font
-        font.setBoldweight(Font.BOLDWEIGHT_BOLD);//Make font bold //Negrilla
-
-        cs.setFont(font);//set it to bold
-
-        CellStyle styleCabezera = wb.createCellStyle();
-        styleCabezera.setFont(font); //Se setea el fond para la cabezera o titulo del reporte
-
-        switch (tipoArchivo){
-            case 1:
-                generarContenidoListaLibros(wb, cs, styleCabezera);
-                break;
-            case 2:
-                generarContenidoReservas(wb, cs, styleCabezera);
-                break;
-            case 3:
-                generarContenidoListaUsuarios(wb, cs, styleCabezera);
-                break;
-        }
-
-        // Create a path where we will place our List of objects on external storage
-        // Crear una ruta en la que vamos a poner nuestra Lista de objetos en el almacenamiento externo
-        File file = new File(context.getExternalFilesDir(null), fileName);
-        FileOutputStream os = null;
-
         try {
-            os = new FileOutputStream(file);
-            wb.write(os);
-            Log.w("FileUtils", "Writing file" + file);
+
+            Activity activity = (Activity) context;
+            TareaWsObtenerDatos datos = new TareaWsObtenerDatos();
+            datos.setActivity(activity);
+            datos.setFileName(fileName);
+            datos.execute();
             success = true;
 
-            rutaReporte = file.toString();
-            Activity activity = (Activity) context;
-            lanzarProgressBar(activity);
-
-        } catch (IOException e) {
-            Log.w("FileUtils", "Error writing " + file, e);
         } catch (Exception e) {
             Log.w("FileUtils", "Failed to save file", e);
-        } finally {
-            try {
-                if (null != os)
-                    os.close();
-            } catch (Exception ex) {
-            }
         }
         return success;
 
@@ -616,10 +575,129 @@ public class UtilidadGenerarReportes {
         alert.show();
     }
 
-    //Setters
-    public void setListaLibros(List<Libro> listaLibros) {
-        this.listaLibros = listaLibros;
+
+    /**
+     * Tarea encargada de listar los libros de la biblioteca ya sea el listado general
+     * o un listado segun parametros de un libro a buscar
+     */
+    private class TareaWsObtenerDatos extends AsyncTask<String,Integer,Boolean> {
+
+        boolean resultadoTarea = true;
+        ProgressDialog dialogo = null;
+        File file = null;
+        FileOutputStream os = null;
+
+        Activity activity = null;
+        String fileName = "reporteFup.xls";
+
+        @SuppressLint("LongLogTag")
+        @Override
+        protected Boolean doInBackground(String... params) {
+
+            try {
+
+                activity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        dialogo = ProgressDialog.show(activity, "Espere", "......");
+                    }
+                });
+
+
+                //New Workbook
+                // nuevo libro de trabajo
+                Workbook wb = new HSSFWorkbook();
+
+                //Cell style for header row
+                // Estilo de celda para encabezado
+                CellStyle cs = wb.createCellStyle();
+
+                cs.setFillForegroundColor(HSSFColor.LIGHT_BLUE.index);
+                cs.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+                cs.setAlignment(CellStyle.ALIGN_CENTER);
+
+                Font font = wb.createFont();//Create font
+                font.setBoldweight(Font.BOLDWEIGHT_BOLD);//Make font bold //Negrilla
+
+                cs.setFont(font);//set it to bold
+
+                CellStyle styleCabezera = wb.createCellStyle();
+                styleCabezera.setFont(font); //Se setea el fond para la cabezera o titulo del reporte
+
+
+
+                // Create a path where we will place our List of objects on external storage
+                // Crear una ruta en la que vamos a poner nuestra Lista de objetos en el almacenamiento externo
+                file = new File(activity.getExternalFilesDir(null), fileName);
+
+                rutaReporte = file.toString();
+
+                switch (tipoArchivo){
+                    case 1:
+                        //Reporte listadoLibros
+                        listaLibros = tareasGenerales.buscarLibros(variablesGlobales.getLibroBuscar());
+                        generarContenidoListaLibros(wb, cs, styleCabezera);
+                        Log.i("Reporte",">>>>>>>>>>> Tamaño lista libros reporte: "+listaLibros.size());
+                        break;
+                    case 2:
+                        //Reporte reservas
+                        generarContenidoReservas(wb, cs, styleCabezera);
+                        break;
+                    case 3:
+                        //reporte usuarios
+                        generarContenidoListaUsuarios(wb, cs, styleCabezera);
+                        break;
+                }
+
+                //Se escriben los datos en el reporte
+                os = new FileOutputStream(file);
+                wb.write(os);
+                Log.w("FileUtils", "Writing file" + file);
+
+            } catch (IOException e) {
+                resultadoTarea = false;
+                Log.w("FileUtils", "Error writing " + file, e);
+            } catch (Exception e) {
+                resultadoTarea = false;
+                Log.w("FileUtils", "Failed to save file", e);
+                Log.e("Reporte ", "xxx Error TareaWsObtenerDatos: " + e.getMessage());
+            } finally {
+                try {
+                    if (null != os)
+                        os.close();
+                } catch (Exception ex) {
+                }
+            }
+
+            return resultadoTarea;
+        }
+
+        public void onPostExecute(Boolean result){
+
+            if(result){
+                try {
+                    activity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            dialogo.dismiss(); //Se cierra el dialog (se desecha)
+                            showAlert(activity, "Ruta reporte: "+rutaReporte);
+                        }
+                    });
+                }catch (Exception e){
+                    Log.e("Reporte","XXX Error TareaWsObtenerDatos: "+e.getMessage());
+                }
+            }
+        }
+
+        public void setActivity(Activity activity) {
+            this.activity = activity;
+        }
+
+        public void setFileName(String fileName) {
+            this.fileName = fileName;
+        }
     }
+
 
     public void setListaSolicitudes(List<Solicitud> listaSolicitudes) {
         this.listaSolicitudes = listaSolicitudes;
