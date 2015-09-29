@@ -641,6 +641,7 @@ public class UtilidadGenerarReportes {
                         break;
                     case 2:
                         //Reporte reservas
+                        listaSolicitudes = tareasGenerales.buscarSolicitudes(variablesGlobales.getSolicitudBuscar());
                         generarContenidoReservas(wb, cs, styleCabezera);
                         break;
                     case 3:
@@ -698,10 +699,6 @@ public class UtilidadGenerarReportes {
         }
     }
 
-
-    public void setListaSolicitudes(List<Solicitud> listaSolicitudes) {
-        this.listaSolicitudes = listaSolicitudes;
-    }
 
     public void setListaUsuarios(List<Usuario> listaUsuarios) {
         this.listaUsuarios = listaUsuarios;

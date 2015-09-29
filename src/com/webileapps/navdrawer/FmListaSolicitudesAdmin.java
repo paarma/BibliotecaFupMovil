@@ -315,7 +315,6 @@ public class FmListaSolicitudesAdmin extends SherlockFragment {
     public void generarReporte(){
 
         UtilidadGenerarReportes utilidadReporte = new UtilidadGenerarReportes();
-        utilidadReporte.setListaSolicitudes(listaSolicitudes);
         utilidadReporte.setTipoArchivo(2);
         utilidadReporte.saveExcelFile(getActivity(), "reservasFUP.xls");
     }
