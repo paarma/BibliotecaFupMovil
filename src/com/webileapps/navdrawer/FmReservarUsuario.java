@@ -241,10 +241,11 @@ public class FmReservarUsuario extends SherlockFragment {
                 vista.findViewById(R.id.contenedorDetalleLibroReservar).setVisibility(View.VISIBLE);
 
 
-                //Se verifica la cantidad del libro para verificar si es posible reservarlo o no
+                //Se verifica la cantidad y disponibildad del libro para verificar si es posible reservarlo o no
                 gridLayoutBtnReservar.setVisibility(View.GONE);
                 if(libroSeleccionado != null &&
-                        libroSeleccionado.getCantidad() > Utilidades.cantidadMininaLibroPrestar){
+                        libroSeleccionado.getCantidad() > Utilidades.cantidadMininaLibroPrestar &&
+                        libroSeleccionado.getDisponibilidad().equals("SI")){
                     gridLayoutBtnReservar.setVisibility(View.VISIBLE);
                 }
 

@@ -35,4 +35,9 @@
         <item>EN MORA</item>
     </string-array>
 
+    <string-array name="disponibilidad">
+        <item>SI</item>
+        <item>NO</item>
+    </string-array>
+
 </resources>

@@ -486,6 +486,10 @@ public class UtilidadesBuscarPorId {
             lib.setCantidad(Integer.parseInt(libroSoap.getProperty("CANTIDAD").toString()));
         }
 
+        if(libroSoap.getProperty("DISPONIBILIDAD") != null) {
+            lib.setDisponibilidad(libroSoap.getProperty("DISPONIBILIDAD").toString());
+        }
+
         return lib;
     }
 

@@ -52,7 +52,7 @@ public class FmCrearLibroAdmin extends SherlockFragment {
 
     EditText titulo, isbn, codTopografico, temas, paginas, valor, radicado, serie, cantidad;
     Spinner spinnerEstado, spinnerAdquisicion, spinnerEditorial, spinnerArea,
-            spinnerSede, spinnerCiudad, spinnerPais, spinnerAutor;
+            spinnerSede, spinnerCiudad, spinnerPais, spinnerAutor, spinnerDisponibilidad;
 
     DatePicker dpickerAnioLibro;
 
@@ -218,6 +218,7 @@ public class FmCrearLibroAdmin extends SherlockFragment {
         spinnerSede = (Spinner) view.findViewById(R.id.spinnerSede);
         spinnerPais = (Spinner) view.findViewById(R.id.spinnerPais);
         spinnerCiudad = (Spinner) view.findViewById(R.id.spinnerCiudad);
+        spinnerDisponibilidad = (Spinner) view.findViewById(R.id.spinnerDisponibilidad);
         valor = (EditText) view.findViewById(R.id.editTextValor);
         radicado = (EditText) view.findViewById(R.id.editTextRadicado);
         cantidad = (EditText) view.findViewById(R.id.editTextCantidad);
@@ -236,6 +237,9 @@ public class FmCrearLibroAdmin extends SherlockFragment {
         adapterAdquisicion.setDropDownViewResource(R.layout.spinner_item);
         spinnerAdquisicion.setAdapter(adapterAdquisicion);
 
+        ArrayAdapter adapterDisponibilidad = ArrayAdapter.createFromResource(getActivity(), R.array.disponibilidad, R.layout.spinner_item);
+        adapterDisponibilidad.setDropDownViewResource(R.layout.spinner_item);
+        spinnerDisponibilidad.setAdapter(adapterDisponibilidad);
 
         ////////////////Se referencia el datepicker (Año Libro)
         //y se ocultan los campos dia y mes para solo mostrar el año.
@@ -308,6 +312,7 @@ public class FmCrearLibroAdmin extends SherlockFragment {
                 //Se cargan los spinners con su respectivo valor.
                 spinnerEstado.setSelection(Utilidades.getIndexSpinner(spinnerEstado, variablesGlobales.getLibroSeleccionadoAdmin().getEstado()));
                 spinnerAdquisicion.setSelection(Utilidades.getIndexSpinner(spinnerAdquisicion, variablesGlobales.getLibroSeleccionadoAdmin().getAdquisicion()));
+                spinnerDisponibilidad.setSelection(Utilidades.getIndexSpinner(spinnerDisponibilidad, variablesGlobales.getLibroSeleccionadoAdmin().getDisponibilidad()));
 
                 //Para el caso de la editorial, area y sede...(Spinners con objetos) se valida y cargan en la funcion cargarSpinners().
                 //spinnerEditorial.setSelection(...);
@@ -503,7 +508,7 @@ public class FmCrearLibroAdmin extends SherlockFragment {
             lib.setRadicado(radicado.getText().toString().trim());
             lib.setFechaIngreso(new Date());
             lib.setTemas(temas.getText().toString().trim());
-            //lib.setDisponibilidad("SI");
+            lib.setDisponibilidad(spinnerDisponibilidad.getSelectedItem().toString());
             lib.setIdUsuario(variablesGlobales.getUsuarioLogueado().getIdUsuario());
 
             Editorial editorialSeleccionada = (Editorial) spinnerEditorial.getSelectedItem();

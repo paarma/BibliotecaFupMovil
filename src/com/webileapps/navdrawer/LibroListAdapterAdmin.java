@@ -119,6 +119,9 @@ public class LibroListAdapterAdmin extends ArrayAdapter<Libro> {
         @Bind(R.id.editTextEstado)
         protected EditText estado;
 
+        @Bind(R.id.editTextDisponibilidad)
+        protected EditText disponibilidad;
+
     }
 
     private void inicializarCamposTexto(View view, Holder holder, Libro libroActual) {
@@ -151,6 +154,7 @@ public class LibroListAdapterAdmin extends ArrayAdapter<Libro> {
 
         holder.adquisicion.setText(libroActual.getAdquisicion());
         holder.estado.setText(libroActual.getEstado());
+        holder.disponibilidad.setText(libroActual.getDisponibilidad());
 
         //Se omite la cantidad view.findViewById(R.id.editTextCantidad);
 

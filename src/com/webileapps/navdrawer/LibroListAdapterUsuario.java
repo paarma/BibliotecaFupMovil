@@ -117,8 +117,9 @@ public class LibroListAdapterUsuario extends ArrayAdapter<Libro> {
         holder.temas.setText(libroActual.getTemas());
         holder.paginas.setText(String.valueOf(libroActual.getPaginas()));
 
-        //Se verifica la disponibilidad segun la cantidad  del libro
-        if(libroActual.getCantidad() > Utilidades.cantidadMininaLibroPrestar){
+        //Se verifica la disponibilidad segun la cantidad  del libro y por la misma disponiblidad
+        if(libroActual.getCantidad() > Utilidades.cantidadMininaLibroPrestar &&
+                libroActual.getDisponibilidad().equals("SI")){
             holder.disponibilidad.setText("SI");
         }else{
             holder.disponibilidad.setText("NO");

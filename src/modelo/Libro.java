@@ -51,7 +51,7 @@ public class Libro implements Serializable {
         this.anio = 0;
         this.temas = "";
         this.paginas = 0;
-        this.disponibilidad = "";
+        this.disponibilidad = "SI";
         this.idUsuario = 0;
         this.ciudad = null;
         this.cantidad = 0;

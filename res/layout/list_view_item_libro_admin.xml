@@ -347,12 +347,34 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!-- EditText para el disponibilidad del libro-->
+            <TextView
+                android:id="@+id/textViewDisponibilidad"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/editTextEstado"
+                android:text="Activo:" />
+
+            <EditText
+                android:id="@+id/editTextDisponibilidad"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textViewDisponibilidad"
+                android:enabled="false"/>
+
+        </LinearLayout>
+
         <!-- Autores -->
         <TextView
             android:id="@+id/textViewAutores"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/editTextEstado"
+            android:layout_below="@+id/editTextDisponibilidad"
             android:text="Autores:" />
 
         <LinearLayout
