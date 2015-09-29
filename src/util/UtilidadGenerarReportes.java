@@ -646,6 +646,7 @@ public class UtilidadGenerarReportes {
                         break;
                     case 3:
                         //reporte usuarios
+                        listaUsuarios = tareasGenerales.buscarUsuarios(variablesGlobales.getUsuarioBuscar());
                         generarContenidoListaUsuarios(wb, cs, styleCabezera);
                         break;
                 }
@@ -699,10 +700,6 @@ public class UtilidadGenerarReportes {
         }
     }
 
-
-    public void setListaUsuarios(List<Usuario> listaUsuarios) {
-        this.listaUsuarios = listaUsuarios;
-    }
 
     public void setTipoArchivo(int tipoArchivo) {
         this.tipoArchivo = tipoArchivo;

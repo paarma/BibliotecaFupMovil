@@ -157,7 +157,6 @@ public class FmListaUsuarioAdmin extends SherlockFragment {
     public void generarReporte(){
 
         UtilidadGenerarReportes utilidadReporte = new UtilidadGenerarReportes();
-        utilidadReporte.setListaUsuarios(listaUsuarios);
         utilidadReporte.setTipoArchivo(3);
         utilidadReporte.saveExcelFile(getActivity(), "UsuariosFUP.xls");
     }
