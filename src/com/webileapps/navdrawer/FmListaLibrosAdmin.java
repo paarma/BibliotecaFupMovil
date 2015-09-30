@@ -382,6 +382,6 @@ public class FmListaLibrosAdmin extends SherlockFragment {
         super.onResume();
 
         //Funcionalidad para recergar las variables del Fragment
-        //inicializarListaLibros();
+        inicializarListaLibros();
     }
 }

@@ -495,6 +495,6 @@ public class FmReservarUsuario extends SherlockFragment {
         super.onResume();
 
         //Funcionalidad para recergar las variables del Fragment
-        //inicializarListaLibros();
+        inicializarListaLibros();
     }
 }
