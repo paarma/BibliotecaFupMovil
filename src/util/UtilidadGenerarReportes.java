@@ -197,7 +197,7 @@ public class UtilidadGenerarReportes {
         c.setCellStyle(cs);
 
         c = row.createCell(15);
-        c.setCellValue("CANTIDAD");
+        c.setCellValue("ACTIVO");
         c.setCellStyle(cs);
 
         for (int i = 0; i < 17; i++){ // campos originales 18
@@ -281,7 +281,7 @@ public class UtilidadGenerarReportes {
             }
 
             c = rowValue.createCell(15);
-            c.setCellValue(listaLibros.get(i).getCantidad());
+            c.setCellValue(listaLibros.get(i).getDisponibilidad());
 
         }
 
