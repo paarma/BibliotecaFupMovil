@@ -68,7 +68,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/textViewCodTopo"
                 android:enabled="false"
-                />
+                style="@style/textDisabled" />
 
         </LinearLayout>
 
@@ -91,7 +91,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/textViewTemas"
                 android:enabled="false"
-                />
+                style="@style/textDisabled" />
 
         </LinearLayout>
 
@@ -115,7 +115,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/textViewPaginas"
                 android:inputType="number"
-                android:enabled="false"/>
+                android:enabled="false"
+                style="@style/textDisabled" />
 
         </LinearLayout>
 
@@ -138,7 +139,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/textViewPaginas"
                 android:inputType="number"
-                android:enabled="false"/>
+                android:enabled="false"
+                style="@style/textDisabled" />
 
         </LinearLayout>
 
@@ -161,7 +163,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/textViewEditorial"
-                android:enabled="false"/>
+                android:enabled="false"
+                style="@style/textDisabled" />
 
         </LinearLayout>
 
@@ -184,7 +187,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/textViewArea"
-                android:enabled="false"/>
+                android:enabled="false"
+                style="@style/textDisabled" />
 
         </LinearLayout>
 

@@ -12,4 +12,8 @@
         <item name="android:background">#FF666666</item>
     </style>
 
+    <style name="textDisabled">
+        <item name="android:textColor">@color/counter_text_color</item>
+    </style>
+
 </resources>
