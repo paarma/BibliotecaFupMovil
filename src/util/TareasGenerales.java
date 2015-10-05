@@ -490,6 +490,113 @@ public class TareasGenerales {
     }
 
     /**
+     * Metodo encargado obtener la cantidad autores de la BD.
+     * @param autorBuscar Objeto que contiene los parametros de busqueda
+     *                        en caso de ser (new Autor) se listaran todos los auatores.
+     * @return
+     */
+    public int cantidadAutores(Autor autorBuscar){
+
+        final String SOAP_ACTION = conf.getUrl()+"/cantidadAutores";
+        final String METHOD_NAME = "cantidadAutores";
+        final String NAMESPACE = conf.getNamespace();
+        final String URL = conf.getUrl();
+        int cantidad = 0;
+
+        SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
+        request.addProperty("primerNombre",autorBuscar.getPrimerNombre());
+        request.addProperty("segundoNombre",autorBuscar.getSegundoNombre());
+        request.addProperty("primerApellido",autorBuscar.getPrimerApellido());
+        request.addProperty("segundoApellido",autorBuscar.getSegundoApellido());
+        request.addProperty("tipo",autorBuscar.getTipoAutor());
+
+        SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+        envelope.bodyOut = request;
+
+        HttpTransportSE transporte = new HttpTransportSE(URL);
+
+        try {
+            transporte.call(SOAP_ACTION, envelope);
+            cantidad = Integer.parseInt(envelope.getResponse().toString());
+            Log.i("Generales","*********************** resultado cantidadAutores: "+cantidad);
+        }catch (Exception e){
+            Log.e("Generales", "xxx Error cantidadAutores(): " + e.getMessage());
+        }
+        return cantidad;
+    }
+
+    /**
+     * Metodo encargado de listar los autores paginados de la BD.
+     * @param autorBuscar Objeto que contiene los parametros de busqueda
+     *                        en caso de ser (new Autor) se listaran todos los auatores.
+     * @return
+     */
+    public List<Autor> listarAutoresPaginados(Autor autorBuscar, int offset, int limit){
+
+        final String SOAP_ACTION = conf.getUrl()+"/listadoAutoresPaginados";
+        final String METHOD_NAME = "listadoAutoresPaginados";
+        final String NAMESPACE = conf.getNamespace();
+        final String URL = conf.getUrl();
+        List<Autor> listaAutores = new ArrayList<Autor>();
+
+        SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
+        request.addProperty("primerNombre",autorBuscar.getPrimerNombre());
+        request.addProperty("segundoNombre",autorBuscar.getSegundoNombre());
+        request.addProperty("primerApellido",autorBuscar.getPrimerApellido());
+        request.addProperty("segundoApellido",autorBuscar.getSegundoApellido());
+        request.addProperty("tipo",autorBuscar.getTipoAutor());
+
+        //Paginacion
+        request.addProperty("offset",offset);
+        request.addProperty("limit",limit);
+
+        SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+        envelope.bodyOut = request;
+
+        HttpTransportSE transporte = new HttpTransportSE(URL);
+
+        try {
+
+            transporte.call(SOAP_ACTION, envelope);
+            java.util.Vector<SoapObject> rs = (java.util.Vector<SoapObject>) envelope.getResponse();
+
+            if (rs != null) {
+                for (SoapObject autorSoap : rs) {
+
+                    Autor autor = new Autor();
+                    autor.setIdAutor(Integer.parseInt(autorSoap.getProperty("ID_AUTOR").toString()));
+
+                    if(autorSoap.getProperty("PRIMER_NOMBRE") != null) {
+                        autor.setPrimerNombre(autorSoap.getProperty("PRIMER_NOMBRE").toString());
+                    }
+
+                    if(autorSoap.getProperty("SEGUNDO_NOMBRE") != null) {
+                        autor.setSegundoNombre(autorSoap.getProperty("SEGUNDO_NOMBRE").toString());
+                    }
+
+                    if(autorSoap.getProperty("PRIMER_APELLIDO") != null) {
+                        autor.setPrimerApellido(autorSoap.getProperty("PRIMER_APELLIDO").toString());
+                    }
+
+                    if(autorSoap.getProperty("SEGUNDO_APELLIDO") != null) {
+                        autor.setSegundoApellido(autorSoap.getProperty("SEGUNDO_APELLIDO").toString());
+                    }
+
+                    if(autorSoap.getProperty("TIPO_AUTOR") != null) {
+                        autor.setTipoAutor(autorSoap.getProperty("TIPO_AUTOR").toString());
+                    }
+
+                    listaAutores.add(autor);
+                }
+            }
+        }catch (Exception e){
+            Log.e("TareasGenerales.java ", "xxx Error listarAutores(): " + e.getMessage());
+        }
+        return listaAutores;
+    }
+
+
+    /**
      * Metodo encargado de listar las Areas de la BD.
      * @return
      */
