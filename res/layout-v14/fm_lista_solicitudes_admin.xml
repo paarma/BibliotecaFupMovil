@@ -122,6 +122,14 @@
 
     </GridLayout>
 
+    <TextView
+        android:id="@+id/displaying"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:gravity="center_horizontal"
+        android:textSize="13sp" />
+
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -131,6 +139,7 @@
         android:layout_alignParentStart="true"
         android:layout_above="@+id/barraMenuSolicitudesAdmin"
         android:choiceMode="singleChoice"
+        android:layout_marginTop="25dp"
         android:divider="@drawable/horizontal_divider"/>
 
 </RelativeLayout>

@@ -188,7 +188,7 @@ public class FmListaUsuarioAdmin extends SherlockFragment {
             try {
                 //listaUsuarios = tareasGenerales.buscarUsuarios(variablesGlobales.getUsuarioBuscar());
                 cantidad = tareasGenerales.cantidadUsuarios(variablesGlobales.getUsuarioBuscar());
-                Log.i("UsuariosAdmin",">>>>>>>>>>> Tamaño lista usuarios buscada: "+listaUsuarios.size());
+                Log.i("UsuariosAdmin",">>>>>>>>>>> Tamaño lista usuarios buscada: "+cantidad);
             }catch (Exception e){
                 resultadoTarea = false;
                 Log.e("UsuariosAdmin ", "xxx Error TareaWsBuscarUsuarios: " + e.getMessage());

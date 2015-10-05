@@ -381,6 +381,176 @@ public class TareasGenerales {
         return listaSolicitudes;
     }
 
+
+    /**
+     * Metodo encargado de retornar la cantidad de solicitudes (reservas)
+     * @param solicitudBuscar objeto de la clase Solicitud el cual contiene los parametros
+     *                    de busqueda ya sean fijados o por defecto. En el caso
+     *                    de tenerlos por defecto (new Solicitud()) se listaran todas las reservas.
+     * @return ListadoSolictudes
+     */
+    public int cantidadSolicitudes(Solicitud solicitudBuscar){
+
+        final String SOAP_ACTION = conf.getUrl()+"/cantidadReservas";
+        final String METHOD_NAME = "cantidadReservas";
+        final String NAMESPACE = conf.getNamespace();
+        final String URL = conf.getUrl();
+        int cantidad = 0;
+
+        SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
+
+        request.addProperty("titulo",solicitudBuscar.getLibro().getTitulo());
+        request.addProperty("isbn",solicitudBuscar.getLibro().getIsbn());
+        request.addProperty("codTopografico",solicitudBuscar.getLibro().getCodigoTopografico());
+        request.addProperty("temas",solicitudBuscar.getLibro().getTemas());
+
+        //Busqueda por editorial
+        if(solicitudBuscar.getLibro().getEditorial() != null){
+            request.addProperty("editorial",solicitudBuscar.getLibro().getEditorial().getIdEditorial());
+        }else{
+            request.addProperty("editorial","");
+        }
+
+        request.addProperty("idUsuarioReserva",solicitudBuscar.getUsuario().getIdUsuario());
+        request.addProperty("estadoReserva",solicitudBuscar.getEstado());
+
+        request.addProperty("codUsuario",solicitudBuscar.getUsuario().getCodigo());
+        request.addProperty("cedulaUsuario",solicitudBuscar.getUsuario().getCedula());
+
+        if(solicitudBuscar.getFechaSolicitud() != null) {
+            request.addProperty("fechaSolicitud", Utilidades.formatoFechaYYYYMMDD.format(solicitudBuscar.getFechaSolicitud()));
+        }else{
+            request.addProperty("fechaSolicitud","");
+        }
+
+        //Autor (LIBRO_AUTOR)
+        request.addProperty("autor",solicitudBuscar.getLibro().getIdAutor());
+
+        SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+        envelope.bodyOut = request;
+
+        HttpTransportSE transporte = new HttpTransportSE(URL);
+
+        try {
+            transporte.call(SOAP_ACTION, envelope);
+            cantidad = Integer.parseInt(envelope.getResponse().toString());
+            Log.i("Generales","*********************** resultado cantidadSolicitudes: "+cantidad);
+        }catch (Exception e){
+            Log.e("Generales", "xxx Error cantidadSolicitudes(): " + e.getMessage());
+        }
+        return cantidad;
+    }
+
+
+    /**
+     * Metodo encargado de retornar el listado de solicitudes paginadas (reservas)
+     * @param solicitudBuscar objeto de la clase Solicitud el cual contiene los parametros
+     *                    de busqueda ya sean fijados o por defecto. En el caso
+     *                    de tenerlos por defecto (new Solicitud()) se listaran todas las reservas.
+     * @return ListadoSolictudes
+     */
+    public List<Solicitud> buscarSolicitudesPaginadas(Solicitud solicitudBuscar, int offset, int limit){
+
+        final String SOAP_ACTION = conf.getUrl()+"/listadoReservaPaginadas";
+        final String METHOD_NAME = "listadoReservaPaginadas";
+        final String NAMESPACE = conf.getNamespace();
+        final String URL = conf.getUrl();
+        List<Solicitud> listaSolicitudes = new ArrayList<Solicitud>();
+
+        SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
+
+        request.addProperty("titulo",solicitudBuscar.getLibro().getTitulo());
+        request.addProperty("isbn",solicitudBuscar.getLibro().getIsbn());
+        request.addProperty("codTopografico",solicitudBuscar.getLibro().getCodigoTopografico());
+        request.addProperty("temas",solicitudBuscar.getLibro().getTemas());
+
+        //Busqueda por editorial
+        if(solicitudBuscar.getLibro().getEditorial() != null){
+            request.addProperty("editorial",solicitudBuscar.getLibro().getEditorial().getIdEditorial());
+        }else{
+            request.addProperty("editorial","");
+        }
+
+        request.addProperty("idUsuarioReserva",solicitudBuscar.getUsuario().getIdUsuario());
+        request.addProperty("estadoReserva",solicitudBuscar.getEstado());
+
+        request.addProperty("codUsuario",solicitudBuscar.getUsuario().getCodigo());
+        request.addProperty("cedulaUsuario",solicitudBuscar.getUsuario().getCedula());
+
+        if(solicitudBuscar.getFechaSolicitud() != null) {
+            request.addProperty("fechaSolicitud", Utilidades.formatoFechaYYYYMMDD.format(solicitudBuscar.getFechaSolicitud()));
+        }else{
+            request.addProperty("fechaSolicitud","");
+        }
+
+        //Autor (LIBRO_AUTOR)
+        request.addProperty("autor",solicitudBuscar.getLibro().getIdAutor());
+
+        //Paginacion
+        request.addProperty("offset",offset);
+        request.addProperty("limit",limit);
+
+        SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+        envelope.bodyOut = request;
+
+        HttpTransportSE transporte = new HttpTransportSE(URL);
+
+        try {
+            transporte.call(SOAP_ACTION, envelope);
+            java.util.Vector<SoapObject> rs = (java.util.Vector<SoapObject>) envelope.getResponse();
+
+            if (rs != null)
+            {
+                for (SoapObject solicitudSoap : rs)
+                {
+                    //Antiguos metodos seteando datos a la reserva
+                    //Libro libroBd = utilidadesBuscarPorId.buscarLibroPorId(Integer.parseInt(solicitudSoap.getProperty("ID_LIBRO_SOL").toString()));
+                    //Usuario usuarioBd = utilidadesBuscarPorId.buscarUsuarioPorId(Integer.parseInt(solicitudSoap.getProperty("ID_USUARIO_SOL").toString()));
+
+                    //Metodos actuales seteo datos a la reserva
+                    Libro libroBd = utilidadesBuscarPorId.obtenerLibroSoapNew(solicitudSoap);
+                    Usuario usuarioBd = utilidadesBuscarPorId.obtenerUsuarioSoap(solicitudSoap);
+
+                    Solicitud sol = new Solicitud();
+                    sol.setIdSolicitud(Integer.parseInt(solicitudSoap.getProperty("ID_SOLICITUD").toString()));
+
+                    sol.setUsuario(usuarioBd);
+                    sol.setLibro(libroBd);
+                    sol.setEstado(solicitudSoap.getProperty("ESTADO_SOL").toString());
+
+                    //Fechas
+                    Date fechas;
+
+                    if(solicitudSoap.getProperty("FECHA_SOLICITUD") != null){
+                        fechas = Utilidades.formatoFechaYYYYMMDD.parse(solicitudSoap.getProperty("FECHA_SOLICITUD").toString());
+                        sol.setFechaSolicitud(fechas);
+                    }
+
+                    if(solicitudSoap.getProperty("FECHA_RESERVA") != null){
+                        fechas = Utilidades.formatoFechaYYYYMMDD.parse(solicitudSoap.getProperty("FECHA_RESERVA").toString());
+                        sol.setFechaReserva(fechas);
+                    }
+
+                    if(solicitudSoap.getProperty("FECHA_DEVOLUCION") != null){
+                        fechas = Utilidades.formatoFechaYYYYMMDD.parse(solicitudSoap.getProperty("FECHA_DEVOLUCION").toString());
+                        sol.setFechaDevolucion(fechas);
+                    }
+
+                    if(solicitudSoap.getProperty("FECHA_ENTREGA") != null){
+                        fechas = Utilidades.formatoFechaYYYYMMDD.parse(solicitudSoap.getProperty("FECHA_ENTREGA").toString());
+                        sol.setFechaEntrega(fechas);
+                    }
+
+                    listaSolicitudes.add(sol);
+                }
+            }
+        }catch (Exception e){
+            Log.e("TareasGenerales.java ", "xxx Error buscarSolicitudes(): " + e.getMessage());
+        }
+        return listaSolicitudes;
+    }
+
+
     /**
      * Metodo encargado de listar las editoriales de la BD.
      * @param editorialBuscar Objeto que contiene los parametros de busqueda

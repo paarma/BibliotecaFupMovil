@@ -10,11 +10,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridLayout;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragment;
@@ -24,6 +26,7 @@ import java.util.Date;
 import java.util.List;
 
 import modelo.Solicitud;
+import util.DatasourceSolicitudes;
 import util.TareasGenerales;
 import util.UtilidadGenerarReportes;
 import util.Utilidades;
@@ -31,9 +34,11 @@ import util.VariablesGlobales;
 
 /**
  * Created by Pablo on 9/05/15.
+ * @author paarma80@gmail.com
  */
 public class FmListaSolicitudesAdmin extends SherlockFragment {
 
+    TareasGenerales tareasGenerales = new TareasGenerales();
     VariablesGlobales variablesGlobales = VariablesGlobales.getInstance();
 
     private ArrayAdapter<Solicitud> adapterSolicitud;
@@ -48,12 +53,27 @@ public class FmListaSolicitudesAdmin extends SherlockFragment {
 
     private GridLayout gridLayoutBtnAccion;
 
+
+    private DatasourceSolicitudes datasourceSolicitudes;
+    private static final int PAGESIZE = 10;
+    private TextView textViewDisplaying;
+    View viewAux = null;
+    View footerView;
+    boolean loading;
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         Log.i("SOLICITUD", "************************************** INICIO LISTA_SOLICITUD_ADMIN");
         View view = inflater.inflate(R.layout.fm_lista_solicitudes_admin, container, false);
+
+        datasourceSolicitudes = DatasourceSolicitudes.getInstance();
+        viewAux = view;
+
+        footerView = inflater.inflate(R.layout.footer_load, null);
+
 
         btnReporte = (ImageButton) view.findViewById(R.id.btnReporteSolicitudAdmin);
         btnReporte.setOnClickListener(new View.OnClickListener() {
@@ -82,6 +102,36 @@ public class FmListaSolicitudesAdmin extends SherlockFragment {
             }
         });
 
+
+        //Scroll del listView
+        solicitudListView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView absListView, int i) {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
+                try {
+
+                    //boolean lastItem = firstVisibleItem + visibleItemCount == totalItemCount && libroListView.getChildAt(visibleItemCount -1) != null && libroListView.getChildAt(visibleItemCount-1).getBottom() <= libroListView.getHeight();
+                    boolean lastItem = (firstVisibleItem + visibleItemCount == totalItemCount);
+                    boolean moreRows = adapterSolicitud.getCount() < datasourceSolicitudes.getSize();
+
+                    if (!loading &&  lastItem && moreRows)
+                    {
+                        loading = true;
+                        solicitudListView.addFooterView(footerView);
+                        (new LoadNextPage()).execute("");
+                    }
+                }catch (Exception e){
+                    Log.e("SolicitudAdmin","xxx Error scroll listaSolicitudAdmin: "+e.getMessage());
+                }
+
+            }
+        });
+
         return view;
     }
 
@@ -93,6 +143,18 @@ public class FmListaSolicitudesAdmin extends SherlockFragment {
         solicitudListView = (ListView) view.findViewById(R.id.listViewSolicitudesAdmin);
         gridLayoutBtnAccion = (GridLayout) view.findViewById(R.id.gridLayoutBtnAccion);
     }
+
+    /**
+     * Mensaje de cabezera indicando la cantidad de registros
+     */
+    private void updateDisplayingTextView()
+    {
+        textViewDisplaying = (TextView) viewAux.findViewById(R.id.displaying);
+        String text = getString(R.string.display);
+        text = String.format(text, adapterSolicitud.getCount(), datasourceSolicitudes.getSize());
+        textViewDisplaying.setText(text);
+    }
+
 
     /**
      * Metodo encargado de prestar o retornar un libro segun solicitud seleccionada
@@ -123,19 +185,20 @@ public class FmListaSolicitudesAdmin extends SherlockFragment {
             @Override
             public void onItemClick(AdapterView<?> padre, View vista, int posicion, long id) {
 
-                solicitudSeleccionada = listaSolicitudes.get(posicion);
+                //solicitudSeleccionada = listaSolicitudes.get(posicion);
+                solicitudSeleccionada = (Solicitud) solicitudListView.getItemAtPosition(posicion);
 
                 //Se ocultan todos los detalles de libros que esten deplegados
-                try {
-                    for(int j = 0; j<solicitudListView.getCount(); j++){
-                        View containerAux = solicitudListView.getChildAt(j);
-                        if(containerAux != null) {
-                            solicitudListView.getChildAt(j).findViewById(R.id.contenedorDetalleSolAdmin).setVisibility(View.GONE);
-                        }
-                    }
-                }catch (Exception e){
-                    Log.e("Error", "Error ocultando detalles de la solicitud: " + e.getMessage());
-                }
+//                try {
+//                    for(int j = 0; j<solicitudListView.getCount(); j++){
+//                        View containerAux = solicitudListView.getChildAt(j);
+//                        if(containerAux != null) {
+//                            solicitudListView.getChildAt(j).findViewById(R.id.contenedorDetalleSolAdmin).setVisibility(View.GONE);
+//                        }
+//                    }
+//                }catch (Exception e){
+//                    Log.e("Error", "Error ocultando detalles de la solicitud: " + e.getMessage());
+//                }
 
                 //Se despliega el detalle del item seleccionado
                 vista.findViewById(R.id.contenedorDetalleSolAdmin).setVisibility(View.VISIBLE);
@@ -176,15 +239,16 @@ public class FmListaSolicitudesAdmin extends SherlockFragment {
     private class TareaWsBuscarSolicitudes extends AsyncTask<String,Integer,Boolean> {
 
         boolean resultadoTarea = true;
+        int cantidad = 0;
 
         @SuppressLint("LongLogTag")
         @Override
         protected Boolean doInBackground(String... params) {
 
             try {
-                TareasGenerales tareasGenerales = new TareasGenerales();
-                listaSolicitudes = tareasGenerales.buscarSolicitudes(variablesGlobales.getSolicitudBuscar());
-                Log.i("SolAdmin",">>>>>>>>>>> Tamaño lista solicitud buscada: "+listaSolicitudes.size());
+                //listaSolicitudes = tareasGenerales.buscarSolicitudes(variablesGlobales.getSolicitudBuscar());
+                cantidad = tareasGenerales.cantidadSolicitudes(variablesGlobales.getSolicitudBuscar());
+                Log.i("SolAdmin",">>>>>>>>>>> Tamaño lista solicitud buscada: "+cantidad);
             }catch (Exception e){
                 resultadoTarea = false;
                 Log.e("SolAdmin ", "xxx Error TareaWsBuscarSolicitudes: " + e.getMessage());
@@ -196,8 +260,19 @@ public class FmListaSolicitudesAdmin extends SherlockFragment {
 
             if(result){
                 try {
-                    adapterSolicitud = new SolicitudListAdapterAdmin(getActivity(), listaSolicitudes);
+                    //adapterSolicitud = new SolicitudListAdapterAdmin(getActivity(), listaSolicitudes);
+                    //solicitudListView.setAdapter(adapterSolicitud);
+
+                    datasourceSolicitudes.setSIZE(cantidad);
+
+                    adapterSolicitud = new SolicitudListAdapterAdmin(getActivity(), datasourceSolicitudes.getData(0, PAGESIZE));
+
+                    solicitudListView.addFooterView(footerView);
                     solicitudListView.setAdapter(adapterSolicitud);
+                    solicitudListView.removeFooterView(footerView);
+
+                    updateDisplayingTextView();
+
                 }catch (Exception e){
                     Log.e("SolAdmin ", "xxx Error TareaWsBuscarSolicitudes: " + e.getMessage());
                 }
@@ -318,6 +393,51 @@ public class FmListaSolicitudesAdmin extends SherlockFragment {
         utilidadReporte.setTipoArchivo(2);
         utilidadReporte.saveExcelFile(getActivity(), "reservasFUP.xls");
     }
+
+
+    /**
+     * Clase encargada de carga la siguente pagina del listView
+     */
+    private class LoadNextPage extends AsyncTask<String, Void, String>
+    {
+        private List<Solicitud> newData = null;
+        @Override
+        protected String doInBackground(String... arg0)
+        {
+            //para que de tiempo a ver el footer <span class="wp-smiley wp-emoji wp-emoji-wink" title=";)">;)</span>
+            try
+            {
+                Thread.sleep(1000);
+                newData = datasourceSolicitudes.getData(adapterSolicitud.getCount(), PAGESIZE);
+            }
+            catch (InterruptedException e){
+                Log.e("LoadNextPage","xxx Error cargando siguiente pagina InterruptedException: "+e.getMessage());
+            }
+            catch (Exception e)
+            {
+                Log.e("LoadNextPage","xxx Error cargando siguiente pagina Exception: "+e.getMessage());
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String result)
+        {
+
+            for (Solicitud value : newData)
+            {
+                adapterSolicitud.add(value);
+            }
+            adapterSolicitud.notifyDataSetChanged();
+
+            solicitudListView.removeFooterView(footerView);
+            updateDisplayingTextView();
+            loading = false;
+        }
+
+    }
+
 
     /////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////
