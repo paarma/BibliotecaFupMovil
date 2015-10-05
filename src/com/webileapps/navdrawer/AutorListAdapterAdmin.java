@@ -56,7 +56,7 @@ public class AutorListAdapterAdmin extends ArrayAdapter<Autor> {
     }
 
     /**
-     *Clase para contener una referencia al contenido del layout definido en el xml (libro)
+     *Clase para contener una referencia al contenido del layout definido en el xml (autor)
      */
     public class Holder
     {

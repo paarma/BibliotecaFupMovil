@@ -812,6 +812,99 @@ public class TareasGenerales {
     }
 
     /**
+     * Metodo encargado de retornar el listado de usuarios segun busqueda
+     * @param usuarioBuscar objeto de la clase Usuario el cual contiene los parametros
+     *                    de busqueda ya sean fijados o por defecto. En el caso
+     *                    de tenerlos por defecto (new Usuario()) se listaran todos los libros
+     *                    presentes.
+     * @return ListadoLibros
+     */
+    public int cantidadUsuarios(Usuario usuarioBuscar){
+
+        final String SOAP_ACTION = conf.getUrl()+"/cantidadUsuarios";
+        final String METHOD_NAME = "cantidadUsuarios";
+        final String NAMESPACE = conf.getNamespace();
+        final String URL = conf.getUrl();
+        int cantidad = 0;
+
+        SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
+        request.addProperty("cedula", usuarioBuscar.getCedula());
+        request.addProperty("primerNombre", usuarioBuscar.getPrimerNombre());
+        request.addProperty("segundoNombre", usuarioBuscar.getSegundoNombre());
+        request.addProperty("primerApellido", usuarioBuscar.getPrimerApellido());
+        request.addProperty("segundoApellido", usuarioBuscar.getSegundoApellido());
+        request.addProperty("codigo", usuarioBuscar.getCodigo());
+        request.addProperty("rol", usuarioBuscar.getRol());
+
+
+        SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+        envelope.bodyOut = request;
+
+        HttpTransportSE transporte = new HttpTransportSE(URL);
+
+        try {
+            transporte.call(SOAP_ACTION, envelope);
+            cantidad = Integer.parseInt(envelope.getResponse().toString());
+            Log.i("Generales","*********************** resultado cantidadUsuarios: "+cantidad);
+        }catch (Exception e){
+            Log.e("Generales", "xxx Error cantidadUsuarios(): " + e.getMessage());
+        }
+        return cantidad;
+    }
+
+    /**
+     * Metodo encargado de retornar el listado de usuarios pagindos segun busqueda
+     * @param usuarioBuscar objeto de la clase Usuario el cual contiene los parametros
+     *                    de busqueda ya sean fijados o por defecto. En el caso
+     *                    de tenerlos por defecto (new Usuario()) se listaran todos los libros
+     *                    presentes.
+     * @return ListadoLibros
+     */
+    public List<Usuario> buscarUsuariosPaginados(Usuario usuarioBuscar, int offset, int limit){
+
+        final String SOAP_ACTION = conf.getUrl()+"/listadoUsuariosPaginados";
+        final String METHOD_NAME = "listadoUsuariosPaginados";
+        final String NAMESPACE = conf.getNamespace();
+        final String URL = conf.getUrl();
+        List<Usuario> listaUsuario = new ArrayList<Usuario>();
+
+        SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
+        request.addProperty("cedula", usuarioBuscar.getCedula());
+        request.addProperty("primerNombre", usuarioBuscar.getPrimerNombre());
+        request.addProperty("segundoNombre", usuarioBuscar.getSegundoNombre());
+        request.addProperty("primerApellido", usuarioBuscar.getPrimerApellido());
+        request.addProperty("segundoApellido", usuarioBuscar.getSegundoApellido());
+        request.addProperty("codigo", usuarioBuscar.getCodigo());
+        request.addProperty("rol", usuarioBuscar.getRol());
+
+        //Paginacion
+        request.addProperty("offset",offset);
+        request.addProperty("limit",limit);
+
+        SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+        envelope.bodyOut = request;
+
+        HttpTransportSE transporte = new HttpTransportSE(URL);
+
+        try {
+            transporte.call(SOAP_ACTION, envelope);
+            java.util.Vector<SoapObject> rs = (java.util.Vector<SoapObject>) envelope.getResponse();
+
+            if (rs != null)
+            {
+                for (SoapObject user : rs)
+                {
+                    Usuario usuario = UtilidadesBuscarPorId.obtenerUsuarioSoap(user);
+                    listaUsuario.add(usuario);
+                }
+            }
+        }catch (Exception e){
+            Log.e("TareasGenerales.java ", "xxx Error buscarUsuarios(): " + e.getMessage());
+        }
+        return listaUsuario;
+    }
+
+    /**
      * Tarea encargada de actualizar las solicitudes.
      * @param solicitud
      *  El llamado al WS recibe los parametros:
