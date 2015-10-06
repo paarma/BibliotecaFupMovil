@@ -6,6 +6,14 @@
         android:padding="10dip"
         android:weightSum="1">
 
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
         <ImageView
             android:layout_width="100dp"
             android:layout_height="100dp"
@@ -13,6 +21,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
+            android:layout_centerInParent="true"
             android:src="@drawable/fup"
             android:layout_weight="0.15"/>
 
@@ -42,7 +51,8 @@
             android:id="@+id/tbxUsuario"
             android:layout_above="@+id/tbxClave"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp" />
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center_horizontal" />
 
         <EditText
             android:layout_width="300dp"
@@ -55,7 +65,8 @@
             android:layout_above="@+id/btnLogin"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="27dp"
-            android:layout_marginTop="10dp" />
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center_horizontal" />
 
 
 
@@ -68,7 +79,11 @@
             android:onClick="login"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:background="@drawable/btn_default" />
+            android:background="@drawable/btn_default"
+            android:layout_gravity="center_horizontal" />
+
+        </LinearLayout>
+        </ScrollView>
 
 
     </RelativeLayout>
