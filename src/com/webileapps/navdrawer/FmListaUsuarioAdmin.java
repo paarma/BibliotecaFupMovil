@@ -124,10 +124,14 @@ public class FmListaUsuarioAdmin extends SherlockFragment {
      */
     private void updateDisplayingTextView()
     {
-        textViewDisplaying = (TextView) viewAux.findViewById(R.id.displaying);
-        String text = getString(R.string.display);
-        text = String.format(text, adapterUsuario.getCount(), datasourceUsuarios.getSize());
-        textViewDisplaying.setText(text);
+        try {
+            textViewDisplaying = (TextView) viewAux.findViewById(R.id.displaying);
+            String text = getString(R.string.display);
+            text = String.format(text, adapterUsuario.getCount(), datasourceUsuarios.getSize());
+            textViewDisplaying.setText(text);
+        }catch (Exception e){
+            Log.e("Usuarios","xxx Error desplegando label cantidad registros: "+e.getMessage());
+        }
     }
 
     /**

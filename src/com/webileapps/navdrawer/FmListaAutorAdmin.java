@@ -109,10 +109,14 @@ public class FmListaAutorAdmin extends SherlockFragment {
      */
     private void updateDisplayingTextView()
     {
-        textViewDisplaying = (TextView) viewAux.findViewById(R.id.displaying);
-        String text = getString(R.string.display);
-        text = String.format(text, adapterAutor.getCount(), datasourceAutores.getSize());
-        textViewDisplaying.setText(text);
+        try {
+            textViewDisplaying = (TextView) viewAux.findViewById(R.id.displaying);
+            String text = getString(R.string.display);
+            text = String.format(text, adapterAutor.getCount(), datasourceAutores.getSize());
+            textViewDisplaying.setText(text);
+        }catch (Exception e){
+            Log.e("AutoresAdmin","xxx Error desplegando label cantidad registros: "+e.getMessage());
+        }
     }
 
     /**
