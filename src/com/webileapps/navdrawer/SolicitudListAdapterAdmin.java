@@ -18,6 +18,7 @@ import util.Utilidades;
 
 /**
  * Created by pablo on 22/05/15.
+ * @author paarma80@gmail.com
  */
 public class SolicitudListAdapterAdmin extends ArrayAdapter<Solicitud> {
 
@@ -63,7 +64,7 @@ public class SolicitudListAdapterAdmin extends ArrayAdapter<Solicitud> {
 
 
     /**
-     *Clase para contener una referencia al contenido del layout definido en el xml (autor)
+     *Clase para contener una referencia al contenido del layout definido en el xml (solicitud)
      */
     public class Holder
     {
