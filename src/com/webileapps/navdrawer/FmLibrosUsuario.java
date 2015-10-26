@@ -18,7 +18,8 @@ import modelo.Usuario;
 import util.VariablesGlobales;
 
 /**
- * Created by Damian on 11/05/2015.
+ * Clase encargada de listar los libros para el rol usuario
+ * @author paarma80@gmail.com
  */
 public class FmLibrosUsuario extends SherlockFragment {
 

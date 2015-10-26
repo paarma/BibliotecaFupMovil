@@ -25,6 +25,7 @@ import modelo.Usuario;
 /**
  * Created by pablo on 22/05/15.
  * Clase encargada de contener tareas generales (consultas a la BD) para el sistema
+ * @author paarma80@gmail.com
  */
 public class TareasGenerales {
 
@@ -1283,6 +1284,51 @@ public class TareasGenerales {
 
         return respuesta;
 
+    }
+
+
+    /**
+     * Funcion encargada de verificar la disponibilidad de un libro segun fecha de reserva
+     * @return int. >0  En caso de NO estar disponible en las fechas indicadas
+     */
+    public int verificarDisponibilidadDate(int idLibro, Date fechaReserva){
+
+        final String SOAP_ACTION = conf.getUrl()+"/verificarDisponibilidadDate";
+        final String METHOD_NAME = "verificarDisponibilidadDate";
+        final String NAMESPACE = conf.getNamespace();
+        final String URL = conf.getUrl();
+
+        int respuesta = 0;
+
+        //Se calculan las dos fechas siguientes (los dos días mas a partir de la fecha de reserva)
+        Date fechaReserva2 = Utilidades.sumarRestarDiasAFecha(fechaReserva, 1);
+        Date fechaReserva3 = Utilidades.sumarRestarDiasAFecha(fechaReserva, 2);
+
+        String rangoFechas = Utilidades.formatoFechaYYYYMMDD.format(fechaReserva)+","+
+                Utilidades.formatoFechaYYYYMMDD.format(fechaReserva2)+","+
+                Utilidades.formatoFechaYYYYMMDD.format(fechaReserva3);
+
+        SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
+        request.addProperty("idLibro", idLibro);
+        request.addProperty("rangoFechasReserva", rangoFechas);
+
+
+        SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+        envelope.bodyOut = request;
+
+        HttpTransportSE transporte = new HttpTransportSE(URL);
+        try {
+            transporte.call(SOAP_ACTION, envelope);
+            respuesta = Integer.parseInt(envelope.getResponse().toString());
+
+            Log.i("Generales","*********************** resultado verificarDisponibilidadDate: "+respuesta);
+
+        } catch (Exception e) {
+            Log.e("Generales", "xxx Error verificarDisponibilidadDate: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return respuesta;
     }
 
 }

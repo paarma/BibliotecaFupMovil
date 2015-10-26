@@ -13,6 +13,7 @@ import java.util.Date;
 
 /**
  * Created by pablo on 27/05/15.
+ * @author paarma80@gmail.com
  */
 public class Utilidades {
 

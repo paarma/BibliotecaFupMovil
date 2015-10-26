@@ -36,6 +36,10 @@ import util.TareasGenerales;
 import util.Utilidades;
 import util.VariablesGlobales;
 
+/**
+ * Clase encargada de gestionar la reserva de un libro
+ * @author paarma80@gmail.com
+ */
 public class FmReservarUsuario extends SherlockFragment {
 
     VariablesGlobales variablesGlobales = VariablesGlobales.getInstance();
@@ -94,23 +98,12 @@ public class FmReservarUsuario extends SherlockFragment {
             public void onClick(View view) {
 
                 if(libroSeleccionado != null) {
-                    Log.i("Reservar", ">>>>>>>>>>>>fecha reserva: " +
-                            Utilidades.formatoFechaYYYYMMDD.format(Utilidades.getDateFromDatePicker(dpFechaReserva)));
-                    Log.i("Reservas", ">>>>>>>>>>>>>>> Fecha devolucion: " +
-                            Utilidades.sumarRestarDiasAFecha(
-                                    Utilidades.getDateFromDatePicker(dpFechaReserva), Utilidades.diasTotalesPrestamo));
 
+                    //Verificar la disponibilidad de un libro segun fecha de reserva
+                    //En caso de estar disponible procede a ejecutar la reserva
+                    TareaWsDisponibilidadDate tr = new TareaWsDisponibilidadDate();
+                    tr.execute();
 
-                    solicitud = new Solicitud();
-                    solicitud.setFechaSolicitud(new Date());
-                    solicitud.setFechaReserva(Utilidades.getDateFromDatePicker(dpFechaReserva));
-                    solicitud.setFechaDevolucion(Utilidades.sumarRestarDiasAFecha(solicitud.getFechaReserva(), Utilidades.diasTotalesPrestamo));
-                    solicitud.setUsuario(variablesGlobales.getUsuarioLogueado());
-                    solicitud.setLibro(libroSeleccionado);
-                    solicitud.setEstado(Utilidades.estadoEnProceso);
-
-                    TareaWsReservar tareaReservar = new TareaWsReservar();
-                    tareaReservar.execute();
                 }else{
                     Toast.makeText(getActivity(), "Seleccione un libro", Toast.LENGTH_LONG).show();
                 }
@@ -551,6 +544,64 @@ public class FmReservarUsuario extends SherlockFragment {
         }
     }
 
+
+    /**
+     * Tarea encargada de verificar la disponibilidad de un libro segun fecha de reserva
+     */
+    private class TareaWsDisponibilidadDate extends AsyncTask<String,Integer,Boolean> {
+
+        boolean resultadoTarea = true;
+        int cantidad = 0;
+
+        @SuppressLint("LongLogTag")
+        @Override
+        protected Boolean doInBackground(String... params) {
+
+            try {
+                cantidad = tareasGenerales.verificarDisponibilidadDate(libroSeleccionado.getIdLibro(), Utilidades.getDateFromDatePicker(dpFechaReserva));
+                Log.i("Reservar",">>>>>>>>>>> cantidad verificación : "+cantidad);
+            }catch (Exception e){
+                resultadoTarea = false;
+                Log.e("Reservar", "xxx Error TareaWsDisponibilidadDate: " + e.getMessage());
+            }
+            return resultadoTarea;
+        }
+
+        public void onPostExecute(Boolean result){
+
+            if(result){
+                try {
+
+                    if(cantidad > 0){
+                        Toast.makeText(getActivity(), "Libro no disponible para la fecha indicada", Toast.LENGTH_LONG).show();
+                    }else{
+
+                    //Se ejecuta la reserva
+                    Log.i("Reservar", ">>>>>>>>>>>>fecha reserva: " +
+                    Utilidades.formatoFechaYYYYMMDD.format(Utilidades.getDateFromDatePicker(dpFechaReserva)));
+                    Log.i("Reservas", ">>>>>>>>>>>>>>> Fecha devolucion: " +
+                            Utilidades.sumarRestarDiasAFecha(
+                                    Utilidades.getDateFromDatePicker(dpFechaReserva), Utilidades.diasTotalesPrestamo));
+
+                    solicitud = new Solicitud();
+                    solicitud.setFechaSolicitud(new Date());
+                    solicitud.setFechaReserva(Utilidades.getDateFromDatePicker(dpFechaReserva));
+                    solicitud.setFechaDevolucion(Utilidades.sumarRestarDiasAFecha(solicitud.getFechaReserva(), Utilidades.diasTotalesPrestamo));
+                    solicitud.setUsuario(variablesGlobales.getUsuarioLogueado());
+                    solicitud.setLibro(libroSeleccionado);
+                    solicitud.setEstado(Utilidades.estadoEnProceso);
+
+                    TareaWsReservar tareaReservar = new TareaWsReservar();
+                    tareaReservar.execute();
+                    }
+
+                }catch (Exception e){
+                    Log.e("Reservar","XXX Error TareaWsDisponibilidadDate: "+e.getMessage());
+                }
+
+            }
+        }
+    }
 
 
     /////////////////////////////////////////////////////////////
