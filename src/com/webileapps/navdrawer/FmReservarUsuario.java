@@ -255,6 +255,9 @@ public class FmReservarUsuario extends SherlockFragment {
                     gridLayoutBtnReservar.setVisibility(View.VISIBLE);
                 }
 
+                //Se permite un maximo de 3 reservas por usuario
+                verificarCantidadReservas();
+
             }
         });
     }
@@ -485,6 +488,67 @@ public class FmReservarUsuario extends SherlockFragment {
             loading = false;
         }
 
+    }
+
+    /**
+     * Funcion encargada de verificar si el usuario sobrepasa la cantidad maxima de reservas
+     * la cual especifica que el usuario puede reservar un maximo de 3 libros
+     * contempla las solicitues en estado:  PRESTADO o EN PROCESO o EN MORA
+     */
+    public void verificarCantidadReservas()
+    {
+        TareaWsBuscarMisLibros tareaMisLibros = new TareaWsBuscarMisLibros();
+        tareaMisLibros.execute();
+    }
+
+
+    /**
+     * Tarea encargada de listar las reservas segun usuario
+     */
+    private class TareaWsBuscarMisLibros extends AsyncTask<String,Integer,Boolean> {
+
+        boolean resultadoTarea = true;
+        int cantidad = 0;
+        List<Solicitud> listaSolicitud = new ArrayList<Solicitud>();
+
+        @SuppressLint("LongLogTag")
+        @Override
+        protected Boolean doInBackground(String... params) {
+
+            try {
+                listaSolicitud = tareasGenerales.buscarSolicitudes(variablesGlobales.getSolicitudBuscar());
+                Log.i("Reservar",">>>>>>>>>>> Tamaño lista Mislibros : "+listaSolicitud.size());
+            }catch (Exception e){
+                resultadoTarea = false;
+                Log.e("Reservar", "xxx Error TareaWsBuscarMisLibros: " + e.getMessage());
+            }
+            return resultadoTarea;
+        }
+
+        public void onPostExecute(Boolean result){
+
+            if(result){
+                try {
+
+                    for (Solicitud item : listaSolicitud){
+                        if(item.getEstado().equals(Utilidades.estadoEnProceso) ||
+                                item.getEstado().equals(Utilidades.estadoPrestado)  ||
+                                item.getEstado().equals(Utilidades.estadoEnMora)){
+                            cantidad ++;
+                        }
+                    }
+
+                    if(cantidad >= 3){
+                        gridLayoutBtnReservar.setVisibility(View.GONE);
+                        Toast.makeText(getActivity(), "Ha alcanzado el limite de reservas (3 libros)", Toast.LENGTH_LONG).show();
+                    }
+
+                }catch (Exception e){
+                    Log.e("Reservar","XXX Error cargando MisLibros: "+e.getMessage());
+                }
+
+            }
+        }
     }
 
 
