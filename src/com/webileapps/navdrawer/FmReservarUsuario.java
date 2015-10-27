@@ -371,6 +371,8 @@ public class FmReservarUsuario extends SherlockFragment {
             }else{
                 Toast.makeText(getActivity(), "Error reservando libro", Toast.LENGTH_LONG).show();
             }
+
+            libroSeleccionado = null;
         }
     }
 
