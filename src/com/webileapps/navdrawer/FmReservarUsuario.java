@@ -25,6 +25,7 @@ import com.actionbarsherlock.app.SherlockFragment;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -207,9 +208,16 @@ public class FmReservarUsuario extends SherlockFragment {
                 dpFechaReserva = (DatePicker) vista.findViewById(R.id.datePickerFechaReserva);
 
                 //Se inhabilita seleccion de fechas pasadas en el datepicker
-/*                Calendar minCalendar = Calendar.getInstance();
-                minCalendar.set(Calendar.MILLISECOND, minCalendar.MILLISECOND - 1000);
-                dpFechaReserva.setMinDate(minCalendar.getTimeInMillis() - 1000);*/
+                try{
+                    Calendar cal = Calendar.getInstance();
+                    cal.set(Calendar.HOUR_OF_DAY, cal.getMinimum(Calendar.HOUR_OF_DAY));
+                    cal.set(Calendar.MINUTE, cal.getMinimum(Calendar.MINUTE));
+                    cal.set(Calendar.SECOND, cal.getMinimum(Calendar.SECOND));
+                    cal.set(Calendar.MILLISECOND, cal.getMinimum(Calendar.MILLISECOND));
+                    dpFechaReserva.setMinDate(cal.getTimeInMillis());
+                }catch (Exception e){
+                    Log.e("Reservar","xxx Error inhabilitando seleccion de fechas pasadas datepiker");
+                }
 
                 /////////////////////////////////////////////////////////////////////
                 //Se oculta el año del datepicker para solo mostrar el dia y la fecha.
